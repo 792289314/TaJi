@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>他记————登录注册页面</title>
+    <link rel="stylesheet" href="fonts/loginFonts/iconfont.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            /*background-color: #8e8f8d;*/
+            background-image: url(./images/lightpaperfibers.png);
+        }
+
+        .mainBox {
+            position: absolute;
+            width: 310px;
+            height: 470px;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            margin: auto;
+            /*background-color: #fff1c8;*/
+        }
+
+        .TaTitle h1 {
+            text-align: center;
+            color: #319464;
+        }
+
+        .TaTitle h4 {
+            text-align: center;
+            margin-top: 10px;
+            color: rgba(0, 0, 0, 0.5);
+
+        }
+
+        button, input {
+            outline: none;
+        }
+
+        button {
+            background-color: transparent;
+            border-style: none;
+        }
+
+        .btnBox {
+            width: 310px;
+            height: 55px;
+        }
+
+        .loginBtn {
+
+            width: 45%;
+            height: 55px;
+            margin-left: 12px;
+            font-size: 20px;
+            color: #99cdaa;
+
+        }
+
+        .registerBtn {
+            width: 45%;
+            height: 55px;
+            font-size: 20px;
+            color: #99cdaa;
+        }
+
+        .emailBox {
+            width: 309px;
+            height: 46px;
+            margin: 20px 0;
+            border: 1px solid #319464;
+        }
+
+        .emailBox input {
+            height: 100%;
+            border: none;
+            background-color: transparent;
+            /*font-size:120%;*/
+            margin-left: 5px;
+            /*line-height:100%;*/
+        }
+
+        .pwdBox {
+            width: 309px;
+            height: 46px;
+            margin: 20px 0;
+            border: 1px solid #319464;
+        }
+
+        .pwdBox input {
+            height: 100%;
+            border: none;
+            background-color: transparent;
+            /*font-size:120%;*/
+            /*text-indent: 3px;*/
+            margin-left: 5px;
+        }
+
+        #linbtn {
+            width: 310px;
+            height: 46px;
+            border: 0;
+            font-size: 15px;
+            color: white;
+            background-color: #319464;
+        }
+
+        .bottom {
+            margin-top: 25px;
+        }
+
+        .bottom button {
+            font-size: 15px;
+            color: #319464;
+        }
+
+        .bottom .registerNum {
+            float: left;
+        }
+
+        .bottom .forgetPwd {
+            float: right;
+        }
+
+        .regBox div {
+
+            height: 35px;
+            margin-top: 17px;
+            border: 1px solid #319464;
+            /*margin-left: 5px;*/
+        }
+
+        .regBox input {
+            height: 100%;
+            border: none;
+            background-color: transparent;
+            margin-left: 5px;
+        }
+
+        #regisbtn {
+            width: 310px;
+            height: 46px;
+            background-color: #319464;
+            margin-top: 10px;
+            border: 0;
+            font-size: 15px;
+            color: white;
+        }
+
+        .register_context p {
+            font-size: 13px;
+            color: #8e8f8d;
+            margin: 8px 56px;
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+</head>
+<body>
+<div id="app">
+
+    <div class="mainBox">
+        <div class="TaTitle">
+            <h1>他记</h1>
+            <h4>记录点点滴滴</h4>
+        </div>
+
+        <div class="btnBox">
+            <button class="loginBtn" @click="login" id="loginBtn1" style="border-bottom: 2px solid #99cdaa">登录</button>
+            <button class="registerBtn" @click="register" id="registerBtn1"> 注册</button>
+        </div>
+
+        <!-- 登录模块-->
+        <div class="loginbox" v-if="show_loginbox">
+            <div class="login_context">
+                <form @submit.prevent="onLoginSubmit" method="post">
+                    <div class="emailBox">
+                        <i class="iconfont">&#xe673;</i>
+                        <input type="text" class="emailIn" v-model="userEmail" placeholder="输入邮箱账号">
+                    </div>
+                    <div class="pwdBox">
+                        <i class="iconfont">&#xe605;</i>
+                        <input type="password" class="pwdIn iconfont" v-model="passWord" placeholder="输入密码">
+                    </div>
+
+                    <input type="submit" value="登录" id="linbtn">
+                </form>
+                <div class="bottom">
+                    <button class="registerNum" @click="register">注册账号</button>
+                    <button class="forgetPwd">忘记密码</button>
+                </div>
+            </div>
+        </div>
+        <!-- 注册模块-->
+        <div class="registerbox" v-if="show_registerbox">
+            <div class="register_context">
+                <form @submit.prevent="onRegisterSubmit" method="post">
+                    <div class="regBox">
+                        <div>
+                            <i class="iconfont">&#xe673;</i>
+                            <input type="text" class="rEmailIn " v-model="RuserEmail" placeholder="输入邮箱账号">
+                        </div>
+                        <div>
+                            <i class="iconfont">&#xe90c;</i>
+                            <input type="text" class="rName" v-model="RuserName" placeholder="输入昵称">
+                        </div>
+                        <div>
+                            <i class="iconfont">&#xe605;</i>
+                            <input type="password" class="rPwdIn " v-model="RpassWord" placeholder="输入密码">
+                        </div>
+                        <div>
+                            <i class="iconfont">&#xe605;</i>
+                            <input type="password" class="rRPwdIn" v-model="RRpassWord" placeholder="再次输入密码">
+                        </div>
+
+                    </div>
+
+                    <BR><input type="submit" value="注册" id="regisbtn"><BR>
+                </form>
+                <p>注册即代表您同意他记的用户条款</p>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script type="text/javascript">
+    var vm = new Vue({
+        el: '#app',
+        data: {
+            //登录
+            userEmail: "", passWord: "",
+            //注册
+            RuserEmail: "", RuserName: "", RpassWord: "", RRpassWord: "",
+            show_loginbox: true, show_registerbox: false,
+
+        },
+
+        methods: {
+            login: function () {
+                //alert("login access");
+                this.show_loginbox = true;
+                this.show_registerbox = false;
+                var obj = document.getElementById("loginBtn1");
+                obj.style.borderBottom = "2px solid #99cdaa";
+                document.getElementById("registerBtn1").style.borderBottom = "none";
+            },
+            register: function () {
+                this.show_registerbox = true;
+                this.show_loginbox = false;
+                var obj = document.getElementById("registerBtn1");
+                obj.style.borderBottom = "2px solid #99cdaa";
+                document.getElementById("loginBtn1").style.borderBottom = "none";
+            },
+
+            // 检查邮箱是否符合
+            checkEmail(value) {
+                return true;
+            },
+
+            //绿色大登录 按钮 提交账户密码到后台
+            onLoginSubmit: function () {
+
+            },
+
+
+        },
+        watch: {
+            userEmail: function (oldValue, newValue) {
+                this.userEmail = newValue;
+                if (!this.checkEmail(newValue)) {
+                    alert("邮箱");
+                }
+
+            }
+
+        }
+
+    });
+</script>
+</body>
+</html>
