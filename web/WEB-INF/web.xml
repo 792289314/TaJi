@@ -3,12 +3,32 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd"
          version="4.0">
-    <display-name>TaJi</display-name>
+    <!-- <display-name>TaJi</display-name> -->
     <welcome-file-list>
         <welcome-file>account.html</welcome-file>
-        <welcome-file>index.jsp</welcome-file>
-        <welcome-file>default.html</welcome-file>
-        <welcome-file>default.htm</welcome-file>
-        <welcome-file>default.jsp</welcome-file>
     </welcome-file-list>
+
+    <display-name>springMVCFirst</display-name>
+    <servlet>
+        <servlet-name>springmvc</servlet-name>
+        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+        <!--  load-on-startup：表示启动容器时初始化该Servlet；  -->
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>springmvc</servlet-name>
+        <!--  url-pattern：表示哪些请求交给Spring Web MVC处理， “/” 是用来定义默认servlet映射的。-->
+        <!--  也可以如“*.html”表示拦截所有以html为扩展名的请求。  -->
+        <url-pattern>*.do</url-pattern>
+    </servlet-mapping>
+    <!--  至此请求已交给Spring Web MVC框架处理，因此我们需要配置Spring的配置文件，  -->
+    <!--  默认DispatcherServlet会加载WEB-INF/[DispatcherServlet的Servlet名字,也就是上面的Main]-servlet.xml配置文件。-->
+    <!--  即Main-servlet.xml  -->
+
+    <resource-ref>
+        <description>DBConnection</description>
+        <res-ref-name>jdbc/TaJiDB</res-ref-name>
+        <res-type>javax.sql.DataSource</res-type>
+        <res-auth>Container</res-auth>
+    </resource-ref>
 </web-app>

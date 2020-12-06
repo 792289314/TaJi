@@ -1,0 +1,24 @@
+
+运行前的准备：
+
+Tomcat + mysql 数据池
+数据库名 TaJi
+Tomcat 版本 7.0.106
+在 Tomcat/conf/context.xml 里的```<Context>```贴入以下内容
+```
+<Resource
+    name="jdbc/TaJiDB"
+    author="Container"
+    type="javax.sql.DataSource"
+    maxActive="100"
+    maxIdle="30"
+    maxWait="10000"
+    username="mysql用户名"
+    password="mysql密码"
+    driveClassName="com.mysql.jdbc.Drive"
+    url="jdbc:mysql://localhost/TaJi"
+/>
+```
+
+
+
