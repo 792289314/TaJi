@@ -47,7 +47,16 @@
             background-color: transparent;
             border-style: none;
         }
-
+        input:focus::-webkit-contacts-auto-fill-button{
+            opacity: 0;
+        }
+        input::-webkit-credentials-auto-fill-button {
+            display: none !important;
+            visibility: hidden;
+            pointer-events: none;
+            position: absolute; /* 避免占用 input 元素额外的 padding，正常情况下存在 display: none!; 就可以了 */
+            right: 0;
+        }
         .btnBox {
             width: 310px;
             height: 55px;
@@ -69,39 +78,25 @@
             font-size: 20px;
             color: #99cdaa;
         }
-
-        .emailBox {
+        .loginBox div {
             width: 309px;
             height: 46px;
             margin: 20px 0;
             border: 1px solid #319464;
+            /*margin-left: 5px;*/
         }
-
-        .emailBox input {
+        .loginBox input {
             height: 100%;
             border: none;
             background-color: transparent;
-            /*font-size:120%;*/
             margin-left: 5px;
-            /*line-height:100%;*/
+            font-size:20px;
+            /*line-height:46px;*/
         }
-
-        .pwdBox {
-            width: 309px;
-            height: 46px;
-            margin: 20px 0;
-            border: 1px solid #319464;
+        .pwdIn
+        {
+            width: 145px;
         }
-
-        .pwdBox input {
-            height: 100%;
-            border: none;
-            background-color: transparent;
-            /*font-size:120%;*/
-            /*text-indent: 3px;*/
-            margin-left: 5px;
-        }
-
         #linbtn {
             width: 310px;
             height: 46px;
@@ -141,6 +136,7 @@
             border: none;
             background-color: transparent;
             margin-left: 5px;
+            font-size:20px;
         }
 
         #regisbtn {
@@ -158,6 +154,11 @@
             color: #8e8f8d;
             margin: 8px 56px;
         }
+        .iconfont
+        {
+            font-size: 21px;
+        }
+
     </style>
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
@@ -180,14 +181,17 @@
         <div class="loginbox" v-if="show_loginbox">
             <div class="login_context">
                 <form @submit.prevent="onLoginSubmit" method="post">
-                    <div class="emailBox">
-                        <i class="iconfont">&#xe673;</i>
-                        <input type="text" class="emailIn" v-model="userEmail" placeholder="输入邮箱账号">
+                    <div class="loginBox">
+                        <div>
+                            <i class="iconfont icon-youxiang"></i>
+                            <input type="text" class="emailIn" v-model="userEmail" placeholder="输入邮箱账号">
+                        </div>
+                        <div >
+                            <i class="iconfont icon-mima" ></i>
+                            <input type="password" class="pwdIn iconfont" v-model="passWord" placeholder="输入密码">
+                        </div>
                     </div>
-                    <div class="pwdBox">
-                        <i class="iconfont">&#xe605;</i>
-                        <input type="password" class="pwdIn iconfont" v-model="passWord" placeholder="输入密码">
-                    </div>
+
 
                     <input type="submit" value="登录" id="linbtn">
                 </form>
@@ -203,19 +207,19 @@
                 <form @submit.prevent="onRegisterSubmit" method="post">
                     <div class="regBox">
                         <div>
-                            <i class="iconfont">&#xe673;</i>
+                            <i class="iconfont icon-youxiang"></i>
                             <input type="text" class="rEmailIn " v-model="RuserEmail" placeholder="输入邮箱账号">
                         </div>
                         <div>
-                            <i class="iconfont">&#xe90c;</i>
+                            <i class="iconfont icon-zhanghu"></i>
                             <input type="text" class="rName" v-model="RuserName" placeholder="输入昵称">
                         </div>
                         <div>
-                            <i class="iconfont">&#xe605;</i>
+                            <i class="iconfont icon-mima"></i>
                             <input type="password" class="rPwdIn " v-model="RpassWord" placeholder="输入密码">
                         </div>
                         <div>
-                            <i class="iconfont">&#xe605;</i>
+                            <i class="iconfont icon-mima"></i>
                             <input type="password" class="rRPwdIn" v-model="RRpassWord" placeholder="再次输入密码">
                         </div>
 
