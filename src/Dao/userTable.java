@@ -26,13 +26,21 @@ public class userTable {
             pst.setString(1, email);
             pst.setString(2, password);
             rs = pst.executeQuery();
-            rs.next();
+            if(rs.next())
+            {
+                user = new User(
+                        rs.getInt("uid"),
+                        rs.getString("uname"),
+                        rs.getString("uemail")
+                );
+            }
+            else
+            {
+                System.out.println("无结果集");
 
-            user = new User(
-                    rs.getInt("uid"),
-                    rs.getString("uname"),
-                    rs.getString("uemail")
-            );
+            }
+
+
 
         } catch (SQLException throwables) {
             throwables.printStackTrace();

@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>她记——主页面</title>
+    <link rel="stylesheet" type="text/css" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <link rel="stylesheet" type="text/css" href="fonts/loginFonts/iconfont.css">
+    <style>
+        html, body, #app, .el-container {
+            /*设置内部填充为0，几个布局元素之间没有间距*/
+            padding: 0;
+            /*外部间距也是如此设置*/
+            margin: 0;
+            /*统一设置高度为100%*/
+            height: 100%;
+        }
+        .el-header {
+            background-color: #B3C0D1;
+            color: #333;
+        }
+
+        .el-aside {
+            background-color: transparent;
+            text-align: center;
+        }
+
+        .el-main {
+            background-color: transparent;
+            color: #333;
+        }
+        /*去除input的轮廓线*/
+        input
+        {
+            outline: none;
+        }
+        /*防止文本欲拖拽*/
+        textarea{
+            resize: none;
+            outline: none;/*去除轮廓线*/
+        }
+        .icon-hengdengyu {
+            font-size: 40px;
+        }
+        .personalBtn
+        {
+            position: fixed;
+            left: 2px;
+            top: -2px;
+            background-color: transparent;
+        }
+        .addDiaryBtn
+        {
+            position: fixed;
+            right: 10px;
+            bottom: 10px;
+            font-size: 40px;
+        }
+        /*.maindiv{*/
+        /*    width:90%;*/
+        /*    padding:10px;*/
+        /*    overflow:hidden; !*关键*!*/
+        /*    border:1px solid black;*/
+        /*}*/
+
+
+        /*.leftdiv{*/
+        /*    float:left;*/
+        /*    width:400px;*/
+        /*    background-color:#CC6633;*/
+        /*}*/
+
+        /*.rightdiv{*/
+        /*    float:right;*/
+        /*    width:400px;*/
+        /*    background-color:#CC66FF;*/
+
+        /*}*/
+
+        /*.centerdiv{*/
+        /*    float:left;*/
+        /*    width:50px;*/
+        /*    border-right: 1px dashed black;*/
+        /*    padding-bottom:1600px;  !*关键*!*/
+        /*    margin-bottom:-1600px;  !*关键*!*/
+
+        /*}*/
+        .header
+        {
+            /*height:50px;*/
+            width: 100%;
+            height: 100px;
+            background-color: #99cdaa;
+        }
+        .addBox
+        {
+            width: 80%;
+            margin: 0 auto;
+        }
+    </style>
+    <script src="http://unpkg.com/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+</head>
+<body>
+<div id="app">
+    <!--    :direction="direction"控制显示方向 rtl / ltr / ttb / btt-->
+    <!--    添加日记折叠框-->
+    <el-drawer
+            :size="'600px'"
+            title="我是标题"
+            :visible.sync="drawer"
+            direction="btt">
+        <div class="addBox">
+            <div>
+                分类:<input type="text" list="type">
+                <datalist id="type">
+                    <option>1</option>
+                    <option>1</option>
+                    <option>1</option>
+                </datalist>
+            </div>
+
+            颜色:<input type="color">
+            字体:<input type="range">
+            <div>
+                天气:<input type="text" list="weather">
+                <datalist id="weather">
+                    <option>1</option>
+                    <option>1</option>
+                    <option>1</option>
+                </datalist>
+            </div>
+            日期<input type="date">
+            <textarea></textarea>
+        </div>
+    </el-drawer>
+
+    <!--个人中心折叠框-->
+    <el-drawer class="personalDrawer"
+               :size="'200px'"
+            title="个人中心"
+            :visible.sync="personal"
+            direction="ltr">
+    </el-drawer>
+
+    <el-container>
+        <el-header class="header">
+            <div >
+                <el-button  class="personalBtn" @click="personal = true"  type="text" >
+                    <i class="iconfont icon-hengdengyu"></i>
+                </el-button>
+            </div>
+
+        </el-header>
+
+        <el-container>
+
+            <el-main>
+                <!--                <div class="maindiv">-->
+                <!--                    <div style="background-color: #99cdaa;float:left;width:400px;height: 80px;"></div>-->
+                <!--                    <div class="leftdiv"><br><br><br><br><br><br></div>-->
+                <!--                    <div class="centerdiv"></div>-->
+                <!--                    <div class="rightdiv"><br><br><br><br><br><br><br></div>-->
+                <!--                </div>-->
+
+
+            </el-main>
+
+
+
+            <el-aside width="50px">
+                <el-button class="addDiaryBtn" @click="drawer = true" type="text" icon="el-icon-circle-plus-outline">
+                </el-button>
+                <!--                <button class="addDiary"><i class="iconfont icon-hengdengyu"></i></button>-->
+            </el-aside>
+        </el-container>
+
+    </el-container>
+</div>
+<script>
+    var vm=new Vue({
+        el: '#app',
+        data() {
+            return {
+                personal: false,
+                drawer: false,
+                // size: '200px',
+            }
+        }
+    })
+</script>
+</body>
+
+</html>
+

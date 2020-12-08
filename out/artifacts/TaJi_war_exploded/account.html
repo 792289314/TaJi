@@ -185,11 +185,11 @@
                     <div class="loginBox">
                         <div>
                             <i class="iconfont icon-youxiang"></i>
-                            <input type="text" class="emailIn" v-model="userEmail" placeholder="输入邮箱账号">
+                            <input type="text" class="emailIn" id="email" @blur="checkUserEmail" v-model="userEmail"  placeholder="输入邮箱账号">
                         </div>
                         <div >
                             <i class="iconfont icon-mima" ></i>
-                            <input type="password" class="pwdIn iconfont" v-model="passWord" placeholder="输入密码">
+                            <input type="password" class="pwdIn" id="pwd" @blur="checkUserpwd" v-model="passWord" placeholder="输入密码">
                         </div>
                     </div>
 
@@ -211,19 +211,19 @@
                     <div class="regBox">
                         <div>
                             <i class="iconfont icon-youxiang"></i>
-                            <input type="text" class="rEmailIn " v-model="RuserEmail" placeholder="输入邮箱账号">
+                            <input type="text" class="rEmailIn " id="Remail" @blur="checkRUserEmail" v-model="RuserEmail" placeholder="输入邮箱账号">
                         </div>
                         <div>
                             <i class="iconfont icon-zhanghu"></i>
-                            <input type="text" class="rName" v-model="RuserName" placeholder="输入昵称">
+                            <input type="text" class="rName" id="name" @blur="checkRUserName" v-model="RuserName" placeholder="输入昵称">
                         </div>
                         <div>
                             <i class="iconfont icon-mima"></i>
-                            <input type="password" class="rPwdIn " v-model="RpassWord" placeholder="输入密码">
+                            <input type="password" class="rPwdIn " id="rpwd" @blur="checkRUserpwd" v-model="RpassWord" placeholder="输入密码">
                         </div>
                         <div>
                             <i class="iconfont icon-mima"></i>
-                            <input type="password" class="rRPwdIn" v-model="RRpassWord" placeholder="再次输入密码">
+                            <input type="password" class="rRPwdIn" @blur="checkPassConsistency" v-model="RRpassWord" placeholder="再次输入密码">
                         </div>
 
                     </div>
@@ -265,10 +265,90 @@
                 document.getElementById("loginBtn1").style.borderBottom = "none";
             },
 
+            //登录校验邮箱和密码 正则表达式
             // 检查邮箱是否符合
-            checkEmail(value) {
-                return true;
+            checkUserEmail:function()  {
+            let email=document.getElementById("email");
+                if (/^[A-Za-z\d]+([-_.][A-Za-z\d]+)*@([A-Za-z\d]+[-.])+[A-Za-z\d]{2,5}$/.test(email.value)) {
+
+                    // alert("格式正确");
+
+                } else {
+
+                    alert("邮箱格式错误, 请重新输入");
+                    email.value = "";
+
+                }
             },
+
+            checkUserpwd:function()  {
+                let pwd=document.getElementById("pwd");
+                if (/^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,10}$/.test(pwd.value)) {
+
+                    // alert("格式正确");
+
+                } else {
+
+                    alert("密码必须由数字、字母组合,请输入6-10位");
+                    pwd.value = "";
+
+                }
+            },
+
+            //注册校验 邮箱密码再次密码昵称
+            checkRUserEmail:function()  {
+                let email=document.getElementById("Remail");
+                if (/^[A-Za-z\d]+([-_.][A-Za-z\d]+)*@([A-Za-z\d]+[-.])+[A-Za-z\d]{2,5}$/.test(email.value)) {
+
+                    // alert("格式正确");
+
+                } else {
+
+                    alert("邮箱格式错误, 请重新输入");
+                    email.value = "";
+
+                }
+            },
+            checkRUserName:function()
+            {
+                let name=document.getElementById("name");
+                if(/^[a-zA-Z0-9]{4,8}$/.test(name.value))
+                {
+
+                }else
+                {
+                    alert("昵称必须由数字、字母组合,请输入4-8位");
+                    name.value = "";
+                }
+            },
+            checkRUserpwd:function()  {
+                let pwd=document.getElementById("rpwd");
+                if (/^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,10}$/.test(rpwd.value)) {
+
+                    // alert("格式正确");
+
+                } else {
+
+                    alert("密码必须由数字、字母组合,请输入6-10位");
+                    rpwd.value = "";
+
+                }
+            },
+            checkPassConsistency:function(){//二次密码一致性
+                if(this.RpassWord===this.RRpassWord){
+                    // this.promptPass1Mess="确认密码正确";
+                    // this.flag.splice(2,1,true);
+                }
+                else{
+                //     this.promptPass1Mess="确认密码错误";
+                // this.flag.splice(2,1,false);
+                    alert("两次密码输入不一致,请重新输入");
+                    self.RpassWord="";
+                    self.RRpassWord="";
+                }
+            },
+
+
 
             //绿色大登录 按钮 提交账户密码到后台
             onLoginSubmit: function () {
@@ -288,10 +368,16 @@
                     if (response.data == "error") {
                         // 登陆失败
                         // *  弹出提示框：邮箱or密码错误
-                        alert("邮箱or密码错误")
+                        alert("请检查输入");
+                        //错误并清空
+                        self.userEmail="";
+                        self.passWord="";
                     } else {
                         // 登陆成功 切换页面
-                        alert("登陆成功")
+                        alert("登陆成功");
+                        //登录成功，1s后调入主页面
+                        setTimeout(function(){ window.location.href="diaryMain.html"; },1000);
+                        // window.location.href="diaryMain.html";
                     }
                 }).catch(function (error) {
                     console.log(error)
@@ -322,10 +408,21 @@
                     if (response == "error") {
                         // * 提示 注册失败
                         alert("注册失败");
+                        self.RuserEmail="";
+                        self.RuserName="";
+                        self.RpassWord="";
+                        self.RRpassWord="";
                     } else {
                         // * 提示 注册成功
                         // 登陆成功 切换页面
                         alert("欢迎用户" + self.RuserName + "的到来");
+                        self.show_registerbox = false;
+                        self.show_loginbox = true;
+
+                        var obj = document.getElementById("loginBtn1");
+                        obj.style.borderBottom = "2px solid #99cdaa";
+                        document.getElementById("registerBtn1").style.borderBottom = "none";
+
                     }
                 })
             }
