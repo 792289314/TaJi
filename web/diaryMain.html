@@ -95,7 +95,7 @@
 <div id="app">
     <!--    :direction="direction"控制显示方向 rtl / ltr / ttb / btt-->
     <!--    添加日记折叠框-->
-    <el-drawer style=""
+    <el-drawer
             title="添加日记"
             :size="'600px'"
             :visible.sync="addDrawer"
@@ -165,7 +165,7 @@
             :visible.sync="personalDrawer"
             direction="ltr">
         <div>
-            <span>{{welcomeUser}}</span>
+            <span>{{welcomeUser}}</span><!--欢迎用户-->
             <button>个人中心</button>
             <button @click="exit">退出登录</button>
         </div>
