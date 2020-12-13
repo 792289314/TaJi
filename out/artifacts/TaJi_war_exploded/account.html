@@ -393,7 +393,7 @@
                     // 若不存在 返回 error
                     // 若存在 将用户数据写入到 session 中
                 }).then(function (response) {
-                    if (response.data == "error") {
+                    if (response.data === "error") {
                         // 登陆失败
                         // *  弹出提示框：邮箱or密码错误
                         alert("请检查输入");
