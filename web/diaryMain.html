@@ -82,7 +82,11 @@
         {
             font-size: 30px;
         }
-
+        .addTextArea
+        {
+            width: 100%;
+            height: 400px;
+        }
     </style>
     <script src="http://unpkg.com/vue/dist/vue.js"></script>
     <script src="https://unpkg.com/element-ui/lib/index.js"></script>
@@ -143,6 +147,7 @@
             </el-select>
             <!--添加日记文本内容-->
             <el-input
+                    class="addTextArea"
                     type="textarea"
                     autosize
                     placeholder="请输入日记内容"
@@ -156,11 +161,11 @@
 
     <!--个人中心折叠框-->
     <el-drawer class="personalDrawer"
-               :size="'200px'"
+               :size="'300px'"
             :visible.sync="personalDrawer"
             direction="ltr">
         <div>
-            <span>欢迎+{{userName}}</span>
+            <span>{{welcomeUser}}</span>
             <button>个人中心</button>
             <button @click="exit">退出登录</button>
         </div>
@@ -171,7 +176,7 @@
         <el-header class="header">
 
                 <div>
-                    <el-button  class="personalBtn" @click="personal = true"  type="text" >
+                    <el-button  class="personalBtn" @click="personalDrawer = true"  type="text" >
                         <i class="iconfont icon-hengdengyu"></i>
                     </el-button>
                 </div>
@@ -220,7 +225,7 @@
         el: '#app',
         data() {
             return {
-                userName:'',//个人中心欢迎你获取用户名
+                welcomeUser:'',//个人中心欢迎你获取用户名
                 personalDrawer: false,//个人中心折叠框
                 addDrawer: false,//添加日记折叠框
                 textarea1:'',//添加日记加的日记内容
