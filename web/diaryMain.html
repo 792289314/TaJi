@@ -41,14 +41,14 @@
         .icon-hengdengyu {
             font-size: 40px;
         }
-        .personalBtn
+        .personalBtn /*个人中心按钮*/
         {
             position: fixed;
             left: 2px;
             top: -2px;
             background-color: transparent;
         }
-        .addDiaryBtn
+        .addDiaryBtn/*添加日记按钮*/
         {
             position: fixed;
             right: 10px;
@@ -94,7 +94,7 @@
     <el-drawer style=""
             title="添加日记"
             :size="'600px'"
-            :visible.sync="drawer"
+            :visible.sync="addDrawer"
             direction="btt">
         <div class="addBox">
             <div>
@@ -141,6 +141,7 @@
                         :value="item.value">
                 </el-option>
             </el-select>
+            <!--添加日记文本内容-->
             <el-input
                     type="textarea"
                     autosize
@@ -156,15 +157,17 @@
     <!--个人中心折叠框-->
     <el-drawer class="personalDrawer"
                :size="'200px'"
-            :visible.sync="personal"
+            :visible.sync="personalDrawer"
             direction="ltr">
         <div>
+            <span>欢迎+{{userName}}</span>
             <button>个人中心</button>
-            <button>退出登录</button>
+            <button @click="exit">退出登录</button>
         </div>
     </el-drawer>
-
+    <!--饿了么布局容器框架 头中右布局-->
     <el-container>
+        <!--头部   包括个人中心按钮  两个div 一个全部 一个分类之后的-->
         <el-header class="header">
 
                 <div>
@@ -180,21 +183,22 @@
                </div>
                 <!-- 分类-->
                 <div class="classifyBtn">
-                     <!--动态生成radio-->
+                     <!--动态生成radio   这里还有点问题 单选一选会把单选按钮都选上 不互斥了-->
                     <el-radio-group v-model="classifyValue" >
                         <el-radio
                                   v-for="item in classifyList"
-                                  :label="item.label">{{item.classifyName}}({{item.value}})
+                                  :label="item.label">{{item.classifyName}}({{item.value}})<!--前者是分类的名字 后者是对应的数量-->
                         </el-radio>
                     </el-radio-group>
 
                 </div>
 
         </el-header>
-
+        <!--中间显示日记内容部分-->
         <el-container>
 
             <el-main>
+               <!-- 目前暂时通过按钮来实现动态增加div 后期会放入watch还是computer里面-->
                 <input type="button" @click="addElement" value="add">
                 <div id="move">
 
@@ -202,11 +206,10 @@
             </el-main>
 
 
-
+            <!--右边那个添加日记+按钮 占浏览器右边50px宽-->
             <el-aside width="50px">
-                <el-button class="addDiaryBtn" @click="drawer = true" type="text" icon="el-icon-circle-plus-outline">
+                <el-button class="addDiaryBtn" @click="addDrawer = true" type="text" icon="el-icon-circle-plus-outline">
                 </el-button>
-                <!--                <button class="addDiary"><i class="iconfont icon-hengdengyu"></i></button>-->
             </el-aside>
         </el-container>
 
@@ -217,14 +220,26 @@
         el: '#app',
         data() {
             return {
-                personal: false,
-                drawer: false,
-                textarea1:'',//日记内容
+                userName:'',//个人中心欢迎你获取用户名
+                personalDrawer: false,//个人中心折叠框
+                addDrawer: false,//添加日记折叠框
+                textarea1:'',//添加日记加的日记内容
                 radio: '1',
-                allDiaryMsg:'',//全部日记数量
-                nonDiaryMsg:'',//未分类日记数量
-                item:"122",
-                kindOptions: [{//分类需要给这样的数组
+                allDiaryMsg:'1',//全部日记数量
+                nonDiaryMsg:'1',//未分类日记数量
+                classifyList:[{//头部 显示右哪些分类的单选按钮
+                    value: '12',
+                    classifyName:'旅行',
+                },{
+                    value: '13',
+                    classifyName:'心情',
+                },{
+                    value: '14',//此项分类的数量
+                    classifyName:'计划',
+                }],
+                classifyValue:'',
+
+                kindOptions: [{//添加日记中 分类的下拉列表框 需要给这样的数组
                     value: '选项1',
                     label: '旅游'
                 }, {
@@ -242,7 +257,7 @@
                 }],
                 kindValue: '',
 
-                weatherOptions: [{//分类需要给这样的数组
+                weatherOptions: [{////添加日记中 天气的下拉列表框 需要给这样的数组
                     value: '选项1',
                     label: '晴天'
                 }, {
@@ -255,7 +270,7 @@
                 weatherValue: '',
                 dataValue:'',
 
-                checkPeoOptions: [{//分类需要给这样的数组
+                checkPeoOptions: [{//添加日记中 查看权限的下拉列表框 需要给这样的数组
                     value: '选项1',
                     label: '小王'
                 }, {
@@ -267,27 +282,13 @@
                 },],
                 checkPeoValue: '',
 
-                classifyList:[{
-                        value: '12',
-                        classifyName:'旅行',
-                    },{
-                    value: '13',
-                    classifyName:'心情',
-                },{
-                    value: '14',//此项分类的数量
-                    classifyName:'计划',
-                },
-
-                ],
-                classifyValue:'',
-                brandFold: true,
             }
         },
         computed: {
 
         },
         methods:{
-
+            //版面中间 动态生成div 从后端拿到日记内容 并一左一右显示
             addElement:function () {
 
                 for(let i=0;i<7;i++)
@@ -333,7 +334,10 @@
                 }
 
             },
+            //个人中心退出登录按钮
+            exit:function () {
 
+            }
 
         }
     })
