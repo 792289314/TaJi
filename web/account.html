@@ -254,6 +254,9 @@
 </div>
 
 <script type="text/javascript">
+    // 携带cookie信息 保持session的一致性
+    axios.defaults.withCredentials = true;
+
     var vm = new Vue({
         el: '#app',
         data: {
@@ -297,12 +300,12 @@
             // 登陆界面为什么要有提示？？？？
             checkUserEmail: function () {
 
-               /* if (!this.checkEmailFormat(this.userEmail)) {
-                    // 检查邮箱 不符合时 checkEmailFormat 内部处理 提示报错
-                    // * 输入框红框提示
-                } else {
-                    // 邮箱符合条件
-                }*/
+                /* if (!this.checkEmailFormat(this.userEmail)) {
+                     // 检查邮箱 不符合时 checkEmailFormat 内部处理 提示报错
+                     // * 输入框红框提示
+                 } else {
+                     // 邮箱符合条件
+                 }*/
             },
 
             // 检查密码
@@ -404,6 +407,10 @@
                         // 登陆成功 切换页面
                         alert("登陆成功");
                         //登录成功，1s后调入主页面
+
+                        // 把用户名放到sessionStorage里
+                        sessionStorage.setItem("name", response.data);
+
                         setTimeout(function () {
                             window.location.href = "diaryMain.html";
                         }, 1000);
@@ -440,7 +447,7 @@
                     // 若注册失败 返回 error
                     // 若注册成功 将用户数据写入到 session 中
                 }).then(function (response) {
-                    if (response == "error") {
+                    if (response.data == "error") {
                         // * 提示 注册失败
                         alert("注册失败");
                         self.RuserEmail = "";

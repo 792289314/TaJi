@@ -25,5 +25,23 @@ Tomcat 版本 7.0.106
 @blur 事件会一直触发 更改为@change
 登陆界面可以考虑做个按钮 当忘记密码时进行小提示
 
+classify
+    uid 用户id
+    cid 分类id
+    cname 分类标签
+    cflag 公开 0/私密 1
+    ccolor 分类图标颜色
 
+diary
+    uid,cid
+    did 日记id
+    dflag 公开 0/私密 1
+    dtext 日记内容
+    dtime 日期
+    dweather 天气 0-晴天 1-多云 2-雨天
+        
+        
+ 当前仍然存在的问题：
+    登陆界面跳转到主页面的时间里 连续点击登陆按钮会导致页面刷新数据丢失 
+    Diary里含有classify 无法直接转化为json
 
