@@ -375,7 +375,10 @@
                    }
 */
 
+
+                alert(this.diaryList.length);
                 for (let i = 0; i < this.diaryList.length; i++) {
+                    alert(i);
                     if (i % 2 === 0)//偶数 显示在左边
                     {
                         let div = document.createElement('div');
@@ -403,7 +406,7 @@
                         div1.style.width = '50%';
                         div1.style.float = 'right';
                         //div1.innerHTML = '{{右边}}';
-                        div.innerHTML = this.diaryList[i].diaryText;
+                        div1.innerHTML = this.diaryList[i].diaryText;
                         div1.id = 'Elem' + i;
                         document.getElementById('move').appendChild(div1);
 
@@ -453,7 +456,7 @@
                         // 此时应该返回登陆界面重新登陆
                     } else {
                         self.diaryList = self.userDiary = response.data;
-                        this.addElement();// 得到日记记录后 更新ui
+                        self.addElement();// 得到日记记录后 更新ui
                     }
 
                 }).catch(function (error) {
