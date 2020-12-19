@@ -8,6 +8,10 @@
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <style>
+        ::-webkit-scrollbar{
+            display: none;
+            width: 0;
+        }
         html, body, #app, .el-container {
             /*设置内部填充为0，几个布局元素之间没有间距*/
             padding: 0;
@@ -20,6 +24,7 @@
         .el-header {
             background-color: #B3C0D1;
             color: #333;
+
         }
 
         .el-aside {
@@ -66,7 +71,7 @@
         .header {
             /*height:50px;*/
             width: 100%;
-            height: 100px;
+            height: 200px;
             background-color: #99cdaa;
         }
 
@@ -88,6 +93,8 @@
 
         span {
             font-size: 30px;
+            vertical-align: center;
+
         }
 
     </style>
@@ -118,9 +125,9 @@
                 </el-button>
             </div>
             <span>颜色:</span>
-            <input type="color"><br>
+            <input type="color" id="selectedColor"><br>
             <span>字体:</span>
-            <input type="range">
+            <input type="range" id="selectedFont">
             <div>
                 <span>天气:</span>
                 <el-select v-model="weatherValue" clearable placeholder="请选择天气">
@@ -152,13 +159,13 @@
             <el-input
                     class="addTextArea"
                     type="textarea"
-                    autosize
                     placeholder="请输入日记内容"
                     maxlength="500"
+                    :rows="10"
                     show-word-limit
                     v-model="textarea1">
             </el-input>
-            <button>发布</button>
+            <button id="publishBtn" @click="Publish">发布</button>
         </div>
     </el-drawer>
 
@@ -176,7 +183,7 @@
     <!--饿了么布局容器框架 头中右布局-->
     <el-container>
         <!--头部   包括个人中心按钮  两个div 一个全部 一个分类之后的-->
-        <el-header class="header">
+        <el-header class="header" height="80px">
 
             <div>
                 <el-button class="personalBtn" @click="personalDrawer = true" type="text">
@@ -208,10 +215,9 @@
         <!--中间显示日记内容部分-->
         <el-container>
 
-            <el-main>
+            <el-main >
                 <!-- 目前暂时通过按钮来实现动态增加div 后期会放入watch还是computer里面-->
-                <input type="button" @click="addElement" value="add">
-                <div id="move">
+                <div id="move" >
 
                 </div>
             </el-main>
@@ -253,19 +259,19 @@
                 classifyList: [
                     {//头部 显示右哪些分类的单选按钮
                         id: '2',
-                        label:2,
+                        label: 2,
                         value: '12',
                         classifyName: '旅行',
                     },
                     {
                         id: '3',
-                        label:3,
+                        label: 3,
                         value: '13',
                         classifyName: '心情',
                     },
                     {
                         id: '4',
-                        label:4,
+                        label: 4,
                         value: '14',//此项分类的数量
                         classifyName: '计划',
                     }],
@@ -274,7 +280,7 @@
                 kindOptions: [
                     {
                         //添加日记中 分类的下拉列表框 需要给这样的数组
-                        value: '选项1',
+                        value: '选项1',// 值改成 用户分类的id
                         label: '旅游'
                     },
                     {
@@ -293,7 +299,7 @@
                         value: '选项5',
                         label: '。。。'
                     }],
-                kindValue: '',
+                kindValue: '',//添加日记选中的分类的value
 
                 weatherOptions: [{////添加日记中 天气的下拉列表框 需要给这样的数组
                     value: '选项1',
@@ -376,9 +382,9 @@
 */
 
 
-                alert(this.diaryList.length);
+                // alert(this.diaryList.length);
                 for (let i = 0; i < this.diaryList.length; i++) {
-                    alert(i);
+                    //   alert(i);
                     if (i % 2 === 0)//偶数 显示在左边
                     {
                         let div = document.createElement('div');
@@ -390,6 +396,7 @@
                         div.innerHTML = this.diaryList[i].diaryText;
 
                         div.id = 'Elem' + i;
+                        div.style.minHeight = "100px";
                         document.getElementById('move').appendChild(div);
 
                         let div2 = document.createElement('div');
@@ -398,6 +405,7 @@
                         div2.style.float = 'right';
                         div2.innerHTML = '{{占位2}}';
                         div2.id = 'Ele' + i;
+                        div2.style.minHeight = "100px";
                         document.getElementById('move').appendChild(div2);
 
                     } else {
@@ -408,7 +416,9 @@
                         //div1.innerHTML = '{{右边}}';
                         div1.innerHTML = this.diaryList[i].diaryText;
                         div1.id = 'Elem' + i;
+                        div1.style.minHeight = "100px";
                         document.getElementById('move').appendChild(div1);
+
 
                         let div3 = document.createElement('div');
                         div3.style.backgroundColor = '﻿﻿#fec374';
@@ -416,6 +426,7 @@
                         div3.style.float = 'left';
                         div3.innerHTML = '{{占位3}}';
                         div3.id = 'Ele' + i;
+                        div3.style.minHeight = "100px";
                         document.getElementById('move').appendChild(div3);
                     }
                 }
@@ -440,7 +451,7 @@
 
                     }
                 }).catch(function (error) {
-
+                    alert(error);
                 })
             },
 
@@ -460,6 +471,7 @@
                     }
 
                 }).catch(function (error) {
+                    alert("axios error");
 
                 })
             },
@@ -479,8 +491,42 @@
                 }
             },
 
-            exit: function () {
+            /*
+            // 还没写完
+            // 右下角添加日记的发布按钮
+            Publish: function () {
+                let self = this;
+                alert(self.kindValue);
+                let selectedColor = document.getElementById('selectedColor').value;
+                let selectedFont = document.getElementById('selectedFont').value;
+                // self.weatherValue
+                const time = new Date().getTime();
+                //alert(time);
+                // self.checkPeoValue
+                alert(self.textarea1)
 
+                axios({
+                    url: '',
+                    methods: 'post',
+                    data: {
+                        'classifyId': self.kindValue,
+                    }
+                }).then(function (response) {
+
+                }).catch(function (error) {
+                    alert(error);
+                })
+            },*/
+
+            exit: function () {
+                axios({
+                    url: '',
+                    methods: 'post'
+                }).then(function (response) {
+
+                }).catch(function (error) {
+
+                })
             },
 
 
