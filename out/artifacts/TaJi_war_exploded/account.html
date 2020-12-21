@@ -2,8 +2,9 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>他记————登录注册页面</title>
+    <title>她记————登录注册页面</title>
     <link rel="stylesheet" href="fonts/loginFonts/iconfont.css">
+    <link rel="stylesheet" type="text/css" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
     <style>
         * {
             margin: 0;
@@ -168,6 +169,8 @@
     </style>
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+
 </head>
 <body>
 <div id="app">
@@ -191,7 +194,7 @@
                     <div class="loginBox">
                         <div>
                             <i class="iconfont icon-youxiang"></i>
-                            <input type="text" class="emailIn" id="email" @change="checkUserEmail" v-model="userEmail"
+                            <input type="text" class="emailIn" id="email"  @change="checkUserEmail" v-model="userEmail"
                                    placeholder="输入邮箱账号">
 
                         </div>
@@ -203,9 +206,7 @@
 
                         </div>
                     </div>
-
-
-                    <input type="submit" value="登录" id="linbtn">
+                    <el-button native-type="submit"  id="linbtn" type="primary">登录</el-button>
                 </form>
                 <div class="bottom">
                     <button class="registerNum" @click="register">注册账号</button>
@@ -257,6 +258,7 @@
     // 携带cookie信息 保持session的一致性
     axios.defaults.withCredentials = true;
 
+
     var vm = new Vue({
         el: '#app',
         data: {
@@ -265,9 +267,11 @@
             //注册
             RuserEmail: "", RuserName: "", RpassWord: "", RRpassWord: "",
             show_loginbox: true, show_registerbox: false,
+
         },
 
         methods: {
+
             login: function () {
                 //alert("login access");
                 this.show_loginbox = true;
@@ -291,7 +295,9 @@
                     // alert("格式正确");
                     return true;
                 } else {
-                    alert("邮箱格式错误, 请重新输入");
+                    // alert("邮箱格式错误, 请重新输入");
+                    // this.$message('邮箱格式错误, 请重新输入');
+
                     //email.value = "";
                     return false;
                 }
@@ -314,7 +320,7 @@
                     // alert("格式正确");
                     return true;
                 } else {
-                    alert("密码必须由数字、字母组合,请输入6-10位");
+                    // alert("密码必须由数字、字母组合,请输入6-10位");
                     //pwd.value = "";
                     return false;
                 }
@@ -332,6 +338,7 @@
             //注册校验 邮箱密码再次密码昵称
             checkRUserEmail: function () {
                 if (!this.checkEmailFormat(this.RuserEmail)) {
+                    this.$message('邮箱格式错误, 请重新输入');
                     // 检查邮箱 不符合时 checkEmailFormat 内部处理 提示报错
                     // * 输入框红框提示
                 } else {
@@ -345,7 +352,7 @@
                 if (/^[a-zA-Z0-9]{4,8}$/.test(name)) {
                     return true;
                 } else {
-                    alert("昵称必须由数字、字母组合,请输入4-8位");
+                    // alert("昵称必须由数字、字母组合,请输入4-8位");
                     //name.value = "";
                     return false;
                 }
@@ -355,6 +362,7 @@
                 if (!this.checkNameFormat(this.RuserName)) {
                     // 检查注册用户名 不符合时 checkRUserName 内部处理 提示报错
                     // * 输入框红框提示
+                    this.$message('昵称必须由数字或字母组成,请输入4-8位');
                 } else {
 
                 }
@@ -365,6 +373,7 @@
             checkRUserpwd: function () {
                 if (!this.checkPasswordFormat(this.RpassWord)) {
                     // 检查密码 不符合时 checkPasswordFormat 内部处理并提示报错
+                    this.$message('密码必须由数字和字母组合,请输入6-10位');
                 } else {
                     // 密码符合条件
                 }
@@ -374,7 +383,8 @@
                 if (this.RpassWord === this.RRpassWord) {
                     return true;
                 } else {
-                    alert("两次密码输入不一致,请重新输入");
+                    this.$message('两次密码输入不一致,请重新输入');
+                    // alert("两次密码输入不一致,请重新输入");
                     return false;
                 }
             },
@@ -399,15 +409,15 @@
                     if (response.data === "error") {
                         // 登陆失败
                         // *  弹出提示框：邮箱or密码错误
-                        alert("请检查输入");
+                        self.$message('请检查输入');
                         //错误并清空
                         self.userEmail = "";
                         self.passWord = "";
                     } else {
                         // 登陆成功 切换页面
-                        alert("登陆成功");
+                        // alert("登陆成功");
                         //登录成功，1s后调入主页面
-
+                        self.$message('登录成功');
                         // 把用户名放到sessionStorage里
                         sessionStorage.setItem("name", response.data);
 

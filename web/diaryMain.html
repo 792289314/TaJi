@@ -8,6 +8,13 @@
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <style>
+        ::-webkit-scrollbar{
+            display: none;
+            width: 0;
+        }
+        a{
+            text-decoration: none;
+        }
         html, body, #app, .el-container {
             /*设置内部填充为0，几个布局元素之间没有间距*/
             padding: 0;
@@ -20,6 +27,7 @@
         .el-header {
             background-color: #B3C0D1;
             color: #333;
+
         }
 
         .el-aside {
@@ -66,7 +74,7 @@
         .header {
             /*height:50px;*/
             width: 100%;
-            height: 100px;
+            /*height: 200px;*/
             background-color: #99cdaa;
         }
 
@@ -88,6 +96,8 @@
 
         span {
             font-size: 30px;
+            vertical-align: center;
+
         }
 
     </style>
@@ -118,9 +128,9 @@
                 </el-button>
             </div>
             <span>颜色:</span>
-            <input type="color"><br>
+            <input type="color" id="selectedColor"><br>
             <span>字体:</span>
-            <input type="range">
+            <input type="range" id="selectedFont">
             <div>
                 <span>天气:</span>
                 <el-select v-model="weatherValue" clearable placeholder="请选择天气">
@@ -152,13 +162,13 @@
             <el-input
                     class="addTextArea"
                     type="textarea"
-                    autosize
                     placeholder="请输入日记内容"
                     maxlength="500"
+                    :rows="10"
                     show-word-limit
                     v-model="textarea1">
             </el-input>
-            <button>发布</button>
+            <button id="publishBtn" @click="Publish">发布</button>
         </div>
     </el-drawer>
 
@@ -169,14 +179,18 @@
                direction="ltr">
         <div>
             <span>{{welcomeUser}}</span><!--欢迎用户-->
-            <button>个人中心</button>
+            <!--个人中心折叠框中的个人中心页面-->
+            <a href="person.html" target="_blank">个人中心</a>
+            <!--个人中心折叠框中的管理分类-->
+            <a href="classifyManagement.html"  target="_blank">管理分类</a>
+
             <button @click="exit">退出登录</button>
         </div>
     </el-drawer>
     <!--饿了么布局容器框架 头中右布局-->
     <el-container>
         <!--头部   包括个人中心按钮  两个div 一个全部 一个分类之后的-->
-        <el-header class="header">
+        <el-header class="header" height="''">
 
             <div>
                 <el-button class="personalBtn" @click="personalDrawer = true" type="text">
@@ -193,12 +207,13 @@
             <div class="classifyBtn">
                 <!--动态生成radio   这里还有点问题 单选一选会把单选按钮都选上 不互斥了-->
                 <el-radio-group v-model="classifyValue">
-                    <span v-for=" item in classifyList">
-                        <el-radio :label="item.label">
+
+                        <el-radio
+                                :label="index"
+                                v-for=" (item,index) in classifyList" >
                             {{item.classifyName}}({{item.value}})
                             <!--前者是分类的名字 后者是对应的数量-->
                         </el-radio>
-                    </span>
 
                 </el-radio-group>
 
@@ -208,10 +223,9 @@
         <!--中间显示日记内容部分-->
         <el-container>
 
-            <el-main>
+            <el-main >
                 <!-- 目前暂时通过按钮来实现动态增加div 后期会放入watch还是computer里面-->
-                <input type="button" @click="addElement" value="add">
-                <div id="move">
+                <div id="move" >
 
                 </div>
             </el-main>
@@ -251,49 +265,54 @@
                 allDiaryMsg: '1',//全部日记数量
                 nonDiaryMsg: '1',//未分类日记数量
                 classifyList: [
-                    {//头部 显示右哪些分类的单选按钮
-                        id: '2',
-                        label:2,
+                    {
                         value: '12',
                         classifyName: '旅行',
                     },
                     {
-                        id: '3',
-                        label:3,
                         value: '13',
                         classifyName: '心情',
                     },
                     {
-                        id: '4',
-                        label:4,
                         value: '14',//此项分类的数量
                         classifyName: '计划',
-                    }],
-                classifyValue: 3,
+                    },
 
+                ],
+                classifyValue: '',
                 kindOptions: [
                     {
                         //添加日记中 分类的下拉列表框 需要给这样的数组
-                        value: '选项1',
-                        label: '旅游'
+                        value: '选项1',// 值改成 用户分类的id
+                        label: '旅游',
+                        state:0,
+                        kindColor:'#ffff',
                     },
                     {
                         value: '选项2',
-                        label: '心情'
+                        label: '心情',
+                        state:0,
+                        kindColor:'#ffff',
                     },
                     {
                         value: '选项3',
-                        label: '计划'
+                        label: '计划',
+                        state:0,
+                        kindColor:'#ffff',
                     },
                     {
                         value: '选项4',
-                        label: '与男友的事'
+                        label: '与男友的事',
+                        state:0,
+                        kindColor:'#ffff',
                     },
                     {
                         value: '选项5',
-                        label: '。。。'
+                        label: '。。。',
+                        state:0,
+                        kindColor:'#ffff',
                     }],
-                kindValue: '',
+                kindValue: '',//添加日记选中的分类的value
 
                 weatherOptions: [{////添加日记中 天气的下拉列表框 需要给这样的数组
                     value: '选项1',
@@ -323,22 +342,7 @@
                     }],
                 checkPeoValue: '',
 
-                classifyList: [
-                    {
-                        value: '12',
-                        classifyName: '旅行',
-                    },
-                    {
-                        value: '13',
-                        classifyName: '心情',
-                    },
-                    {
-                        value: '14',//此项分类的数量
-                        classifyName: '计划',
-                    },
 
-                ],
-                classifyValue: '',
                 brandFold: true,
             }
         },
@@ -375,7 +379,10 @@
                    }
 */
 
+
+                // alert(this.diaryList.length);
                 for (let i = 0; i < this.diaryList.length; i++) {
+                    //   alert(i);
                     if (i % 2 === 0)//偶数 显示在左边
                     {
                         let div = document.createElement('div');
@@ -387,6 +394,7 @@
                         div.innerHTML = this.diaryList[i].diaryText;
 
                         div.id = 'Elem' + i;
+                        div.style.minHeight = "100px";
                         document.getElementById('move').appendChild(div);
 
                         let div2 = document.createElement('div');
@@ -395,6 +403,7 @@
                         div2.style.float = 'right';
                         div2.innerHTML = '{{占位2}}';
                         div2.id = 'Ele' + i;
+                        div2.style.minHeight = "100px";
                         document.getElementById('move').appendChild(div2);
 
                     } else {
@@ -403,9 +412,11 @@
                         div1.style.width = '50%';
                         div1.style.float = 'right';
                         //div1.innerHTML = '{{右边}}';
-                        div.innerHTML = this.diaryList[i].diaryText;
+                        div1.innerHTML = this.diaryList[i].diaryText;
                         div1.id = 'Elem' + i;
+                        div1.style.minHeight = "100px";
                         document.getElementById('move').appendChild(div1);
+
 
                         let div3 = document.createElement('div');
                         div3.style.backgroundColor = '﻿﻿#fec374';
@@ -413,6 +424,7 @@
                         div3.style.float = 'left';
                         div3.innerHTML = '{{占位3}}';
                         div3.id = 'Ele' + i;
+                        div3.style.minHeight = "100px";
                         document.getElementById('move').appendChild(div3);
                     }
                 }
@@ -437,7 +449,7 @@
 
                     }
                 }).catch(function (error) {
-
+                    alert(error);
                 })
             },
 
@@ -453,10 +465,11 @@
                         // 此时应该返回登陆界面重新登陆
                     } else {
                         self.diaryList = self.userDiary = response.data;
-                        this.addElement();// 得到日记记录后 更新ui
+                        self.addElement();// 得到日记记录后 更新ui
                     }
 
                 }).catch(function (error) {
+                    alert("axios error");
 
                 })
             },
@@ -475,9 +488,46 @@
                     this.diaryList = this.userDiary;
                 }
             },
+            Publish:function()
+            {},
+            /*
+            // 还没写完
+            // 右下角添加日记的发布按钮
+            Publish: function () {
+                let self = this;
+                alert(self.kindValue);
+                let selectedColor = document.getElementById('selectedColor').value;
+                let selectedFont = document.getElementById('selectedFont').value;
+                // self.weatherValue
+                const time = new Date().getTime();
+                //alert(time);
+                // self.checkPeoValue
+                alert(self.textarea1)
+
+                axios({
+                    url: '',
+                    methods: 'post',
+                    data: {
+                        'classifyId': self.kindValue,
+                    }
+                }).then(function (response) {
+
+                }).catch(function (error) {
+                    alert(error);
+                })
+            },*/
+
+
 
             exit: function () {
+                axios({
+                    url: '',
+                    methods: 'post'
+                }).then(function (response) {
 
+                }).catch(function (error) {
+
+                })
             },
 
 

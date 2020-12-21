@@ -21,7 +21,7 @@
     <inspection_tool class="HtmlUnknownTag" enabled="true" level="WARNING" enabled_by_default="true">
       <option name="myValues">
         <value>
-          <list size="20">
+          <list size="23">
             <item index="0" class="java.lang.String" itemvalue="nobr" />
             <item index="1" class="java.lang.String" itemvalue="noembed" />
             <item index="2" class="java.lang.String" itemvalue="comment" />
@@ -42,6 +42,9 @@
             <item index="17" class="java.lang.String" itemvalue="el-date-picker" />
             <item index="18" class="java.lang.String" itemvalue="lable" />
             <item index="19" class="java.lang.String" itemvalue="div" />
+            <item index="20" class="java.lang.String" itemvalue="el-table" />
+            <item index="21" class="java.lang.String" itemvalue="el-table-column" />
+            <item index="22" class="java.lang.String" itemvalue="el-popover" />
           </list>
         </value>
       </option>
