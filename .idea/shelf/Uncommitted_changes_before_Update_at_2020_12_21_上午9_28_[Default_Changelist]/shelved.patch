@@ -1,0 +1,216 @@
+Index: src/Service/diaryMainManage.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package Service;\n\nimport Dao.classifyTable;\nimport Dao.diaryTable;\nimport Entity.Classify;\nimport Entity.Diary;\nimport Entity.DiaryAndClassify;\n\nimport java.util.ArrayList;\n\npublic class diaryMainManage {\n    public static ArrayList<Classify> getClassifyById(long id) {\n        return new classifyTable().getClassifyById(id);\n    }\n\n    public static ArrayList<DiaryAndClassify> getUserDiaryAndClassify(long id){\n        return new diaryTable().getUserDiaryAndClassify(id);\n    }\n\n    public static ArrayList<Diary> getUserDiary(long id){\n        return new diaryTable().getUserDiary(id);\n    }\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/Service/diaryMainManage.java	(revision 1ea60e287ddd1cc0cc8f51fccb55dc7dc78d558e)
++++ src/Service/diaryMainManage.java	(date 1608514132000)
+@@ -20,4 +20,8 @@
+     public static ArrayList<Diary> getUserDiary(long id){
+         return new diaryTable().getUserDiary(id);
+     }
++
++    public static boolean AddDairy(Diary diary,long id){
++        return new diaryTable().AddDairy(diary,id);
++    }
+ }
+\ No newline at end of file
+Index: web/diaryMain.html
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><!DOCTYPE html>\n<html lang=\"en\">\n<head>\n    <meta charset=\"UTF-8\">\n    <title>她记——主页面</title>\n    <link rel=\"stylesheet\" type=\"text/css\" href=\"https://unpkg.com/element-ui/lib/theme-chalk/index.css\">\n    <link rel=\"stylesheet\" type=\"text/css\" href=\"fonts/loginFonts/iconfont.css\">\n    <script src=\"https://cdn.jsdelivr.net/npm/vue/dist/vue.js\"></script>\n    <script src=\"https://unpkg.com/axios/dist/axios.min.js\"></script>\n    <style>\n        ::-webkit-scrollbar{\n            display: none;\n            width: 0;\n        }\n        html, body, #app, .el-container {\n            /*设置内部填充为0，几个布局元素之间没有间距*/\n            padding: 0;\n            /*外部间距也是如此设置*/\n            margin: 0;\n            /*统一设置高度为100%*/\n            height: 100%;\n        }\n\n        .el-header {\n            background-color: #B3C0D1;\n            color: #333;\n\n        }\n\n        .el-aside {\n            background-color: transparent;\n            text-align: center;\n        }\n\n        .el-main {\n            background-color: transparent;\n            color: #333;\n        }\n\n        /*去除input的轮廓线*/\n        input {\n            outline: none;\n        }\n\n        /*防止文本欲拖拽*/\n        textarea {\n            resize: none;\n            outline: none; /*去除轮廓线*/\n        }\n\n        .icon-hengdengyu {\n            font-size: 40px;\n        }\n\n        .personalBtn /*个人中心按钮*/\n        {\n            position: fixed;\n            left: 2px;\n            top: -2px;\n            background-color: transparent;\n        }\n\n        .addDiaryBtn /*添加日记按钮*/\n        {\n            position: fixed;\n            right: 10px;\n            bottom: 10px;\n            font-size: 40px;\n        }\n\n        .header {\n            /*height:50px;*/\n            width: 100%;\n            height: 200px;\n            background-color: #99cdaa;\n        }\n\n        .addBox /*添加日记*/\n        {\n            width: 80%;\n            margin: 0 auto;\n            border: 1px solid #99cdaa;\n        }\n\n        .allClassifyBtn {\n            margin-top: 10px;\n            margin-left: 100px;\n        }\n\n        .classifyBtn {\n            margin-left: 100px;\n        }\n\n        span {\n            font-size: 30px;\n            vertical-align: center;\n\n        }\n\n    </style>\n    <script src=\"http://unpkg.com/vue/dist/vue.js\"></script>\n    <script src=\"https://unpkg.com/element-ui/lib/index.js\"></script>\n</head>\n<body>\n<div id=\"app\">\n    <!--    :direction=\"direction\"控制显示方向 rtl / ltr / ttb / btt-->\n    <!--    添加日记折叠框-->\n    <el-drawer\n            title=\"添加日记\"\n            :size=\"'600px'\"\n            :visible.sync=\"addDrawer\"\n            direction=\"btt\">\n        <div class=\"addBox\">\n            <div>\n                <span>分类:</span>\n                <el-select v-model=\"kindValue\" clearable placeholder=\"请选择分类\">\n                    <el-option\n                            v-for=\"item in kindOptions\"\n                            :key=\"item.value\"\n                            :label=\"item.label\"\n                            :value=\"item.value\">\n                    </el-option>\n                </el-select>\n                <el-button type=\"text\" icon=\"el-icon-circle-plus-outline\">\n                </el-button>\n            </div>\n            <span>颜色:</span>\n            <input type=\"color\" id=\"selectedColor\"><br>\n            <span>字体:</span>\n            <input type=\"range\" id=\"selectedFont\">\n            <div>\n                <span>天气:</span>\n                <el-select v-model=\"weatherValue\" clearable placeholder=\"请选择天气\">\n                    <el-option\n                            v-for=\"item in weatherOptions\"\n                            :key=\"item.value\"\n                            :label=\"item.label\"\n                            :value=\"item.value\">\n                    </el-option>\n                </el-select>\n            </div>\n            <span>日期:</span>\n            <el-date-picker\n                    v-model=\"dataValue\"\n                    align=\"right\"\n                    type=\"date\"\n                    placeholder=\"选择日期\">\n            </el-date-picker>\n            <span>谁可以看:</span>\n            <el-select v-model=\"checkPeoValue\" clearable placeholder=\"请选择可查看的人\">\n                <el-option\n                        v-for=\"item in checkPeoOptions\"\n                        :key=\"item.value\"\n                        :label=\"item.label\"\n                        :value=\"item.value\">\n                </el-option>\n            </el-select>\n            <!--添加日记文本内容-->\n            <el-input\n                    class=\"addTextArea\"\n                    type=\"textarea\"\n                    placeholder=\"请输入日记内容\"\n                    maxlength=\"500\"\n                    :rows=\"10\"\n                    show-word-limit\n                    v-model=\"textarea1\">\n            </el-input>\n            <button id=\"publishBtn\" @click=\"Publish\">发布</button>\n        </div>\n    </el-drawer>\n\n    <!--个人中心折叠框-->\n    <el-drawer class=\"personalDrawer\"\n               :size=\"'300px'\"\n               :visible.sync=\"personalDrawer\"\n               direction=\"ltr\">\n        <div>\n            <span>{{welcomeUser}}</span><!--欢迎用户-->\n            <button>个人中心</button>\n            <button @click=\"exit\">退出登录</button>\n        </div>\n    </el-drawer>\n    <!--饿了么布局容器框架 头中右布局-->\n    <el-container>\n        <!--头部   包括个人中心按钮  两个div 一个全部 一个分类之后的-->\n        <el-header class=\"header\" height=\"80px\">\n\n            <div>\n                <el-button class=\"personalBtn\" @click=\"personalDrawer = true\" type=\"text\">\n                    <i class=\"iconfont icon-hengdengyu\"></i>\n                </el-button>\n            </div>\n\n            <!--全部-->\n            <div class=\"allClassifyBtn\">\n                <el-radio v-model=\"radio\" label=\"1\">全部({{allDiaryMsg}})</el-radio>\n                <el-radio v-model=\"radio\" label=\"2\">未分类({{nonDiaryMsg}})</el-radio>\n            </div>\n            <!-- 分类-->\n            <div class=\"classifyBtn\">\n                <!--动态生成radio   这里还有点问题 单选一选会把单选按钮都选上 不互斥了-->\n                <el-radio-group v-model=\"classifyValue\">\n                    <span v-for=\" item in classifyList\">\n                        <el-radio :label=\"item.label\">\n                            {{item.classifyName}}({{item.value}})\n                            <!--前者是分类的名字 后者是对应的数量-->\n                        </el-radio>\n                    </span>\n\n                </el-radio-group>\n\n            </div>\n\n        </el-header>\n        <!--中间显示日记内容部分-->\n        <el-container>\n\n            <el-main >\n                <!-- 目前暂时通过按钮来实现动态增加div 后期会放入watch还是computer里面-->\n                <div id=\"move\" >\n\n                </div>\n            </el-main>\n\n\n            <!--右边那个添加日记+按钮 占浏览器右边50px宽-->\n            <el-aside width=\"50px\">\n                <el-button class=\"addDiaryBtn\" @click=\"addDrawer = true\" type=\"text\" icon=\"el-icon-circle-plus-outline\">\n                </el-button>\n            </el-aside>\n        </el-container>\n\n    </el-container>\n</div>\n<script>\n    var vm = new Vue({\n        el: '#app',\n        data() {\n            return {\n\n                // 该用户所有的分类，默认第一个为 未分类\n                userClassify: [],\n\n                //该用户的所有日记 按事件分类\n                userDiary: [],\n\n                //当前界面上浏览的列表\n                diaryList: [],\n\n                // -------这是一个分割线-------\n\n                welcomeUser: '',//个人中心欢迎你获取用户名\n                personalDrawer: false,//个人中心折叠框\n                addDrawer: false,//添加日记折叠框\n                textarea1: '',//添加日记加的日记内容\n                radio: '1',\n                allDiaryMsg: '1',//全部日记数量\n                nonDiaryMsg: '1',//未分类日记数量\n                classifyList: [\n                    {//头部 显示右哪些分类的单选按钮\n                        id: '2',\n                        label: 2,\n                        value: '12',\n                        classifyName: '旅行',\n                    },\n                    {\n                        id: '3',\n                        label: 3,\n                        value: '13',\n                        classifyName: '心情',\n                    },\n                    {\n                        id: '4',\n                        label: 4,\n                        value: '14',//此项分类的数量\n                        classifyName: '计划',\n                    }],\n                classifyValue: 3,\n\n                kindOptions: [\n                    {\n                        //添加日记中 分类的下拉列表框 需要给这样的数组\n                        value: '选项1',// 值改成 用户分类的id\n                        label: '旅游'\n                    },\n                    {\n                        value: '选项2',\n                        label: '心情'\n                    },\n                    {\n                        value: '选项3',\n                        label: '计划'\n                    },\n                    {\n                        value: '选项4',\n                        label: '与男友的事'\n                    },\n                    {\n                        value: '选项5',\n                        label: '。。。'\n                    }],\n                kindValue: '',//添加日记选中的分类的value\n\n                weatherOptions: [{////添加日记中 天气的下拉列表框 需要给这样的数组\n                    value: '选项1',\n                    label: '晴天'\n                }, {\n                    value: '选项2',\n                    label: '多云'\n                }, {\n                    value: '选项3',\n                    label: '下雨'\n                },],\n                weatherValue: '',\n                dataValue: '',\n\n                checkPeoOptions: [\n                    {//添加日记中 查看权限的下拉列表框 需要给这样的数组\n                        value: '选项1',\n                        label: '小王'\n                    },\n                    {\n                        value: '选项2',\n                        label: '小李'\n                    },\n                    {\n                        value: '选项3',\n                        label: '小张'\n                    }],\n                checkPeoValue: '',\n\n                classifyList: [\n                    {\n                        value: '12',\n                        classifyName: '旅行',\n                    },\n                    {\n                        value: '13',\n                        classifyName: '心情',\n                    },\n                    {\n                        value: '14',//此项分类的数量\n                        classifyName: '计划',\n                    },\n\n                ],\n                classifyValue: '',\n                brandFold: true,\n            }\n        },\n\n        created() {\n            this.welcomeUser = sessionStorage.getItem(\"name\");\n            // 刚开始 从后台获取该用户的所有日记信息\n            // 先拿所有分类信息 然后根据分类信息 拿到每个分类下的日记\n            this.getClassify();\n            this.getUserDiary();\n            //this.addElement();\n\n\n        },\n        methods: {\n            //版面中间 动态生成div 从后端拿到日记内容 并一左一右显示\n            addElement: function () {\n                /*\n                 后端传来的所有日记数据保存在 diaryList （数组）中， 这个变量我这边建了 但是你那边没有\n                 {\n                    \"classifyColor\":\"#3f3f3f3f\", // 分类颜色\n                    \"classifyFlag\":false, // 该分类是否公开 0-公开 1-私密\n                    \"classifyId\":1, // 分类的id\n                    \"classifyName\":\"未命名\", // 分类的名字\n                    \"diaryFlag\":false, // 当前日记是否公开 0-公开 1-私密\n                    \"diaryId\":1,\" // 日记编号\n                    \"diaryText\":\"这是一个未公开的日记\", // 日记内容\n                    \"diaryTime\":{\n                        \"date\":13,\"day\":0,\"hours\":10,\"minutes\":45,\n                        \"month\":11,\"nanos\":0,\"seconds\":45,\n                        \"time\":1607827545000,\"timezoneOffset\":-480,\"year\":120},\n                        // 一个类型为TimeStamp的时间变量 这个还需要转处理一下 再等等\n                    \"diaryWeather\":1 // 当前天气 0-晴天 1-多云 2-雨天\n                   }\n*/\n\n\n                // alert(this.diaryList.length);\n                for (let i = 0; i < this.diaryList.length; i++) {\n                    //   alert(i);\n                    if (i % 2 === 0)//偶数 显示在左边\n                    {\n                        let div = document.createElement('div');\n                        div.style.backgroundColor = 'red';\n                        div.style.width = '50%';\n                        div.style.float = 'left';\n                        // 放日记主体text\n                        //div.innerHTML = '{{左边}}';\n                        div.innerHTML = this.diaryList[i].diaryText;\n\n                        div.id = 'Elem' + i;\n                        div.style.minHeight = \"100px\";\n                        document.getElementById('move').appendChild(div);\n\n                        let div2 = document.createElement('div');\n                        div2.style.backgroundColor = '\uFEFF#00A4FF';\n                        div2.style.width = '50%';\n                        div2.style.float = 'right';\n                        div2.innerHTML = '{{占位2}}';\n                        div2.id = 'Ele' + i;\n                        div2.style.minHeight = \"100px\";\n                        document.getElementById('move').appendChild(div2);\n\n                    } else {\n                        let div1 = document.createElement('div');\n                        div1.style.backgroundColor = 'green';\n                        div1.style.width = '50%';\n                        div1.style.float = 'right';\n                        //div1.innerHTML = '{{右边}}';\n                        div1.innerHTML = this.diaryList[i].diaryText;\n                        div1.id = 'Elem' + i;\n                        div1.style.minHeight = \"100px\";\n                        document.getElementById('move').appendChild(div1);\n\n\n                        let div3 = document.createElement('div');\n                        div3.style.backgroundColor = '\uFEFF\uFEFF#fec374';\n                        div3.style.width = '50%';\n                        div3.style.float = 'left';\n                        div3.innerHTML = '{{占位3}}';\n                        div3.id = 'Ele' + i;\n                        div3.style.minHeight = \"100px\";\n                        document.getElementById('move').appendChild(div3);\n                    }\n                }\n            },\n\n\n            // 提取 该用户 所有分类 并 统计 每一个分类 所拥有的日记数量\n            // 提取 该用户 所有的 相关日记 按 创建日期排列\n            // 点击 分类 显示 该分类下的日记 按创建事件排列\n            getClassify: function () {\n                var self = this;\n                axios({\n                    url: 'getClassify.do',\n                    methods: 'post',\n                }).then(function (response) {\n                    if (response.data == \"error\") {\n                        // session 中没有用户id\n                        // 此时应该返回登陆界面重新登陆\n\n                    } else {\n                        self.userClassify = response.data;\n\n                    }\n                }).catch(function (error) {\n                    alert(error);\n                })\n            },\n\n            // 获得用户的所有日记\n            getUserDiary: function () {\n                const self = this;\n                axios({\n                    url: 'getUserDiary.do',\n                    methods: 'post'\n                }).then(function (response) {\n                    if (response.data == \"error\") {\n                        // session 中没有用户id\n                        // 此时应该返回登陆界面重新登陆\n                    } else {\n                        self.diaryList = self.userDiary = response.data;\n                        self.addElement();// 得到日记记录后 更新ui\n                    }\n\n                }).catch(function (error) {\n                    alert(\"axios error\");\n\n                })\n            },\n\n\n            // 从usrDiary中筛选出相关的列表 呈现在界面上\n            getDiaryList: function (classifyId) {\n                this.diaryList = [];\n                if (classifyId != 0) { // 用户特色分类\n                    for (var i = 0; i < this.userDiary.length; i++) {\n                        if (this.userClassify[i].cid == classifyId) {\n                            this.diaryList.add(this.userDiary[i]);\n                        }\n                    }\n                } else {// 全部\n                    this.diaryList = this.userDiary;\n                }\n            },\n\n            /*\n            // 还没写完\n            // 右下角添加日记的发布按钮\n            Publish: function () {\n                let self = this;\n                alert(self.kindValue);\n                let selectedColor = document.getElementById('selectedColor').value;\n                let selectedFont = document.getElementById('selectedFont').value;\n                // self.weatherValue\n                const time = new Date().getTime();\n                //alert(time);\n                // self.checkPeoValue\n                alert(self.textarea1)\n\n                axios({\n                    url: '',\n                    methods: 'post',\n                    data: {\n                        'classifyId': self.kindValue,\n                    }\n                }).then(function (response) {\n\n                }).catch(function (error) {\n                    alert(error);\n                })\n            },*/\n\n            exit: function () {\n                axios({\n                    url: '',\n                    methods: 'post'\n                }).then(function (response) {\n\n                }).catch(function (error) {\n\n                })\n            },\n\n\n        },\n    })\n</script>\n</body>\n\n</html>\n\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- web/diaryMain.html	(revision 1ea60e287ddd1cc0cc8f51fccb55dc7dc78d558e)
++++ web/diaryMain.html	(date 1608513268000)
+@@ -8,10 +8,11 @@
+     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+     <style>
+-        ::-webkit-scrollbar{
++        ::-webkit-scrollbar {
+             display: none;
+             width: 0;
+         }
++
+         html, body, #app, .el-container {
+             /*设置内部填充为0，几个布局元素之间没有间距*/
+             padding: 0;
+@@ -215,9 +216,9 @@
+         <!--中间显示日记内容部分-->
+         <el-container>
+ 
+-            <el-main >
++            <el-main>
+                 <!-- 目前暂时通过按钮来实现动态增加div 后期会放入watch还是computer里面-->
+-                <div id="move" >
++                <div id="move">
+ 
+                 </div>
+             </el-main>
+@@ -278,6 +279,13 @@
+                 classifyValue: 3,
+ 
+                 kindOptions: [
++                    /*{
++                        数组id
++                        分类id
++                        分类名
++                        分类状态：公开/私密
++                        分类显示的颜色
++                    },*/
+                     {
+                         //添加日记中 分类的下拉列表框 需要给这样的数组
+                         value: '选项1',// 值改成 用户分类的id
+@@ -381,8 +389,6 @@
+                    }
+ */
+ 
+-
+-                // alert(this.diaryList.length);
+                 for (let i = 0; i < this.diaryList.length; i++) {
+                     //   alert(i);
+                     if (i % 2 === 0)//偶数 显示在左边
+@@ -491,7 +497,6 @@
+                 }
+             },
+ 
+-            /*
+             // 还没写完
+             // 右下角添加日记的发布按钮
+             Publish: function () {
+@@ -503,20 +508,31 @@
+                 const time = new Date().getTime();
+                 //alert(time);
+                 // self.checkPeoValue
+-                alert(self.textarea1)
++                //alert(self.textarea1)
+ 
+                 axios({
+-                    url: '',
++                    url: 'addDairy.do',
+                     methods: 'post',
+                     data: {
+                         'classifyId': self.kindValue,
++                        //'userId': '',在 java后台session里
++                        'dairyFlay': '',// 分类flag | 谁可以看flag
++                        'dairyText': self.textarea1,
++                        'dairyTime': time,
++                        'dairyWeather': self.weatherValue
+                     }
+                 }).then(function (response) {
++                    if (response == "error") {
++                        alert("添加日记失败");
++                    } else {
++                        alert("成功添加日记");
++                        // 刷新界面 重新进入该网页
+ 
++                    }
+                 }).catch(function (error) {
+                     alert(error);
+                 })
+-            },*/
++            },
+ 
+             exit: function () {
+                 axios({
+Index: src/Controller/diaryMainController.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package Controller;\n\nimport Entity.Classify;\nimport Entity.Diary;\nimport Entity.DiaryAndClassify;\nimport Entity.User;\nimport Service.diaryMainManage;\n\nimport net.sf.json.JSON;\nimport net.sf.json.JSONArray;\nimport net.sf.json.JSONObject;\nimport org.springframework.stereotype.Controller;\nimport org.springframework.web.bind.annotation.RequestBody;\nimport org.springframework.web.bind.annotation.RequestMapping;\n\nimport javax.servlet.ServletException;\nimport javax.servlet.annotation.WebServlet;\nimport javax.servlet.http.HttpServlet;\nimport javax.servlet.http.HttpServletRequest;\nimport javax.servlet.http.HttpServletResponse;\nimport javax.servlet.http.HttpSession;\nimport java.io.IOException;\nimport java.io.PrintWriter;\nimport java.util.ArrayList;\nimport java.util.HashMap;\nimport java.util.List;\nimport java.util.Map;\n\n\n@Controller\npublic class diaryMainController extends HttpServlet {\n\n\n    @RequestMapping(\"/getClassify.do\")\n    public void getClassify(HttpSession session,\n                            HttpServletResponse response) throws IOException {\n        response.setContentType(\"text/html;  charset=utf-8\");\n        Object userId = session.getAttribute(\"id\");\n\n        PrintWriter out = response.getWriter();\n        if (userId == null) {\n            out.write(\"error\");\n        } else {\n            long id = Integer.parseInt(userId.toString());\n\n            ArrayList<Classify> classifies = diaryMainManage.getClassifyById(id);\n\n            JSONArray jsonArray = new JSONArray();\n            for (int i = 0; i < classifies.size(); i++) {\n                JSONObject json = JSONObject.fromObject(classifies.get(i));\n                jsonArray.add(json);\n                System.out.println(json);\n            }\n            out.write(String.valueOf(jsonArray));\n        }\n\n    }\n\n    @RequestMapping(\"/getUserDiary.do\")\n    public void getUserDiary(HttpSession session,\n                             HttpServletResponse response) throws IOException {\n        response.setContentType(\"text/html;  charset=utf-8\");\n        PrintWriter out = response.getWriter();\n        Object id = session.getAttribute(\"id\");\n        if (id == null) {\n            // 用户非法进入 可恶的偷渡者\n            out.write(\"error\");\n        } else {\n            long userId = Long.parseLong(id.toString());\n            JSONArray jsonArray = new JSONArray();\n            ArrayList<DiaryAndClassify> diaries = diaryMainManage.getUserDiaryAndClassify(userId);\n            //ArrayList<Diary> diaries = diaryMainManage.getUserDiary(userId);\n            // json识别不了java的Time类型 给我整吐了 改成TimeStamp就可以了\n            for (int i = 0; i < diaries.size(); i++) {\n                JSONObject json = JSONObject.fromObject(diaries.get(i));\n                System.out.println(json);\n                jsonArray.add(json);\n            }\n\n            out.write(String.valueOf(jsonArray));\n        }\n    }\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/Controller/diaryMainController.java	(revision 1ea60e287ddd1cc0cc8f51fccb55dc7dc78d558e)
++++ src/Controller/diaryMainController.java	(date 1608514133000)
+@@ -80,4 +80,25 @@
+             out.write(String.valueOf(jsonArray));
+         }
+     }
++
++    @RequestMapping("/addDairy.do")
++    public void addDairy(HttpSession session,
++                         HttpServletResponse response) throws IOException {
++        response.setContentType("text/html;  charset=utf-8");
++        Object userId = session.getAttribute("id");
++
++        PrintWriter out = response.getWriter();
++        if (userId == null) {
++            out.write("error");
++        } else {
++            long id = Integer.parseInt(userId.toString());
++            Diary diary = null;// 这里还没写完
++            if (diaryMainManage.AddDairy(diary, id)) {
++                out.write("ok");
++            } else {
++                out.write("error");
++            }
++        }
++
++    }
+ }
+Index: src/Dao/diaryTable.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package Dao;\n\nimport Entity.Classify;\nimport Entity.Diary;\nimport Entity.DiaryAndClassify;\n\nimport java.sql.Connection;\nimport java.sql.PreparedStatement;\nimport java.sql.ResultSet;\nimport java.sql.SQLException;\nimport java.util.ArrayList;\n\npublic class diaryTable {\n    private Connection conn = null;\n    private PreparedStatement pst = null;\n    private ResultSet rs = null;\n\n    // 得到用户所有的日记记录\n    public ArrayList<Diary> getUserDiary(long id) {\n        DBUtil db = new DB();\n        ArrayList<Diary> diaries = new ArrayList<>();\n        try {\n            conn = db.getConnection();\n            if (conn != null) {\n                String sql = \"select  did,classify.cid 'cid', cname, cflag, ccolor, dflag,dweather,dtext,dtime\" +\n                        \" from classify,diary where diary.uid =  ? and classify.cid=diary.cid\";\n                pst = conn.prepareStatement(sql);\n                pst.setLong(1, id);\n                rs = pst.executeQuery();\n                while (rs.next()) {\n                    diaries.add(new Diary(\n                            new Classify(id, rs.getString(\"cname\"),\n                                    rs.getBoolean(\"cflag\"),\n                                    rs.getString(\"ccolor\")),\n                            rs.getInt(\"did\"),\n                            rs.getBoolean(\"dflag\"),\n                            rs.getInt(\"dweather\"),rs.getString(\"dtext\"),\n                            rs.getTime(\"dtime\")\n                    ));\n                }\n            }\n        } catch (SQLException throwables) {\n            throwables.printStackTrace();\n        } finally {\n            db.close(conn, pst, rs);\n        }\n        return diaries;\n    }\n\n\n    // 得到用户所有的日记记录 每个记录都带有分类信息\n    public ArrayList<DiaryAndClassify> getUserDiaryAndClassify(long id) {\n        DBUtil db = new DB();\n        ArrayList<DiaryAndClassify> diaries = new ArrayList<>();\n        try {\n            conn = db.getConnection();\n            if (conn != null) {\n                String sql = \"select  did,classify.cid 'cid', cname, cflag, ccolor, dflag,dweather,dtext,dtime\" +\n                        \" from classify,diary where diary.uid =  ? and classify.cid=diary.cid\";\n                pst = conn.prepareStatement(sql);\n                pst.setLong(1, id);\n                rs = pst.executeQuery();\n                while (rs.next()) {\n                    diaries.add(new DiaryAndClassify(\n                            rs.getLong(\"cid\"),\n                            rs.getString(\"cname\"),\n                            rs.getBoolean(\"cflag\"),\n                            rs.getString(\"ccolor\"),\n                            rs.getInt(\"did\"),\n                            rs.getBoolean(\"dflag\"),\n                            rs.getInt(\"dweather\"),\n                            rs.getString(\"dtext\"),\n                            //rs.getString(\"dtime\")\n                            rs.getTimestamp(\"dtime\")\n                    ));\n                }\n            }\n        } catch (SQLException throwables) {\n            throwables.printStackTrace();\n        } finally {\n            db.close(conn, pst, rs);\n        }\n        return diaries;\n    }\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/Dao/diaryTable.java	(revision 1ea60e287ddd1cc0cc8f51fccb55dc7dc78d558e)
++++ src/Dao/diaryTable.java	(date 1608514132000)
+@@ -34,7 +34,7 @@
+                                     rs.getString("ccolor")),
+                             rs.getInt("did"),
+                             rs.getBoolean("dflag"),
+-                            rs.getInt("dweather"),rs.getString("dtext"),
++                            rs.getInt("dweather"), rs.getString("dtext"),
+                             rs.getTime("dtime")
+                     ));
+                 }
+@@ -82,4 +82,26 @@
+         }
+         return diaries;
+     }
++
++    // 插入日记
++    public boolean AddDairy(Diary diary, long id) {
++        DBUtil db = new DB();
++        boolean flag = false;
++        try {
++            conn = db.getConnection();
++            if (conn != null) {
++                String sql = "";
++                pst = conn.prepareStatement(sql);
++                pst.setLong(1, id);
++
++                pst.executeUpdate();
++                flag = true;
++            }
++        } catch (SQLException throwables) {
++            throwables.printStackTrace();
++        } finally {
++            db.close(conn, pst, rs);
++        }
++        return flag;
++    }
+ }
+Index: src/Entity/DiaryAndClassify.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package Entity;\n\nimport java.sql.Time;\nimport java.sql.Timestamp;\n\n// 由于在 实体包含实体 的情况下 转换为json会报错\n// 因此 额外增加这个类 (太菜了 不会解决。。。)\npublic class DiaryAndClassify {\n    private long classifyId;\n    private String classifyName;\n    private boolean classifyFlag;// 公开0 / 私密1\n    private String classifyColor;\n\n    private long diaryId;\n    boolean diaryFlag; // 公开0 / 私密1\n    int diaryWeather;\n    String diaryText;\n    Timestamp diaryTime;\n    //String diaryTime;\n\n\n    public DiaryAndClassify(long classifyId, String classifyName,\n                            boolean classifyFlag, String classifyColor,\n                            long diaryId, boolean diaryFlag, int diaryWeather,\n                            String diaryText, Timestamp diaryTime) {\n        this.classifyId = classifyId;\n        this.classifyName = classifyName;\n        this.classifyFlag = classifyFlag;\n        this.classifyColor = classifyColor;\n        this.diaryId = diaryId;\n        this.diaryFlag = diaryFlag;\n        this.diaryWeather = diaryWeather;\n        this.diaryText = diaryText;\n\n        this.diaryTime = diaryTime;\n        //this.diaryTime = diaryTime.toString();\n        //提取前10位 获得星期\n\n    }\n\n\n\n    public DiaryAndClassify(long classifyId, String classifyName,\n                            boolean classifyFlag, String classifyColor,\n                            long diaryId, boolean diaryFlag, int diaryWeather,\n                            String diaryText, String diaryTime) {\n        this.classifyId = classifyId;\n        this.classifyName = classifyName;\n        this.classifyFlag = classifyFlag;\n        this.classifyColor = classifyColor;\n        this.diaryId = diaryId;\n        this.diaryFlag = diaryFlag;\n        this.diaryWeather = diaryWeather;\n        this.diaryText = diaryText;\n        this.diaryTime = Timestamp.valueOf(diaryTime);\n    }\n\n    public long getClassifyId() {\n        return classifyId;\n    }\n\n    public void setClassifyId(long classifyId) {\n        this.classifyId = classifyId;\n    }\n\n    public String getClassifyName() {\n        return classifyName;\n    }\n\n    public void setClassifyName(String classifyName) {\n        this.classifyName = classifyName;\n    }\n\n    public boolean isClassifyFlag() {\n        return classifyFlag;\n    }\n\n    public void setClassifyFlag(boolean classifyFlag) {\n        this.classifyFlag = classifyFlag;\n    }\n\n    public String getClassifyColor() {\n        return classifyColor;\n    }\n\n    public void setClassifyColor(String classifyColor) {\n        this.classifyColor = classifyColor;\n    }\n\n    public long getDiaryId() {\n        return diaryId;\n    }\n\n    public void setDiaryId(long diaryId) {\n        this.diaryId = diaryId;\n    }\n\n    public boolean isDiaryFlag() {\n        return diaryFlag;\n    }\n\n    public void setDiaryFlag(boolean diaryFlag) {\n        this.diaryFlag = diaryFlag;\n    }\n\n    public int getDiaryWeather() {\n        return diaryWeather;\n    }\n\n    public void setDiaryWeather(int diaryWeather) {\n        this.diaryWeather = diaryWeather;\n    }\n\n    public String getDiaryText() {\n        return diaryText;\n    }\n\n    public void setDiaryText(String diaryText) {\n        this.diaryText = diaryText;\n    }\n\n    /*public Timestamp getDiaryTime() {\n        return Timestamp.valueOf(diaryTime);\n    }\n\n    public void setDiaryTime(Timestamp diaryTime) {\n        this.diaryTime = diaryTime.toString();\n    }*/\n\n   /* public String getDiaryTime() {\n        return diaryTime;\n    }\n\n    public void setDiaryTime(Timestamp diaryTime) {\n        this.diaryTime = diaryTime.toString();\n    }*/\n\n    public Timestamp getDiaryTime() {\n        return diaryTime;\n    }\n\n    public void setDiaryTime(Timestamp diaryTime) {\n        this.diaryTime = diaryTime;\n    }\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/Entity/DiaryAndClassify.java	(revision 1ea60e287ddd1cc0cc8f51fccb55dc7dc78d558e)
++++ src/Entity/DiaryAndClassify.java	(date 1608514133000)
+@@ -5,6 +5,7 @@
+ 
+ // 由于在 实体包含实体 的情况下 转换为json会报错
+ // 因此 额外增加这个类 (太菜了 不会解决。。。)
++// ps: 这个问题解决了 是因为时间类的问题 json但是我懒得改了( ´ ▽ ` )ﾉ
+ public class DiaryAndClassify {
+     private long classifyId;
+     private String classifyName;

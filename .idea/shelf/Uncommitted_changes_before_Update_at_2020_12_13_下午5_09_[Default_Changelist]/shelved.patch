@@ -1,0 +1,569 @@
+Index: web/diaryMain.html
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><!DOCTYPE html>\n<html lang=\"en\">\n<head>\n    <meta charset=\"UTF-8\">\n    <title>她记——主页面</title>\n    <link rel=\"stylesheet\" type=\"text/css\" href=\"https://unpkg.com/element-ui/lib/theme-chalk/index.css\">\n    <link rel=\"stylesheet\" type=\"text/css\" href=\"fonts/loginFonts/iconfont.css\">\n    <style>\n        html, body, #app, .el-container {\n            /*设置内部填充为0，几个布局元素之间没有间距*/\n            padding: 0;\n            /*外部间距也是如此设置*/\n            margin: 0;\n            /*统一设置高度为100%*/\n            height: 100%;\n        }\n        .el-header {\n            background-color: #B3C0D1;\n            color: #333;\n        }\n\n        .el-aside {\n            background-color: transparent;\n            text-align: center;\n        }\n\n        .el-main {\n            background-color: transparent;\n            color: #333;\n        }\n        /*去除input的轮廓线*/\n        input\n        {\n            outline: none;\n        }\n        /*防止文本欲拖拽*/\n        textarea{\n            resize: none;\n            outline: none;/*去除轮廓线*/\n        }\n        .icon-hengdengyu {\n            font-size: 40px;\n        }\n        .personalBtn\n        {\n            position: fixed;\n            left: 2px;\n            top: -2px;\n            background-color: transparent;\n        }\n        .addDiaryBtn\n        {\n            position: fixed;\n            right: 10px;\n            bottom: 10px;\n            font-size: 40px;\n        }\n\n        .header\n        {\n            /*height:50px;*/\n            width: 100%;\n            height: 100px;\n            background-color: #99cdaa;\n        }\n        .addBox/*添加日记*/\n        {\n            width: 80%;\n            margin: 0 auto;\n            border: 1px solid #99cdaa;\n        }\n        .allClassifyBtn\n        {\n            margin-top: 10px;\n            margin-left: 100px;\n        }\n        .classifyBtn\n        {\n            margin-left: 100px;\n        }\n        span\n        {\n            font-size: 30px;\n        }\n\n    </style>\n    <script src=\"http://unpkg.com/vue/dist/vue.js\"></script>\n    <script src=\"https://unpkg.com/element-ui/lib/index.js\"></script>\n</head>\n<body>\n<div id=\"app\">\n    <!--    :direction=\"direction\"控制显示方向 rtl / ltr / ttb / btt-->\n    <!--    添加日记折叠框-->\n    <el-drawer style=\"\"\n            title=\"添加日记\"\n            :size=\"'600px'\"\n            :visible.sync=\"drawer\"\n            direction=\"btt\">\n        <div class=\"addBox\">\n            <div>\n                <span>分类:</span>\n                <el-select v-model=\"kindValue\" clearable placeholder=\"请选择分类\">\n                    <el-option\n                            v-for=\"item in kindOptions\"\n                            :key=\"item.value\"\n                            :label=\"item.label\"\n                            :value=\"item.value\">\n                    </el-option>\n                </el-select>\n                <el-button  type=\"text\" icon=\"el-icon-circle-plus-outline\">\n                </el-button>\n            </div>\n            <span>颜色:</span>\n            <input type=\"color\"><br>\n            <span>字体:</span>\n            <input type=\"range\">\n            <div>\n                <span>天气:</span>\n                    <el-select v-model=\"weatherValue\" clearable placeholder=\"请选择天气\">\n                        <el-option\n                                v-for=\"item in weatherOptions\"\n                                :key=\"item.value\"\n                                :label=\"item.label\"\n                                :value=\"item.value\">\n                        </el-option>\n                    </el-select>\n            </div>\n            <span>日期:</span>\n                <el-date-picker\n                    v-model=\"dataValue\"\n                    align=\"right\"\n                    type=\"date\"\n                    placeholder=\"选择日期\">\n                </el-date-picker>\n            <span>谁可以看:</span>\n            <el-select v-model=\"checkPeoValue\" clearable placeholder=\"请选择可查看的人\">\n                <el-option\n                        v-for=\"item in checkPeoOptions\"\n                        :key=\"item.value\"\n                        :label=\"item.label\"\n                        :value=\"item.value\">\n                </el-option>\n            </el-select>\n            <el-input\n                    type=\"textarea\"\n                    autosize\n                    placeholder=\"请输入日记内容\"\n                    maxlength=\"500\"\n                    show-word-limit\n                    v-model=\"textarea1\">\n            </el-input>\n            <button>发布</button>\n        </div>\n    </el-drawer>\n\n    <!--个人中心折叠框-->\n    <el-drawer class=\"personalDrawer\"\n               :size=\"'200px'\"\n            :visible.sync=\"personal\"\n            direction=\"ltr\">\n        <div>\n            <button>个人中心</button>\n            <button>退出登录</button>\n        </div>\n    </el-drawer>\n\n    <el-container>\n        <el-header class=\"header\">\n\n                <div>\n                    <el-button  class=\"personalBtn\" @click=\"personal = true\"  type=\"text\" >\n                        <i class=\"iconfont icon-hengdengyu\"></i>\n                    </el-button>\n                </div>\n\n                <!--全部-->\n               <div class=\"allClassifyBtn\">\n                   <el-radio v-model=\"radio\" label=\"1\">全部({{allDiaryMsg}})</el-radio>\n                   <el-radio v-model=\"radio\" label=\"2\">未分类({{nonDiaryMsg}})</el-radio>\n               </div>\n                <!-- 分类-->\n                <div class=\"classifyBtn\">\n                     <!--动态生成radio-->\n                    <el-radio-group v-model=\"classifyValue\" >\n                        <el-radio\n                                  v-for=\"item in classifyList\"\n                                  :label=\"item.label\">{{item.classifyName}}({{item.value}})\n                        </el-radio>\n                    </el-radio-group>\n\n                </div>\n\n        </el-header>\n\n        <el-container>\n\n            <el-main>\n                <input type=\"button\" @click=\"addElement\" value=\"add\">\n                <div id=\"move\">\n\n                </div>\n            </el-main>\n\n\n\n            <el-aside width=\"50px\">\n                <el-button class=\"addDiaryBtn\" @click=\"drawer = true\" type=\"text\" icon=\"el-icon-circle-plus-outline\">\n                </el-button>\n                <!--                <button class=\"addDiary\"><i class=\"iconfont icon-hengdengyu\"></i></button>-->\n            </el-aside>\n        </el-container>\n\n    </el-container>\n</div>\n<script>\n    var vm=new Vue({\n        el: '#app',\n        data() {\n            return {\n                personal: false,\n                drawer: false,\n                textarea1:'',//日记内容\n                radio: '1',\n                allDiaryMsg:'',//全部日记数量\n                nonDiaryMsg:'',//未分类日记数量\n                item:\"122\",\n                kindOptions: [{//分类需要给这样的数组\n                    value: '选项1',\n                    label: '旅游'\n                }, {\n                    value: '选项2',\n                    label: '心情'\n                }, {\n                    value: '选项3',\n                    label: '计划'\n                }, {\n                    value: '选项4',\n                    label: '与男友的事'\n                }, {\n                    value: '选项5',\n                    label: '。。。'\n                }],\n                kindValue: '',\n\n                weatherOptions: [{//分类需要给这样的数组\n                    value: '选项1',\n                    label: '晴天'\n                }, {\n                    value: '选项2',\n                    label: '多云'\n                }, {\n                    value: '选项3',\n                    label: '下雨'\n                },],\n                weatherValue: '',\n                dataValue:'',\n\n                checkPeoOptions: [{//分类需要给这样的数组\n                    value: '选项1',\n                    label: '小王'\n                }, {\n                    value: '选项2',\n                    label: '小李'\n                }, {\n                    value: '选项3',\n                    label: '小张'\n                },],\n                checkPeoValue: '',\n\n                classifyList:[{\n                        value: '12',\n                        classifyName:'旅行',\n                    },{\n                    value: '13',\n                    classifyName:'心情',\n                },{\n                    value: '14',//此项分类的数量\n                    classifyName:'计划',\n                },\n\n                ],\n                classifyValue:'',\n                brandFold: true,\n            }\n        },\n        computed: {\n\n        },\n        methods:{\n\n            addElement:function () {\n\n                for(let i=0;i<7;i++)\n                {\n                    if(i%2===0)//偶数 显示在左边\n                    {\n                        let div = document.createElement('div');\n                        div.style.backgroundColor = 'red';\n                        div.style.width='50%';\n                        div.style.float='left';\n                        div.innerHTML = '{{左边}}';\n                        div.id = 'Elem'+i;\n                        document.getElementById('move').appendChild(div);\n\n                        let div2 = document.createElement('div');\n                        div2.style.backgroundColor = '\uFEFF#00A4FF';\n                        div2.style.width='50%';\n                        div2.style.float='right';\n                        div2.innerHTML = '{{占位2}}';\n                        div2.id = 'Ele'+i;\n                        document.getElementById('move').appendChild(div2);\n\n                    }\n                    else{\n                        let div1 = document.createElement('div');\n                        div1.style.backgroundColor = 'green';\n                        div1.style.width='50%';\n                        div1.style.float='right';\n                        div1.innerHTML = '{{右边}}';\n                        div1.id = 'Elem'+i;\n                        document.getElementById('move').appendChild(div1);\n\n                        let div3 = document.createElement('div');\n                        div3.style.backgroundColor = '\uFEFF\uFEFF#fec374';\n                        div3.style.width='50%';\n                        div3.style.float='left';\n                        div3.innerHTML = '{{占位3}}';\n                        div3.id = 'Ele'+i;\n                        document.getElementById('move').appendChild(div3);\n                    }\n\n\n                }\n\n            },\n\n\n        }\n    })\n</script>\n</body>\n\n</html>\n\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- web/diaryMain.html	(revision 5cf6d9321d7f8b9c8aab9597b14df83ee9a95f2d)
++++ web/diaryMain.html	(date 1607848805000)
+@@ -5,6 +5,8 @@
+     <title>她记——主页面</title>
+     <link rel="stylesheet" type="text/css" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+     <link rel="stylesheet" type="text/css" href="fonts/loginFonts/iconfont.css">
++    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
++    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+     <style>
+         html, body, #app, .el-container {
+             /*设置内部填充为0，几个布局元素之间没有间距*/
+@@ -14,6 +16,7 @@
+             /*统一设置高度为100%*/
+             height: 100%;
+         }
++
+         .el-header {
+             background-color: #B3C0D1;
+             color: #333;
+@@ -28,58 +31,88 @@
+             background-color: transparent;
+             color: #333;
+         }
++
+         /*去除input的轮廓线*/
+-        input
+-        {
++        input {
+             outline: none;
+         }
++
+         /*防止文本欲拖拽*/
+-        textarea{
++        textarea {
+             resize: none;
+-            outline: none;/*去除轮廓线*/
++            outline: none; /*去除轮廓线*/
+         }
++
+         .icon-hengdengyu {
+             font-size: 40px;
+         }
+-        .personalBtn
+-        {
++
++        .personalBtn {
+             position: fixed;
+             left: 2px;
+             top: -2px;
+             background-color: transparent;
+         }
+-        .addDiaryBtn
+-        {
++
++        .addDiaryBtn {
+             position: fixed;
+             right: 10px;
+             bottom: 10px;
+             font-size: 40px;
+         }
+ 
+-        .header
+-        {
++        /*.maindiv{*/
++        /*    width:90%;*/
++        /*    padding:10px;*/
++        /*    overflow:hidden; !*关键*!*/
++        /*    border:1px solid black;*/
++        /*}*/
++
++
++        /*.leftdiv{*/
++        /*    float:left;*/
++        /*    width:400px;*/
++        /*    background-color:#CC6633;*/
++        /*}*/
++
++        /*.rightdiv{*/
++        /*    float:right;*/
++        /*    width:400px;*/
++        /*    background-color:#CC66FF;*/
++
++        /*}*/
++
++        /*.centerdiv{*/
++        /*    float:left;*/
++        /*    width:50px;*/
++        /*    border-right: 1px dashed black;*/
++        /*    padding-bottom:1600px;  !*关键*!*/
++        /*    margin-bottom:-1600px;  !*关键*!*/
++
++        /*}*/
++        .header {
+             /*height:50px;*/
+             width: 100%;
+             height: 100px;
+             background-color: #99cdaa;
+         }
+-        .addBox/*添加日记*/
+-        {
++
++        .addBox {
+             width: 80%;
+             margin: 0 auto;
+             border: 1px solid #99cdaa;
+         }
+-        .allClassifyBtn
+-        {
++
++        .allClassifyBtn {
+             margin-top: 10px;
+             margin-left: 100px;
+         }
+-        .classifyBtn
+-        {
++
++        .classifyBtn {
+             margin-left: 100px;
+         }
+-        span
+-        {
++
++        span {
+             font-size: 30px;
+         }
+ 
+@@ -92,10 +125,10 @@
+     <!--    :direction="direction"控制显示方向 rtl / ltr / ttb / btt-->
+     <!--    添加日记折叠框-->
+     <el-drawer style=""
+-            title="添加日记"
+-            :size="'600px'"
+-            :visible.sync="drawer"
+-            direction="btt">
++               title="添加日记"
++               :size="'600px'"
++               :visible.sync="drawer"
++               direction="btt">
+         <div class="addBox">
+             <div>
+                 <span>分类:</span>
+@@ -107,7 +140,7 @@
+                             :value="item.value">
+                     </el-option>
+                 </el-select>
+-                <el-button  type="text" icon="el-icon-circle-plus-outline">
++                <el-button type="text" icon="el-icon-circle-plus-outline">
+                 </el-button>
+             </div>
+             <span>颜色:</span>
+@@ -116,22 +149,22 @@
+             <input type="range">
+             <div>
+                 <span>天气:</span>
+-                    <el-select v-model="weatherValue" clearable placeholder="请选择天气">
+-                        <el-option
+-                                v-for="item in weatherOptions"
+-                                :key="item.value"
+-                                :label="item.label"
+-                                :value="item.value">
+-                        </el-option>
+-                    </el-select>
++                <el-select v-model="weatherValue" clearable placeholder="请选择天气">
++                    <el-option
++                            v-for="item in weatherOptions"
++                            :key="item.value"
++                            :label="item.label"
++                            :value="item.value">
++                    </el-option>
++                </el-select>
+             </div>
+             <span>日期:</span>
+-                <el-date-picker
++            <el-date-picker
+                     v-model="dataValue"
+                     align="right"
+                     type="date"
+                     placeholder="选择日期">
+-                </el-date-picker>
++            </el-date-picker>
+             <span>谁可以看:</span>
+             <el-select v-model="checkPeoValue" clearable placeholder="请选择可查看的人">
+                 <el-option
+@@ -156,8 +189,8 @@
+     <!--个人中心折叠框-->
+     <el-drawer class="personalDrawer"
+                :size="'200px'"
+-            :visible.sync="personal"
+-            direction="ltr">
++               :visible.sync="personal"
++               direction="ltr">
+         <div>
+             <button>个人中心</button>
+             <button>退出登录</button>
+@@ -167,42 +200,45 @@
+     <el-container>
+         <el-header class="header">
+ 
+-                <div>
+-                    <el-button  class="personalBtn" @click="personal = true"  type="text" >
+-                        <i class="iconfont icon-hengdengyu"></i>
+-                    </el-button>
+-                </div>
++            <div>
++                <el-button class="personalBtn" @click="personal = true" type="text">
++                    <i class="iconfont icon-hengdengyu"></i>
++                </el-button>
++            </div>
+ 
+-                <!--全部-->
+-               <div class="allClassifyBtn">
+-                   <el-radio v-model="radio" label="1">全部({{allDiaryMsg}})</el-radio>
+-                   <el-radio v-model="radio" label="2">未分类({{nonDiaryMsg}})</el-radio>
+-               </div>
+-                <!-- 分类-->
+-                <div class="classifyBtn">
+-                     <!--动态生成radio-->
+-                    <el-radio-group v-model="classifyValue" >
+-                        <el-radio
+-                                  v-for="item in classifyList"
+-                                  :label="item.label">{{item.classifyName}}({{item.value}})
+-                        </el-radio>
+-                    </el-radio-group>
++            <!--全部-->
++            <div class="allClassifyBtn">
++                <el-radio v-model="radio" label="1">全部({{allDiaryMsg}})</el-radio>
++                <el-radio v-model="radio" label="2">未分类({{nonDiaryMsg}})</el-radio>
++            </div>
++            <!-- 分类-->
++            <div class="classifyBtn">
++                <!--动态生成radio-->
++                <el-radio-group v-model="classifyValue">
++                    <el-radio
++                            v-for="item in classifyList"
++                            :label="item.label">{{item.classifyName}}({{item.value}})
++                    </el-radio>
++                </el-radio-group>
+ 
+-                </div>
++            </div>
+ 
+         </el-header>
+ 
+         <el-container>
+ 
+             <el-main>
+-                <input type="button" @click="addElement" value="add">
+-                <div id="move">
++                <!--                <div class="maindiv">-->
++                <!--                    <div style="background-color: #99cdaa;float:left;width:400px;height: 80px;"></div>-->
++                <!--                    <div class="leftdiv"><br><br><br><br><br><br></div>-->
++                <!--                    <div class="centerdiv"></div>-->
++                <!--                    <div class="rightdiv"><br><br><br><br><br><br><br></div>-->
++                <!--                </div>-->
+ 
+-                </div>
++
+             </el-main>
+ 
+ 
+-
+             <el-aside width="50px">
+                 <el-button class="addDiaryBtn" @click="drawer = true" type="text" icon="el-icon-circle-plus-outline">
+                 </el-button>
+@@ -213,129 +249,222 @@
+     </el-container>
+ </div>
+ <script>
+-    var vm=new Vue({
++    // 这个页面要放在过滤器下
++
++    var vm = new Vue({
+         el: '#app',
+         data() {
+             return {
++                // 该用户的基本信息
++                userId: "",
++                userName: "",
++
++                // 该用户所有的分类，默认第一个为 未分类
++                userClassify: [],
++
++                //该用户的所有日记 按事件分类
++                userDiary: [],
++
++                //当前界面上浏览的列表
++                diaryList: [],
++
++                // -------这是一个分割线-------
++
++
+                 personal: false,
+                 drawer: false,
+-                textarea1:'',//日记内容
++                textarea1: '',//日记内容
+                 radio: '1',
+-                allDiaryMsg:'',//全部日记数量
+-                nonDiaryMsg:'',//未分类日记数量
+-                item:"122",
+-                kindOptions: [{//分类需要给这样的数组
+-                    value: '选项1',
+-                    label: '旅游'
+-                }, {
+-                    value: '选项2',
+-                    label: '心情'
+-                }, {
+-                    value: '选项3',
+-                    label: '计划'
+-                }, {
+-                    value: '选项4',
+-                    label: '与男友的事'
+-                }, {
+-                    value: '选项5',
+-                    label: '。。。'
+-                }],
++                allDiaryMsg: '',//全部日记数量
++                nonDiaryMsg: '',//未分类日记数量
++                item: "122",
++                kindOptions: [
++                    {//分类需要给这样的数组
++                        value: '选项1',
++                        label: '旅游'
++                    },
++                    {
++                        value: '选项2',
++                        label: '心情'
++                    }, {
++                        value: '选项3',
++                        label: '计划'
++                    }, {
++                        value: '选项4',
++                        label: '与男友的事'
++                    }, {
++                        value: '选项5',
++                        label: '。。。'
++                    }
++                ],
+                 kindValue: '',
+ 
+-                weatherOptions: [{//分类需要给这样的数组
+-                    value: '选项1',
+-                    label: '晴天'
+-                }, {
+-                    value: '选项2',
+-                    label: '多云'
+-                }, {
+-                    value: '选项3',
+-                    label: '下雨'
+-                },],
++                weatherOptions: [
++                    {//分类需要给这样的数组
++                        value: '选项1',
++                        label: '晴天'
++                    },
++                    {
++                        value: '选项2',
++                        label: '多云'
++                    },
++                    {
++                        value: '选项3',
++                        label: '下雨'
++                    },
++                ],
+                 weatherValue: '',
+-                dataValue:'',
++                dataValue: '',
+ 
+-                checkPeoOptions: [{//分类需要给这样的数组
+-                    value: '选项1',
+-                    label: '小王'
+-                }, {
+-                    value: '选项2',
+-                    label: '小李'
+-                }, {
+-                    value: '选项3',
+-                    label: '小张'
+-                },],
++                checkPeoOptions: [
++                    {//分类需要给这样的数组
++                        value: '选项1',
++                        label: '小王'
++                    },
++                    {
++                        value: '选项2',
++                        label: '小李'
++                    },
++                    {
++                        value: '选项3',
++                        label: '小张'
++                    },
++                ],
+                 checkPeoValue: '',
+ 
+-                classifyList:[{
++                classifyList: [
++                    {
+                         value: '12',
+-                        classifyName:'旅行',
+-                    },{
+-                    value: '13',
+-                    classifyName:'心情',
+-                },{
+-                    value: '14',//此项分类的数量
+-                    classifyName:'计划',
+-                },
++                        classifyName: '旅行',
++                    },
++                    {
++                        value: '13',
++                        classifyName: '心情',
++                    },
++                    {
++                        value: '14',//此项分类的数量
++                        classifyName: '计划',
++                    },
+ 
+                 ],
+-                classifyValue:'',
++                classifyValue: '',
+                 brandFold: true,
+             }
+         },
+-        computed: {
++
++        created() {
++            // 刚开始 从后台获取该用户的所有日记信息
++            // 先拿所有分类信息 然后根据分类信息 拿到每个分类下的日记
++            this.getClassify();
++            this.getUserDiary();
++
+ 
+         },
+-        methods:{
++
++        methods: {
+ 
+-            addElement:function () {
+-
+-                for(let i=0;i<7;i++)
+-                {
+-                    if(i%2===0)//偶数 显示在左边
++            addElement: function () {
++                for (let i = 0; i < 7; i++) {
++                    if (i % 2 === 0)//偶数 显示在左边
+                     {
+                         let div = document.createElement('div');
+                         div.style.backgroundColor = 'red';
+-                        div.style.width='50%';
+-                        div.style.float='left';
++                        div.style.width = '50%';
++                        div.style.float = 'left';
+                         div.innerHTML = '{{左边}}';
+-                        div.id = 'Elem'+i;
++                        div.id = 'Elem' + i;
+                         document.getElementById('move').appendChild(div);
+ 
+                         let div2 = document.createElement('div');
+                         div2.style.backgroundColor = '﻿#00A4FF';
+-                        div2.style.width='50%';
+-                        div2.style.float='right';
++                        div2.style.width = '50%';
++                        div2.style.float = 'right';
+                         div2.innerHTML = '{{占位2}}';
+-                        div2.id = 'Ele'+i;
++                        div2.id = 'Ele' + i;
+                         document.getElementById('move').appendChild(div2);
+ 
+-                    }
+-                    else{
++                    } else {
+                         let div1 = document.createElement('div');
+                         div1.style.backgroundColor = 'green';
+-                        div1.style.width='50%';
+-                        div1.style.float='right';
++                        div1.style.width = '50%';
++                        div1.style.float = 'right';
+                         div1.innerHTML = '{{右边}}';
+-                        div1.id = 'Elem'+i;
++                        div1.id = 'Elem' + i;
+                         document.getElementById('move').appendChild(div1);
+ 
+                         let div3 = document.createElement('div');
+                         div3.style.backgroundColor = '﻿﻿#fec374';
+-                        div3.style.width='50%';
+-                        div3.style.float='left';
++                        div3.style.width = '50%';
++                        div3.style.float = 'left';
+                         div3.innerHTML = '{{占位3}}';
+-                        div3.id = 'Ele'+i;
++                        div3.id = 'Ele' + i;
+                         document.getElementById('move').appendChild(div3);
+                     }
++                }
++            },
++
+ 
++            // 提取 该用户 所有分类 并 统计 每一个分类 所拥有的日记数量
++            // 提取 该用户 所有的 相关日记 按 创建日期排列
++            // 点击 分类 显示 该分类下的日记 按创建事件排列
++            getClassify: function () {
++                var self = this;
++                axios({
++                    url: 'getClassify.do',
++                    methods: 'post',
++                }).then(function (response) {
++                    if (response.data == "error") {
++                        // session 中没有用户id
++                        // 此时应该返回登陆界面重新登陆
+ 
+-                }
++                    } else {
++                        self.diaryList = self.userClassify = response.data;
++                        // log 测试输出得到的数据
++                        for (var i = 0; i < self.userClassify.length; i++) {
++                            console.log(self.userClassify[i]);
++                        }
++                    }
++                }).catch(function (error) {
+ 
++                })
+             },
+ 
++            // 获得用户的所有日记
++            getUserDiary: function () {
++                var self = this;
++                axios({
++                    url: 'getUserDiary.do',
++                    methods: 'post'
++                }).then(function (response) {
++                    if (response.data == "error") {
++                        // session 中没有用户id
++                        // 此时应该返回登陆界面重新登陆
++                    } else {
++                        self.userDiary = response.data;
++                    }
++
++                }).catch(function (error) {
++
++                })
++            },
+ 
+-        }
++
++            // 从usrDiary中筛选出相关的列表 呈现在界面上
++            getDiaryList: function (classifyId) {
++                this.diaryList = [];
++                if (classifyId != 0) { // 用户特色分类
++                    for (var i = 0; i < this.userDiary.length; i++) {
++                        if (this.userClassify[i].cid == classifyId) {
++                            this.diaryList.add(this.userDiary[i]);
++                        }
++                    }
++                } else {// 全部
++                    this.diaryList = this.userDiary;
++                }
++            }
++
++
++        },
+     })
+ </script>
+ </body>
