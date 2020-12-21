@@ -20,4 +20,10 @@ public class diaryMainManage {
     public static ArrayList<Diary> getUserDiary(long id){
         return new diaryTable().getUserDiary(id);
     }
+
+    public static boolean AddDiary(Diary diary,long id){
+        return new diaryTable().AddDiary(diary,id);
+    }
+
+
 }

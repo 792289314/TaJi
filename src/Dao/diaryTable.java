@@ -82,4 +82,26 @@ public class diaryTable {
         }
         return diaries;
     }
+
+    // 插入日记
+    public boolean AddDiary(Diary diary, long id) {
+        DBUtil db = new DB();
+        boolean flag = false;
+        try {
+            conn = db.getConnection();
+            if (conn != null) {
+                String sql = "";
+                pst = conn.prepareStatement(sql);
+                pst.setLong(1, id);
+
+                pst.executeUpdate();
+                flag = true;
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        } finally {
+            db.close(conn, pst, rs);
+        }
+        return flag;
+    }
 }

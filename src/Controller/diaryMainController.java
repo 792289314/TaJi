@@ -80,4 +80,40 @@ public class diaryMainController extends HttpServlet {
             out.write(String.valueOf(jsonArray));
         }
     }
+
+    @RequestMapping("/adddiary.do")
+    /*  json中的数据
+            data: {
+                'classifyId': self.kindValue,
+                //'userId': '',在 java后台session里
+                'diaryFlay': '',// 分类flag | 谁可以看flag
+                'diaryText': self.textarea1,
+                'diaryTime': time,
+                'diaryWeather': self.weatherValue
+    }*/
+    public void adddiary(@RequestBody String strJSON, HttpSession session,
+                         HttpServletResponse response) throws IOException {
+        response.setContentType("text/html;  charset=utf-8");
+
+        Object userId = session.getAttribute("id");
+        JSONObject json = JSONObject.fromObject(strJSON);
+        String cid = (String) json.get("classifyId");
+        String dflag = (String) json.get("diaryFlay");
+        String dtext = (String) json.get("diaryText");
+        String dtime = (String) json.get("diaryTime");
+        PrintWriter out = response.getWriter();
+        if (userId == null) {
+            out.write("error");
+        } else {
+            long id = Integer.parseInt(userId.toString());
+
+            Diary diary = null;// 这里还没写完
+            if (diaryMainManage.AddDiary(diary, id)) {
+                out.write("ok");
+            } else {
+                out.write("error");
+            }
+        }
+
+    }
 }
