@@ -21,6 +21,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -81,12 +82,12 @@ public class diaryMainController extends HttpServlet {
         }
     }
 
-    @RequestMapping("/adddiary.do")
+    @RequestMapping("/addDiary.do")
     /*  json中的数据
             data: {
                 'classifyId': self.kindValue,
                 //'userId': '',在 java后台session里
-                'diaryFlay': '',// 分类flag | 谁可以看flag
+                'diaryFlag': '',// 分类flag | 谁可以看flag
                 'diaryText': self.textarea1,
                 'diaryTime': time,
                 'diaryWeather': self.weatherValue
@@ -97,17 +98,19 @@ public class diaryMainController extends HttpServlet {
 
         Object userId = session.getAttribute("id");
         JSONObject json = JSONObject.fromObject(strJSON);
-        String cid = (String) json.get("classifyId");
-        String dflag = (String) json.get("diaryFlay");
+        long cid = (long) json.get("classifyId");
+        boolean dflag = (boolean) json.get("diaryFlag");
         String dtext = (String) json.get("diaryText");
-        String dtime = (String) json.get("diaryTime");
+        Timestamp dtime = (Timestamp) json.get("diaryTime");
+        int dweather = (int) json.get("diaryWeather");
+
         PrintWriter out = response.getWriter();
         if (userId == null) {
             out.write("error");
         } else {
             long id = Integer.parseInt(userId.toString());
 
-            Diary diary = null;// 这里还没写完
+            Diary diary = new Diary(cid,dflag,dtext,dtime,dweather);// 这里还没写完
             if (diaryMainManage.AddDiary(diary, id)) {
                 out.write("ok");
             } else {

@@ -1,29 +1,34 @@
 package Entity;
 
-import org.w3c.dom.Text;
-
 import java.sql.Time;
+import java.sql.Timestamp;
 
 public class Diary {
     //did,classify.cid 'cid', cname, cflag, ccolor, dflag,dweather,dtext,dtime
     long id;
     Classify classify;
 
-
-
     boolean flag;
     int weather;
     //Text text;
     String text;
-    Time time;
+    Timestamp time;
 
-    public Diary(Classify classify,long id,  boolean flag, int weather, String text, Time time) {
+    public Diary(Classify classify,long id,  boolean flag, int weather, String text, Timestamp time) {
         this.id = id;
         this.classify = classify;
         this.flag = flag;
         this.weather = weather;
         this.text = text;
         this.time = time;
+    }
+
+    public Diary(long cid, boolean dflag, String dtext, Timestamp dtime, int dweather) {
+        this.classify.setId(cid);
+        this.flag = dflag;
+        this.weather = dweather;
+        this.text = dtext;
+        this.time = dtime;
     }
 
     public long getId() {
@@ -66,11 +71,14 @@ public class Diary {
         this.text = text;
     }
 
-    public Time getTime() {
+    public Timestamp getTime() {
         return time;
     }
+    /*public Time getTime(){
+        return time.toLocalDateTime();
+    }*/
 
-    public void setTime(Time time) {
+    public void setTime(Timestamp time) {
         this.time = time;
     }
 }

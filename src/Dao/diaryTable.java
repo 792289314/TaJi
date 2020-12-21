@@ -34,8 +34,8 @@ public class diaryTable {
                                     rs.getString("ccolor")),
                             rs.getInt("did"),
                             rs.getBoolean("dflag"),
-                            rs.getInt("dweather"),rs.getString("dtext"),
-                            rs.getTime("dtime")
+                            rs.getInt("dweather"), rs.getString("dtext"),
+                            rs.getTimestamp("dtime")
                     ));
                 }
             }
@@ -90,9 +90,15 @@ public class diaryTable {
         try {
             conn = db.getConnection();
             if (conn != null) {
-                String sql = "";
+                String sql = "insert into diary (uid, cid, dflag, dtext, dtime, dweather) " +
+                        "VALUES (?,?,?,?,?,?)";
                 pst = conn.prepareStatement(sql);
                 pst.setLong(1, id);
+                pst.setLong(2, diary.getClassify().getId());
+                pst.setBoolean(3,diary.getFlag());
+                pst.setString(4,diary.getText());
+                pst.setTimestamp(5,diary.getTime());
+                pst.setInt(6,diary.getWeather());
 
                 pst.executeUpdate();
                 flag = true;

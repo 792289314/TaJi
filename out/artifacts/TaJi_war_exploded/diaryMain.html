@@ -542,15 +542,15 @@
                 //alert(self.textarea1)
 
                 axios({
-                    url: 'addDairy.do',
+                    url: 'addDiary.do',
                     methods: 'post',
                     data: {
                         'classifyId': self.kindValue,
                         //'userId': '',在 java后台session里
-                        'dairyFlay': '',// 分类flag | 谁可以看flag
-                        'dairyText': self.textarea1,
-                        'dairyTime': time,
-                        'dairyWeather': self.weatherValue
+                        'diaryFlay': '',// 分类flag | 谁可以看flag
+                        'diaryText': self.textarea1,
+                        'diaryTime': time,
+                        'diaryWeather': self.weatherValue
                     }
                 }).then(function (response) {
                     if (response == "error") {

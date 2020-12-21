@@ -22,9 +22,6 @@ public class accountManage {
         User user = new userTable().register(Name, Email, Password);
         if (user == null) return null;
         // 为新的用户创建 '全部' '未分类' 两个标签;
-
-
-
         return user;
     }
 }

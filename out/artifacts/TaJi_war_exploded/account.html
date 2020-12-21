@@ -194,7 +194,7 @@
                     <div class="loginBox">
                         <div>
                             <i class="iconfont icon-youxiang"></i>
-                            <input type="text" class="emailIn" id="email"  @change="checkUserEmail" v-model="userEmail"
+                            <input type="text" class="emailIn" id="email" @change="checkUserEmail" v-model="userEmail"
                                    placeholder="输入邮箱账号">
 
                         </div>
@@ -206,7 +206,7 @@
 
                         </div>
                     </div>
-                    <el-button native-type="submit"  id="linbtn" type="primary">登录</el-button>
+                    <el-button native-type="submit" id="linbtn" type="primary">登录</el-button>
                 </form>
                 <div class="bottom">
                     <button class="registerNum" @click="register">注册账号</button>
@@ -341,8 +341,10 @@
                     this.$message('邮箱格式错误, 请重新输入');
                     // 检查邮箱 不符合时 checkEmailFormat 内部处理 提示报错
                     // * 输入框红框提示
+                    return false;
                 } else {
                     // 邮箱符合条件
+                    return true;
                 }
             },
 
@@ -363,8 +365,9 @@
                     // 检查注册用户名 不符合时 checkRUserName 内部处理 提示报错
                     // * 输入框红框提示
                     this.$message('昵称必须由数字或字母组成,请输入4-8位');
+                    return false;
                 } else {
-
+                    return true;
                 }
             },
 
@@ -374,8 +377,10 @@
                 if (!this.checkPasswordFormat(this.RpassWord)) {
                     // 检查密码 不符合时 checkPasswordFormat 内部处理并提示报错
                     this.$message('密码必须由数字和字母组合,请输入6-10位');
+                    return false;
                 } else {
                     // 密码符合条件
+                    return true;
                 }
             },
 
@@ -423,7 +428,7 @@
 
                         setTimeout(function () {
                             window.location.href = "diaryMain.html";
-                        }, 1000);
+                        }, 500);
                         // window.location.href="diaryMain.html";
                     }
                 }).catch(function (error) {
@@ -438,11 +443,8 @@
 
                 // 检测 两次密码是否一致 、 邮箱是否填对、
                 // 若不一致 提示问题出在哪儿 后面的操作不执行 直接return
-                if (!this.checkRUserName ||
-                    !this.checkRUserName ||
-                    !this.checkRUserpwd ||
-                    !this.checkPassConsistency) return;
-
+                if (!this.checkRUserEmail() || !this.checkRUserName() ||
+                    !this.checkRUserpwd() || !this.checkPassConsistency) return;
 
                 var self = this;
                 axios({
