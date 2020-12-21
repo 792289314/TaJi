@@ -459,7 +459,8 @@
                 }).then(function (response) {
                     if (response.data == "error") {
                         // * 提示 注册失败
-                        alert("注册失败");
+                        //alert("注册失败");
+                        self.$message("注册失败");
                         self.RuserEmail = "";
                         self.RuserName = "";
                         self.RpassWord = "";
@@ -467,7 +468,7 @@
                     } else {
                         // * 提示 注册成功
                         // 登陆成功 切换页面
-                        alert("欢迎用户" + self.RuserName + "的到来");
+                        self.$message("欢迎用户" + self.RuserName + "的到来");
                         self.show_registerbox = false;
                         self.show_loginbox = true;
 

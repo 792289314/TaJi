@@ -8,13 +8,15 @@
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <style>
-        ::-webkit-scrollbar{
+        ::-webkit-scrollbar {
             display: none;
             width: 0;
         }
-        a{
+
+        a {
             text-decoration: none;
         }
+
         html, body, #app, .el-container {
             /*设置内部填充为0，几个布局元素之间没有间距*/
             padding: 0;
@@ -179,7 +181,7 @@
             <!--个人中心折叠框中的个人中心页面-->
             <a href="person.html" target="_blank">个人中心</a>
             <!--个人中心折叠框中的管理分类-->
-            <a href="classifyManagement.html"  target="_blank">管理分类</a>
+            <a href="classifyManagement.html" target="_blank">管理分类</a>
 
             <button @click="exit">退出登录</button>
         </div>
@@ -205,12 +207,12 @@
                 <!--动态生成radio   这里还有点问题 单选一选会把单选按钮都选上 不互斥了-->
                 <el-radio-group v-model="classifyValue">
 
-                        <el-radio
-                                :label="index"
-                                v-for=" (item,index) in classifyList" >
-                            {{item.classifyName}}({{item.value}})
-                            <!--前者是分类的名字 后者是对应的数量-->
-                        </el-radio>
+                    <el-radio
+                            :label="index"
+                            v-for=" (item,index) in classifyList">
+                        {{item.classifyName}}({{item.value}})
+                        <!--前者是分类的名字 后者是对应的数量-->
+                    </el-radio>
                     </span>
 
                 </el-radio-group>
@@ -221,9 +223,9 @@
         <!--中间显示日记内容部分-->
         <el-container>
 
-            <el-main >
+            <el-main>
                 <!-- 目前暂时通过按钮来实现动态增加div 后期会放入watch还是computer里面-->
-                <div id="move" >
+                <div id="move">
 
                 </div>
             </el-main>
@@ -262,7 +264,7 @@
                 radio: '1',
                 allDiaryMsg: '1',//全部日记数量
                 nonDiaryMsg: '1',//未分类日记数量
-                classifyList: [
+                /*classifyList: [
                     {
                         value: '12',
                         classifyName: '旅行',
@@ -275,40 +277,67 @@
                         value: '14',//此项分类的数量
                         classifyName: '计划',
                     },
-
                 ],
-                classifyValue: '',
+                classifyValue: '',*/
+                classifyList: [
+                    {//头部 显示右哪些分类的单选按钮
+                        id: '2',
+                        label: 2,
+                        value: '12',
+                        classifyName: '旅行',
+                    },
+                    {
+                        id: '3',
+                        label: 3,
+                        value: '13',
+                        classifyName: '心情',
+                    },
+                    {
+                        id: '4',
+                        label: 4,
+                        value: '14',//此项分类的数量
+                        classifyName: '计划',
+                    }],
+                classifyValue: 3,
+
                 kindOptions: [
+                    /*{
+                        数组id
+                        分类id
+                        分类名
+                        分类状态：公开/私密
+                        分类显示的颜色
+                    },*/
                     {
                         //添加日记中 分类的下拉列表框 需要给这样的数组
                         value: '选项1',// 值改成 用户分类的id
                         label: '旅游',
-                        state:0,
-                        kindColor:'#ffff',
+                        state: 0,
+                        kindColor: '#ffff',
                     },
                     {
                         value: '选项2',
                         label: '心情',
-                        state:0,
-                        kindColor:'#ffff',
+                        state: 0,
+                        kindColor: '#ffff',
                     },
                     {
                         value: '选项3',
                         label: '计划',
-                        state:0,
-                        kindColor:'#ffff',
+                        state: 0,
+                        kindColor: '#ffff',
                     },
                     {
                         value: '选项4',
                         label: '与男友的事',
-                        state:0,
-                        kindColor:'#ffff',
+                        state: 0,
+                        kindColor: '#ffff',
                     },
                     {
                         value: '选项5',
                         label: '。。。',
-                        state:0,
-                        kindColor:'#ffff',
+                        state: 0,
+                        kindColor: '#ffff',
                     }],
                 kindValue: '',//添加日记选中的分类的value
 
@@ -340,7 +369,22 @@
                     }],
                 checkPeoValue: '',
 
+                /*classifyList: [
+                    {
+                        value: '12',
+                        classifyName: '旅行',
+                    },
+                    {
+                        value: '13',
+                        classifyName: '心情',
+                    },
+                    {
+                        value: '14',//此项分类的数量
+                        classifyName: '计划',
+                    },
 
+                ],
+                classifyValue: '',*/
                 brandFold: true,
             }
         },
@@ -377,10 +421,7 @@
                    }
 */
 
-
-                // alert(this.diaryList.length);
                 for (let i = 0; i < this.diaryList.length; i++) {
-                    //   alert(i);
                     if (i % 2 === 0)//偶数 显示在左边
                     {
                         let div = document.createElement('div');
@@ -447,7 +488,7 @@
 
                     }
                 }).catch(function (error) {
-                    alert(error);
+                    self.$message("请求过程中发生错误：" + error);
                 })
             },
 
@@ -467,7 +508,7 @@
                     }
 
                 }).catch(function (error) {
-                    alert("axios error");
+                    self.$message("提交过程中发生错误： error");
 
                 })
             },
@@ -486,36 +527,43 @@
                     this.diaryList = this.userDiary;
                 }
             },
-            Publish:function()
-            {},
-            /*
+
             // 还没写完
             // 右下角添加日记的发布按钮
             Publish: function () {
                 let self = this;
-                alert(self.kindValue);
+                //alert(self.kindValue);
                 let selectedColor = document.getElementById('selectedColor').value;
                 let selectedFont = document.getElementById('selectedFont').value;
                 // self.weatherValue
-                const time = new Date().getTime();
+                const time = new Date().getTime(); // 获取当前时间
                 //alert(time);
                 // self.checkPeoValue
-                alert(self.textarea1)
+                //alert(self.textarea1)
 
                 axios({
-                    url: '',
+                    url: 'addDairy.do',
                     methods: 'post',
                     data: {
                         'classifyId': self.kindValue,
+                        //'userId': '',在 java后台session里
+                        'dairyFlay': '',// 分类flag | 谁可以看flag
+                        'dairyText': self.textarea1,
+                        'dairyTime': time,
+                        'dairyWeather': self.weatherValue
                     }
                 }).then(function (response) {
+                    if (response == "error") {
+                        self.$message("添加日记操作失败");
+                    } else {
+                        self.$message("成功添加日记");
+                        // 刷新界面 重新进入该网页
 
+                    }
                 }).catch(function (error) {
-                    alert(error);
+                    self.$message("请求过程中发生错误：" + error);
                 })
-            },*/
-
-
+            },
 
             exit: function () {
                 axios({
