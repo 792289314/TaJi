@@ -400,6 +400,25 @@
 
         },
         methods: {
+            // 获得星期中文
+            getWeekToString: function (x) {
+                if (x === 1) return "星期一";
+                if (x === 2) return "星期二";
+                if (x === 3) return "星期三";
+                if (x === 4) return "星期四";
+                if (x === 5) return "星期五";
+                if (x === 6) return "星期六";
+                return "星期日";
+            },
+            // 获得天气中文
+            // ps：后悔 为啥不数据库里写好
+            getWeatherToString(x) {
+                if (x == 0) return "晴";
+                if (x == 1) return "雨天";
+                if (x == 2) return "多云";
+            },
+
+
             //版面中间 动态生成div 从后端拿到日记内容 并一左一右显示
             addElement: function () {
                 /*
@@ -422,6 +441,18 @@
 */
 
                 for (let i = 0; i < this.diaryList.length; i++) {
+                    /*
+                                 2020年12月12日 星期x
+                                 20:45:45 晴（
+                    */
+                    const t = new Date(this.diaryList[i].diaryTime.time);
+                    var str1 = t.getFullYear() + " 年 " + (t.getUTCMonth()+1) + " 月 " +
+                        t.getUTCDate() + " 日        " +
+                        this.getWeekToString(t.getDay());
+                    var str2 = t.getHours() + " : " +
+                        t.getMinutes() + " : " + t.getSeconds() + "   " +
+                        this.getWeatherToString(this.diaryList[i].diaryWeather);
+
                     if (i % 2 === 0)//偶数 显示在左边
                     {
                         let div = document.createElement('div');
@@ -440,7 +471,9 @@
                         div2.style.backgroundColor = '﻿#00A4FF';
                         div2.style.width = '50%';
                         div2.style.float = 'right';
-                        div2.innerHTML = '{{占位2}}';
+
+
+                        div2.innerHTML = str1+'<br>'+str2;
                         div2.id = 'Ele' + i;
                         div2.style.minHeight = "100px";
                         document.getElementById('move').appendChild(div2);
@@ -461,7 +494,7 @@
                         div3.style.backgroundColor = '﻿﻿#fec374';
                         div3.style.width = '50%';
                         div3.style.float = 'left';
-                        div3.innerHTML = '{{占位3}}';
+                        div3.innerHTML = str1+'<br>'+str2;
                         div3.id = 'Ele' + i;
                         div3.style.minHeight = "100px";
                         document.getElementById('move').appendChild(div3);
