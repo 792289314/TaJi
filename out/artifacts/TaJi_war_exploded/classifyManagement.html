@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>她记——————分类管理页面</title>
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <style>
+        body {
+            /*background-color: #8e8f8d;*/
+            background-image: url(./images/lightpaperfibers.png);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        .addClassifyBtn {
+            /*width: 100px;*/
+            float: right;
+            height: 30px;
+            background-color: #319464;
+            font-size: 15px;
+            color: white;
+
+        }
+
+        .classifyBox {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            margin: auto;
+            width: 80%;
+            height: 500px;
+            background-color: #99cdaa;
+        }
+
+        .classifyMain {
+            margin-top: 40px;
+            /*background-color: #B3C0D1;*/
+
+        }
+    </style>
+    <script src="http://unpkg.com/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+</head>
+<body>
+<!--需求：
+    1.显示已有的分类 并且可以实现增删改查
+    2.可以添加新的分类-->
+<div id="app">
+
+    <div class="classifyBox">
+        <div>
+            <button class="addClassifyBtn">添加我的分类</button>
+        </div>
+
+        <div class="classifyMain">
+            <el-table
+                    :data="classifyTableData"
+                    height="250"
+                    border
+                    stripe
+                    style="width: 100%"
+                    :header-cell-style="{textAlign: 'center'}"
+                    :cell-style="{ textAlign: 'center' }" >
+                <el-table-column
+                        prop="classifyName"
+                        label="分类"
+                        width="180">
+                </el-table-column>
+                <el-table-column
+                        prop="classifyColor"
+                        label="颜色"
+                        width="180">
+                </el-table-column>
+                <el-table-column
+                        prop="classifyNum"
+                        label="日记数">
+                </el-table-column>
+                <el-table-column
+                        prop="classifyModify"
+                        label="操作">
+                    <el-button
+                            size="mini">编辑
+                    </el-button>
+                    <el-popover
+                            placement="top"
+                            width="160"
+                            v-model="visible">
+                        <p>这是一段内容这是一段内容确定删除吗？</p>
+                        <div style="text-align: right; margin: 0">
+                            <el-button size="mini" type="text" @click="visible = false">取消</el-button>
+                            <el-button type="primary" size="mini" @click="visible = false">确定</el-button>
+                        </div>
+                        <el-button slot="reference">删除</el-button>
+                    </el-popover>
+<!--                    <el-popover-->
+<!--                            placement="top"-->
+<!--                            width="160"-->
+<!--                            v-model="visible">-->
+<!--                        <p>这是一段内容这是一段内容确定删除吗？</p>-->
+<!--                        <div style="text-align: right; margin: 0">-->
+<!--                            <el-button size="mini" type="text" @click="visible = false">取消</el-button>-->
+<!--                            <el-button type="primary" size="mini" @click="visible = false">确定</el-button>-->
+<!--                        </div>-->
+<!--                        <el-button-->
+<!--                                slot="reference"-->
+<!--                                >删除-->
+<!--                        </el-button>-->
+<!--                        &lt;!&ndash;<el-button >删除</el-button>&ndash;&gt;-->
+<!--                    </el-popover>-->
+
+
+                </el-table-column>
+            </el-table>
+        </div>
+    </div>
+
+</div>
+
+<script type="text/javascript">
+    var vm = new Vue({
+        el: '#app',
+        data() {
+            return {
+                visible: false,
+                classifyTableData: [{
+                    classifyName: '旅游',
+                    classifyColor: '#ffff',
+                    classifyNum: 12
+                }, {
+                    classifyName: '旅游',
+                    classifyColor: '#ffff',
+                    classifyNum: 12
+                }, {
+                    classifyName: '旅游',
+                    classifyColor: '#ffff',
+                    classifyNum: 12
+                }, {
+                    classifyName: '旅游',
+                    classifyColor: '#ffff',
+                    classifyNum: 12
+                }, {
+                    classifyName: '旅游',
+                    classifyColor: '#ffff',
+                    classifyNum: 12
+                }, {
+                    classifyName: '旅游',
+                    classifyColor: '#ffff',
+                    classifyNum: 12
+                }, {
+                    classifyName: '旅游',
+                    classifyColor: '#ffff',
+                    classifyNum: 12
+                }, {
+                    classifyName: '旅游',
+                    classifyColor: '#ffff',
+                    classifyNum: 12
+                }, {
+                    classifyName: '旅游',
+                    classifyColor: '#ffff',
+                    classifyNum: 12
+                }, {
+                    classifyName: '旅游',
+                    classifyColor: '#ffff',
+                    classifyNum: 12
+                },
+                    {
+                        classifyName: '旅游',
+                        classifyColor: '#ffff',
+                        classifyNum: 12
+                    }
+                ],
+
+            }
+        },
+        methods: {},
+    })
+</script>
+</body>
+</html>
