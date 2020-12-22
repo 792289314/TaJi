@@ -34,6 +34,7 @@
         .el-aside {
             background-color: transparent;
             text-align: center;
+            background-image: url(./images/lightpaperfibers.png);
         }
 
         .el-main {
@@ -115,6 +116,61 @@
             outline: 0;
         }
 
+        .move_div {
+            height: 200px;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+            width: 50%;
+            float: left;
+            border-right-color: black;
+            min-height: 100px;
+        }
+
+        .move_div2 {
+            height: 180px;
+            width: 45%;
+            float: right;
+            margin-left: 5px;
+            min-height: 100px;
+            color: rgba(128, 128, 128, 0.8);
+            /*padding-top: 5px;*/
+            padding-top: 20px;
+        }
+
+        .move_div1 {
+            height: 200px;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+            width: 50%;
+            float: right;
+            border-right-color: black;
+            min-height: 100px;
+
+            /*div1.style.height = "100px";*/
+
+            /*div1.style.boxShadow = '0 4px 8px 0 rgba(0,0,0,0.2)';*/
+            /*div1.style.width = '50%';*/
+            /*div1.style.float = 'right';*/
+            /*div1.style.borderRightColor = 'black';
+            div1.style.minHeight = "100px";*/
+        }
+
+        .move_div3 {
+            height: 180px;
+            width: 45%;
+            float: left;
+            text-align: right;
+            margin-left: 5px;
+            min-height: 100px;
+            color: rgba(128, 128, 128, 0.8);
+            padding-top: 20px;
+
+
+            /*div3.style.height = "100px";
+            div3.style.backgroundColor = '﻿﻿#fec374';
+            div3.style.width = '45%';
+            div3.style.float = 'left';
+            div3.style.textAlign = 'right';
+            div3.style.color = 'rgba(128,128,128,0.8)';*/
+        }
 
     </style>
     <script src="http://unpkg.com/vue/dist/vue.js"></script>
@@ -367,7 +423,7 @@
                         kindColor: '#ffff',
                     }],
                 kindValue: '',//添加日记选中的分类的value
-                kindState:'',
+                kindState: '',
 
                 weatherOptions: [{////添加日记中 天气的下拉列表框 需要给这样的数组
                     value: 0,
@@ -474,51 +530,37 @@
                     {
                         let div = document.createElement('div');
                         // div.style.backgroundColor = 'red';
-                        div.style.boxShadow = '0 4px 8px 0 rgba(0,0,0,0.2)';
-                        div.style.width = '50%';
-                        div.style.float = 'left';
-                        div.style.borderRightColor = 'black';
+                        div.className = "move_div";
                         // 放日记主体text
                         //div.innerHTML = '{{左边}}';
                         div.innerHTML = this.diaryList[i].diaryText;
-
                         div.id = 'Elem' + i;
-                        div.style.minHeight = "100px";
+                        //var div_h = div.offsetHeight;
+                        //alert(div_h);
                         document.getElementById('move').appendChild(div);
 
                         let div2 = document.createElement('div');
-                        // div2.style.backgroundColor = '﻿#00A4FF';
-                        div2.style.width = '45%';
-                        div2.style.float = 'right';
-                        div2.style.marginLeft = '5px';
-                        div2.style.color = 'rgba(128,128,128,0.8)';
+                        div2.className = "move_div2";
                         div2.innerHTML = str1 + '<br>' + str2;
                         div2.id = 'Ele' + i;
-                        // div2.style.minHeight = "100px";
                         document.getElementById('move').appendChild(div2);
 
                     } else {
                         let div1 = document.createElement('div');
-                        div1.style.boxShadow = '0 4px 8px 0 rgba(0,0,0,0.2)';
-                        div1.style.width = '50%';
-                        div1.style.float = 'right';
-                        div1.style.borderRightColor = 'black';
+                        div1.className = "move_div1";
+
+
                         //div1.innerHTML = '{{右边}}';
                         div1.innerHTML = this.diaryList[i].diaryText;
                         div1.id = 'Elem' + i;
-                        div1.style.minHeight = "100px";
+
                         document.getElementById('move').appendChild(div1);
 
 
                         let div3 = document.createElement('div');
-                        // div3.style.backgroundColor = '﻿﻿#fec374';
-                        div3.style.width = '45%';
-                        div3.style.float = 'left';
-                        div3.style.textAlign = 'right';
-                        div3.style.color = 'rgba(128,128,128,0.8)';
+                        div3.className = "move_div3";
                         div3.innerHTML = str1 + '<br>' + str2;
                         div3.id = 'Ele' + i;
-                        // div3.style.minHeight = "100px";
                         document.getElementById('move').appendChild(div3);
                     }
                 }
@@ -576,7 +618,7 @@
                 if (classifyId != 0) { // 用户特色分类
                     for (var i = 0; i < this.userDiary.length; i++) {
                         if (this.userDiary[i].classifyId == classifyId) {
-                           // this.diaryList.add(this.userDiary[i]);
+                            // this.diaryList.add(this.userDiary[i]);
                             this.diaryList.push(this.userDiary[i]);
                         }
                     }
@@ -604,7 +646,7 @@
                     data: {
                         'classifyId': self.kindOptions[self.kindValue].value,
                         //'userId': '',在 java后台session里
-                        'diaryFlag': self.checkPeoValue|self.kindOptions[self.kindValue].state,// 分类flag | 谁可以看flag
+                        'diaryFlag': self.checkPeoValue | self.kindOptions[self.kindValue].state,// 分类flag | 谁可以看flag
                         'diaryText': self.textarea1,
                         'diaryTime': time,
                         'diaryWeather': self.weatherValue
