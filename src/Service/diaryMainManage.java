@@ -25,5 +25,9 @@ public class diaryMainManage {
         return new diaryTable().AddDiary(diary,id);
     }
 
+    public static long calcCntOfDiaryByClassifyId(long userId,long classifyId){
+        return new diaryTable().calcCntOfDiaryByClassifyId(userId,classifyId);
+    }
+
 
 }

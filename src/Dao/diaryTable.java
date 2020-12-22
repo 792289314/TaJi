@@ -110,4 +110,27 @@ public class diaryTable {
         }
         return flag;
     }
+
+    // 根据分类cid 统计日记的个数
+    public long calcCntOfDiaryByClassifyId(long uid, long cid) {
+        long cnt = 0;
+        DBUtil db = new DB();
+        try {
+            conn = db.getConnection();
+            if (conn == null) return cnt;
+            String sql = "select count(*) 'cnt' from diary where uid = ? and cid = ?";
+            pst = conn.prepareStatement(sql);
+            pst.setLong(1, uid);
+            pst.setLong(2, cid);
+            rs = pst.executeQuery();
+            if (rs.next()) cnt = rs.getLong("cnt");
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        } finally {
+            db.close(conn, pst, rs);
+        }
+
+        return cnt;
+    }
 }

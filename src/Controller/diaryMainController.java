@@ -19,6 +19,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.awt.*;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Timestamp;
@@ -33,6 +34,7 @@ public class diaryMainController extends HttpServlet {
 
 
     @RequestMapping("/getClassify.do")
+    // 获取用户分类
     public void getClassify(HttpSession session,
                             HttpServletResponse response) throws IOException {
         response.setContentType("text/html;  charset=utf-8");
@@ -45,6 +47,17 @@ public class diaryMainController extends HttpServlet {
             long id = Integer.parseInt(userId.toString());
 
             ArrayList<Classify> classifies = diaryMainManage.getClassifyById(id);
+            Classify allDiary = new Classify(0, "全部", false, "7DCC67");
+            classifies.add(0, allDiary);//在开头加上 '全部' 分类
+            // 统计每个分类下日记的的个数
+            long allCnt = 0;
+            for (int i = 1; i < classifies.size(); i++) {
+                long cnt = diaryMainManage.calcCntOfDiaryByClassifyId(id,
+                        classifies.get(i).getId());
+                classifies.get(i).setCnt(cnt);
+                allCnt += cnt;// 把每个小分类的个数加到 全部 中来
+            }
+            classifies.get(0).setCnt(allCnt);
 
             JSONArray jsonArray = new JSONArray();
             for (int i = 0; i < classifies.size(); i++) {
@@ -110,7 +123,7 @@ public class diaryMainController extends HttpServlet {
         } else {
             long id = Integer.parseInt(userId.toString());
 
-            Diary diary = new Diary(cid,dflag,dtext,dtime,dweather);// 这里还没写完
+            Diary diary = new Diary(cid, dflag, dtext, dtime, dweather);// 这里还没写完
             if (diaryMainManage.AddDiary(diary, id)) {
                 out.write("ok");
             } else {

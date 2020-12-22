@@ -5,6 +5,7 @@ public class Classify {
     private String Name;
     private boolean flag;// 公开 / 私密
     private String Color;
+    private long cnt;
 
 
     public Classify(long id, String name, boolean flag, String color) {
@@ -12,6 +13,22 @@ public class Classify {
         Name = name;
         this.flag = flag;
         Color = color;
+    }
+
+    public Classify(long id, String name, boolean flag, String color, long cnt) {
+        Id = id;
+        Name = name;
+        this.flag = flag;
+        Color = color;
+        this.cnt = cnt;
+    }
+
+    public long getCnt() {
+        return cnt;
+    }
+
+    public void setCnt(long cnt) {
+        this.cnt = cnt;
     }
 
     public long getId() {
