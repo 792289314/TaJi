@@ -29,6 +29,7 @@
         .el-header {
             background-color: #B3C0D1;
             color: #333;
+            /*max-height: 80px;*/
         }
 
         .el-aside {
@@ -80,6 +81,7 @@
             /*height:50px;*/
             width: 100%;
             /*height: 200px;*/
+            max-height: 80px;
             background-color: #99cdaa;
         }
 
@@ -137,6 +139,7 @@
         }
 
         .move_div1 {
+            /*color: ;*/
             height: 200px;
             box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
             width: 50%;
@@ -263,7 +266,7 @@
     <!--饿了么布局容器框架 头中右布局-->
     <el-container>
         <!--头部   包括个人中心按钮  两个div 一个全部 一个分类之后的-->
-        <el-header class="header" height="''">
+        <el-header class="header" height="''" >
 
             <div>
                 <el-button class="personalBtn" @click="personalDrawer = true" type="text">
@@ -275,15 +278,19 @@
             <div class="classifyBtn">
                 <!--动态生成radio   这里还有点问题 单选一选会把单选按钮都选上 不互斥了-->
                 <el-radio-group v-model="classifyValue" @change="ChooseDiary">
-                    <!--全部-->
-                    <div class="allClassifyBtn">
-                        <el-radio v-model="classifyValue" label="0">全部({{allDiaryMsg}})</el-radio>
-                        <el-radio v-model="classifyValue" label="1">未分类({{nonDiaryMsg}})</el-radio>
-                    </div>
+                            <!--全部-->
+<!--                    <div class="allClassifyBtn">-->
+<!--                        &lt;!&ndash;{"cnt":7,"color":"7DCC67","flag":false,"id":0,"name":"全部"}-->
+<!--                        {"cnt":5,"color":"#3f3f3f3f","flag":false,"id":1,"name":"未命名"}&ndash;&gt;-->
+<!--                    </div>-->
+<!--                    <el-radio v-model="classifyValue" label="-1">{{}}({{allDiaryMsg}})</el-radio>-->
+<!--                    <el-radio v-model="classifyValue" label="0">未分类({{nonDiaryMsg}})</el-radio>-->
+
+
                     <el-radio
-                            :label="item.label"
+                            :label="index"
                             v-for=" (item,index) in classifyList">
-                        {{item.classifyName}}({{item.value}})
+                        {{item.name}}({{item.cnt}})
                         <!--前者是分类的名字 后者是对应的数量-->
                     </el-radio>
 
@@ -362,6 +369,10 @@
                     },
                 ],
                 classifyValue: '',*/
+                /*
+                    {"color":"#3f3f3f3f","flag":false,"id":1,"name":"未命名",cnt:9}
+                    {"color":"#4a4a4a4a","flag":false,"id":2,"name":"学习",cnt:10}
+                */
                 classifyList: [
                     {//头部 显示右哪些分类的单选按钮
                         id: '2',
@@ -581,7 +592,8 @@
                         // 此时应该返回登陆界面重新登陆
 
                     } else {
-                        self.userClassify = response.data;
+                        // self.userClassify = response.data;
+                        self.classifyList = response.data;
 
                     }
                 }).catch(function (error) {
