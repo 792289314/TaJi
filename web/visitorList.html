@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>她记——————过客列表页面</title>
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <style>
+        body {
+            /*background-color: #8e8f8d;*/
+            background-image: url(./images/lightpaperfibers.png);
+        }
+
+        .is-selected {
+            color: #1989FA;
+        }
+
+        .showCalendar {
+            width: 60%;
+            /*height: 500px;*/
+            margin: 100px auto;
+        }
+        #showDiary
+        {
+            width: 60%;
+            /*height: 500px;*/
+            margin: -50px auto;
+            background: coral;
+            /*border: 1px solid black;*/
+            /*text-align: center;*/
+        }
+    </style>
+    <script src="http://unpkg.com/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+</head>
+<body>
+<!--过客列表页面功能
+    1.有日历
+    2.有全部日记-->
+
+<div id="app">
+    <div class="showCalendar">
+        <el-calendar>
+            <!-- 这里使用的是 2.5 slot 语法，对于新项目请使用 2.6 slot 语法-->
+            <template
+                    slot="dateCell"
+                    slot-scope="{date, data}">
+                <p :class="data.isSelected ? 'is-selected' : ''">
+                    {{ data.day.split('-').slice(1).join('-') }} {{ data.isSelected ? '✔️' : ''}}
+                </p>
+            </template>
+        </el-calendar>
+    </div>
+    <div id="showDiary">
+        <button @click="showElement">点击触发</button>
+    </div>
+</div>
+
+<script type="text/javascript">
+    var vm = new Vue({
+        el: '#app',
+        data() {
+            return {
+                allDiaryList:[]
+            }
+        },
+        created(){
+            this.getAllDiary();
+        },
+        methods: {
+            getAllDiary:function()
+            {
+
+            },
+            showElement: function () {
+                for (let i = 0; i < 7; i++) {
+                        let div = document.createElement('div');
+                        div.style.width='100%';
+                        div.style.border = '1px solid black';
+                        // div.innerHTML = '{{左边}}';
+                        div.innerHTML = this.allDiaryList[i].diaryText;
+
+                        div.id = 'showD' + i;
+                        div.style.minHeight = "100px";
+                        document.getElementById('showDiary').appendChild(div);
+
+                }
+            }
+
+        },
+    })
+</script>
+</body>
+</html>

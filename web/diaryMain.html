@@ -7,7 +7,7 @@
     <link rel="stylesheet" type="text/css" href="fonts/loginFonts/iconfont.css">
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-    <style>
+    <style lang="scss" scoped>
         ::-webkit-scrollbar {
             display: none;
             width: 0;
@@ -39,6 +39,9 @@
         .el-main {
             background-color: transparent;
             color: #333;
+            background-image: url(./images/lightpaperfibers.png);
+            /*width: 500px;!important;*/
+            /*margin: 0 auto;*/
         }
 
         /*去除input的轮廓线*/
@@ -88,16 +91,30 @@
 
         .allClassifyBtn {
             margin-top: 10px;
-            margin-left: 100px;
+            /*margin-left: 100px;*/
         }
 
         .classifyBtn {
+            vertical-align: text-bottom;
+            margin-bottom: 2px;
+            /*margin-bottom:-2px;*/
             margin-left: 100px;
         }
 
         span {
             font-size: 30px;
         }
+
+        #move {
+            width: 75%;
+            margin: 0 auto;
+        }
+
+        :focus {
+
+            outline: 0;
+        }
+
 
     </style>
     <script src="http://unpkg.com/vue/dist/vue.js"></script>
@@ -117,14 +134,13 @@
                 <span>分类:</span>
                 <el-select v-model="kindValue" clearable placeholder="请选择分类">
                     <el-option
-                            v-for="item in kindOptions"
+                            v-for="(item,index) in kindOptions"
                             :key="item.value"
                             :label="item.label"
-                            :value="item.value">
+                            :value="index">
                     </el-option>
                 </el-select>
-                <el-button type="text" icon="el-icon-circle-plus-outline">
-                </el-button>
+                <a href="classifyManagement.html"><i class="el-icon-circle-plus-outline"></i></a>
             </div>
             <span>颜色:</span>
             <input type="color" id="selectedColor"><br>
@@ -178,6 +194,8 @@
                direction="ltr">
         <div>
             <span>{{welcomeUser}}</span><!--欢迎用户-->
+            <!--个人中心折叠框中的过客列表页面-->
+            <a href="visitorList.html" target="_blank">过客列表</a>
             <!--个人中心折叠框中的个人中心页面-->
             <a href="person.html" target="_blank">个人中心</a>
             <!--个人中心折叠框中的管理分类-->
@@ -197,23 +215,21 @@
                 </el-button>
             </div>
 
-            <!--全部-->
-            <div class="allClassifyBtn">
-                <el-radio v-model="radio" label="1">全部({{allDiaryMsg}})</el-radio>
-                <el-radio v-model="radio" label="2">未分类({{nonDiaryMsg}})</el-radio>
-            </div>
             <!-- 分类-->
             <div class="classifyBtn">
                 <!--动态生成radio   这里还有点问题 单选一选会把单选按钮都选上 不互斥了-->
-                <el-radio-group v-model="classifyValue">
-
+                <el-radio-group v-model="classifyValue" @change="ChooseDiary">
+                    <!--全部-->
+                    <div class="allClassifyBtn">
+                        <el-radio v-model="classifyValue" label="0">全部({{allDiaryMsg}})</el-radio>
+                        <el-radio v-model="classifyValue" label="1">未分类({{nonDiaryMsg}})</el-radio>
+                    </div>
                     <el-radio
-                            :label="index"
+                            :label="item.label"
                             v-for=" (item,index) in classifyList">
                         {{item.classifyName}}({{item.value}})
                         <!--前者是分类的名字 后者是对应的数量-->
                     </el-radio>
-                    </span>
 
                 </el-radio-group>
 
@@ -226,7 +242,18 @@
             <el-main>
                 <!-- 目前暂时通过按钮来实现动态增加div 后期会放入watch还是computer里面-->
                 <div id="move">
-
+                    <!--                    <el-timeline>-->
+                    <!--                        <el-timeline-item-->
+                    <!--                                v-for="(activity, index) in activities"-->
+                    <!--                                :key="index"-->
+                    <!--                                :icon="activity.icon"-->
+                    <!--                                :type="activity.type"-->
+                    <!--                                :color="activity.color"-->
+                    <!--                                :size="activity.size"-->
+                    <!--                                :timestamp="activity.timestamp">-->
+                    <!--                            {{activity.content}}-->
+                    <!--                        </el-timeline-item>-->
+                    <!--                    </el-timeline>-->
                 </div>
             </el-main>
 
@@ -261,7 +288,7 @@
                 personalDrawer: false,//个人中心折叠框
                 addDrawer: false,//添加日记折叠框
                 textarea1: '',//添加日记加的日记内容
-                radio: '1',
+                // allRadio:'-1',//绑定第一次选中全部按钮
                 allDiaryMsg: '1',//全部日记数量
                 nonDiaryMsg: '1',//未分类日记数量
                 /*classifyList: [
@@ -298,7 +325,7 @@
                         value: '14',//此项分类的数量
                         classifyName: '计划',
                     }],
-                classifyValue: 3,
+                classifyValue: '0',//-1代表选中全部按钮
 
                 kindOptions: [
                     /*{
@@ -340,15 +367,16 @@
                         kindColor: '#ffff',
                     }],
                 kindValue: '',//添加日记选中的分类的value
+                kindState:'',
 
                 weatherOptions: [{////添加日记中 天气的下拉列表框 需要给这样的数组
-                    value: '选项1',
+                    value: 0,
                     label: '晴天'
                 }, {
-                    value: '选项2',
+                    value: 1,
                     label: '多云'
                 }, {
-                    value: '选项3',
+                    value: 2,
                     label: '下雨'
                 },],
                 weatherValue: '',
@@ -356,35 +384,16 @@
 
                 checkPeoOptions: [
                     {//添加日记中 查看权限的下拉列表框 需要给这样的数组
-                        value: '选项1',
-                        label: '小王'
+                        value: 0,
+                        label: '所有人可见'
                     },
                     {
-                        value: '选项2',
-                        label: '小李'
-                    },
-                    {
-                        value: '选项3',
-                        label: '小张'
+                        value: 1,
+                        label: '仅自己可见'
                     }],
                 checkPeoValue: '',
 
-                /*classifyList: [
-                    {
-                        value: '12',
-                        classifyName: '旅行',
-                    },
-                    {
-                        value: '13',
-                        classifyName: '心情',
-                    },
-                    {
-                        value: '14',//此项分类的数量
-                        classifyName: '计划',
-                    },
 
-                ],
-                classifyValue: '',*/
                 brandFold: true,
             }
         },
@@ -400,6 +409,14 @@
 
         },
         methods: {
+            ChooseDiary: function (val) {
+                this.getDiaryList(val);
+                var div = document.getElementById("move");
+                div.innerHTML = "";
+                this.addElement();
+            },
+
+
             // 获得星期中文
             getWeekToString: function (x) {
                 if (x === 1) return "星期一";
@@ -446,7 +463,7 @@
                                  20:45:45 晴（
                     */
                     const t = new Date(this.diaryList[i].diaryTime.time);
-                    var str1 = t.getFullYear() + " 年 " + (t.getUTCMonth()+1) + " 月 " +
+                    var str1 = t.getFullYear() + " 年 " + (t.getUTCMonth() + 1) + " 月 " +
                         t.getUTCDate() + " 日        " +
                         this.getWeekToString(t.getDay());
                     var str2 = t.getHours() + " : " +
@@ -456,9 +473,11 @@
                     if (i % 2 === 0)//偶数 显示在左边
                     {
                         let div = document.createElement('div');
-                        div.style.backgroundColor = 'red';
+                        // div.style.backgroundColor = 'red';
+                        div.style.boxShadow = '0 4px 8px 0 rgba(0,0,0,0.2)';
                         div.style.width = '50%';
                         div.style.float = 'left';
+                        div.style.borderRightColor = 'black';
                         // 放日记主体text
                         //div.innerHTML = '{{左边}}';
                         div.innerHTML = this.diaryList[i].diaryText;
@@ -468,21 +487,22 @@
                         document.getElementById('move').appendChild(div);
 
                         let div2 = document.createElement('div');
-                        div2.style.backgroundColor = '﻿#00A4FF';
-                        div2.style.width = '50%';
+                        // div2.style.backgroundColor = '﻿#00A4FF';
+                        div2.style.width = '45%';
                         div2.style.float = 'right';
-
-
-                        div2.innerHTML = str1+'<br>'+str2;
+                        div2.style.marginLeft = '5px';
+                        div2.style.color = 'rgba(128,128,128,0.8)';
+                        div2.innerHTML = str1 + '<br>' + str2;
                         div2.id = 'Ele' + i;
-                        div2.style.minHeight = "100px";
+                        // div2.style.minHeight = "100px";
                         document.getElementById('move').appendChild(div2);
 
                     } else {
                         let div1 = document.createElement('div');
-                        div1.style.backgroundColor = 'green';
+                        div1.style.boxShadow = '0 4px 8px 0 rgba(0,0,0,0.2)';
                         div1.style.width = '50%';
                         div1.style.float = 'right';
+                        div1.style.borderRightColor = 'black';
                         //div1.innerHTML = '{{右边}}';
                         div1.innerHTML = this.diaryList[i].diaryText;
                         div1.id = 'Elem' + i;
@@ -491,12 +511,14 @@
 
 
                         let div3 = document.createElement('div');
-                        div3.style.backgroundColor = '﻿﻿#fec374';
-                        div3.style.width = '50%';
+                        // div3.style.backgroundColor = '﻿﻿#fec374';
+                        div3.style.width = '45%';
                         div3.style.float = 'left';
-                        div3.innerHTML = str1+'<br>'+str2;
+                        div3.style.textAlign = 'right';
+                        div3.style.color = 'rgba(128,128,128,0.8)';
+                        div3.innerHTML = str1 + '<br>' + str2;
                         div3.id = 'Ele' + i;
-                        div3.style.minHeight = "100px";
+                        // div3.style.minHeight = "100px";
                         document.getElementById('move').appendChild(div3);
                     }
                 }
@@ -550,10 +572,12 @@
             // 从usrDiary中筛选出相关的列表 呈现在界面上
             getDiaryList: function (classifyId) {
                 this.diaryList = [];
+                //alert(classifyId);
                 if (classifyId != 0) { // 用户特色分类
                     for (var i = 0; i < this.userDiary.length; i++) {
-                        if (this.userClassify[i].cid == classifyId) {
-                            this.diaryList.add(this.userDiary[i]);
+                        if (this.userDiary[i].classifyId == classifyId) {
+                           // this.diaryList.add(this.userDiary[i]);
+                            this.diaryList.push(this.userDiary[i]);
                         }
                     }
                 } else {// 全部
@@ -578,9 +602,9 @@
                     url: 'addDiary.do',
                     methods: 'post',
                     data: {
-                        'classifyId': self.kindValue,
+                        'classifyId': self.kindOptions[self.kindValue].value,
                         //'userId': '',在 java后台session里
-                        'diaryFlag': '',// 分类flag | 谁可以看flag
+                        'diaryFlag': self.checkPeoValue|self.kindOptions[self.kindValue].state,// 分类flag | 谁可以看flag
                         'diaryText': self.textarea1,
                         'diaryTime': time,
                         'diaryWeather': self.weatherValue
