@@ -1,0 +1,207 @@
+
+::-webkit-scrollbar {
+   display: none;
+   width: 0;
+}
+
+a {
+    text-decoration: none;
+}
+
+html, body, #app, .el-container {
+    /*设置内部填充为0，几个布局元素之间没有间距*/
+    padding: 0;
+    /*外部间距也是如此设置*/
+    margin: 0;
+    /*统一设置高度为100%*/
+    height: 100%;
+}
+
+.el-header {
+    background-color: #B3C0D1;
+    color: #333;
+    /*max-height: 80px;*/
+}
+
+.el-aside {
+    background-color: transparent;
+    text-align: center;
+    background-image: url(../images/lightpaperfibers.png);
+}
+
+.el-main {
+    background-color: transparent;
+    color: #333;
+    background-image: url(../images/lightpaperfibers.png);
+    /*width: 500px;!important;*/
+    /*margin: 0 auto;*/
+}
+
+/*去除input的轮廓线*/
+input {
+    outline: none;
+}
+
+/*防止文本欲拖拽*/
+textarea {
+    resize: none;
+    outline: none; /*去除轮廓线*/
+}
+
+.icon-hengdengyu {
+    font-size: 40px;
+}
+
+.personalBtn /*个人中心按钮*/
+{
+    position: fixed;
+    left: 2px;
+    top: -2px;
+    background-color: transparent;
+}
+
+.addDiaryBtn /*添加日记按钮*/
+{
+    position: fixed;
+    right: 10px;
+    bottom: 10px;
+    font-size: 40px;
+}
+
+.header {
+    /*height:50px;*/
+    width: 100%;
+    /*height: 200px;*/
+    min-height: 80px;
+    background-color: #99cdaa;
+}
+.posBox
+{
+    position : relative;
+    width: 80%;
+    margin: auto;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    /*border: 1px solid #99cdaa;*/
+}
+.addBox /*添加日记*/
+{
+    width: 40%;
+    margin-left: 100px;
+
+}
+.addBox span{
+    display: inline-block;
+    font-size: 15px;
+    text-align: justify;
+}
+.controlBigBox
+{
+    margin-left: 30px;
+}
+.rightAddBox
+{
+    position: absolute;
+    top: 0;
+    /*left: 200px;*/
+    right: 0;
+    width: 45%;
+    height: 100%;
+    margin-left: 50px;
+    margin-top: 170px;
+
+    /*background-color: coral;*/
+}
+
+.classifyBtn {
+    vertical-align: middle;
+    margin-left: 50px;
+    margin-top: 20px;
+}
+
+
+
+#move {
+    width: 75%;
+    margin: 0 auto;
+}
+
+:focus {
+
+    outline: 0;
+}
+
+.move_div {
+    height: 200px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    width: 48%;
+    float: left;
+    border-right-color: black;
+    min-height: 100px;
+
+}
+
+.move_div2 {
+    height: 180px;
+    width: 48%;
+    float: right;
+    margin-left: 5px;
+    min-height: 100px;
+    color: rgba(128, 128, 128, 0.8);
+    /*padding-top: 5px;*/
+    padding-top: 20px;
+
+}
+
+.move_div1 {
+    /*color: ;*/
+    height: 200px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    width: 48%;
+    float: right;
+    border-right-color: black;
+    min-height: 100px;
+
+    /*div1.style.height = "100px";*/
+
+    /*div1.style.boxShadow = '0 4px 8px 0 rgba(0,0,0,0.2)';*/
+    /*div1.style.width = '50%';*/
+    /*div1.style.float = 'right';*/
+    /*div1.style.borderRightColor = 'black';
+    div1.style.minHeight = "100px";*/
+}
+
+.move_div3 {
+    height: 180px;
+    width: 48%;
+    float: left;
+    text-align: right;
+    margin-left: 5px;
+    min-height: 100px;
+    color: rgba(128, 128, 128, 0.8);
+    padding-top: 20px;
+
+    /*div3.style.height = "100px";
+    div3.style.backgroundColor = '﻿﻿#fec374';
+    div3.style.width = '45%';
+    div3.style.float = 'left';
+    div3.style.textAlign = 'right';
+    div3.style.color = 'rgba(128,128,128,0.8)';*/
+}
+.el-input__inner
+{
+    height: 30px;
+    line-height: 30px;
+}
+
+#publishBtn
+{
+    background-color: #99cdaa;
+    width: 200px;
+    height: 43px;
+    margin-left: 80px;
+    border-radius: 5px;
+    border: none;
+}
