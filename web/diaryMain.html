@@ -81,32 +81,56 @@
             /*height:50px;*/
             width: 100%;
             /*height: 200px;*/
-            max-height: 80px;
+            min-height: 80px;
             background-color: #99cdaa;
         }
-
+        .posBox
+        {
+            position : relative;
+            width: 80%;
+            margin: auto;
+            left: 0;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            /*border: 1px solid #99cdaa;*/
+        }
         .addBox /*添加日记*/
         {
-            width: 80%;
-            margin: 0 auto;
-            border: 1px solid #99cdaa;
-        }
+            width: 40%;
+            margin-left: 100px;
 
-        .allClassifyBtn {
-            margin-top: 10px;
-            /*margin-left: 100px;*/
+        }
+        .addBox span{
+            display: inline-block;
+            font-size: 15px;
+            text-align: justify;
+        }
+        .controlBigBox
+        {
+            margin-left: 30px;
+        }
+        .rightAddBox
+        {
+            position: absolute;
+            top: 0;
+            /*left: 200px;*/
+            right: 0;
+            width: 45%;
+            height: 100%;
+            margin-left: 50px;
+            margin-top: 170px;
+
+            /*background-color: coral;*/
         }
 
         .classifyBtn {
-            vertical-align: text-bottom;
-            margin-bottom: 2px;
-            /*margin-bottom:-2px;*/
-            margin-left: 100px;
+            vertical-align: middle;
+            margin-left: 50px;
+            margin-top: 20px;
         }
 
-        span {
-            font-size: 30px;
-        }
+
 
         #move {
             width: 75%;
@@ -125,9 +149,7 @@
             float: left;
             border-right-color: black;
             min-height: 100px;
-/*
-            margin-right: 10px;
-*/
+
         }
 
         .move_div2 {
@@ -177,7 +199,21 @@
             div3.style.textAlign = 'right';
             div3.style.color = 'rgba(128,128,128,0.8)';*/
         }
+        .el-input__inner
+        {
+            height: 30px;
+            line-height: 30px;
+        }
 
+        #publishBtn
+        {
+            background-color: #99cdaa;
+            width: 200px;
+            height: 43px;
+            margin-left: 80px;
+            border-radius: 5px;
+            border: none;
+        }
     </style>
     <script src="http://unpkg.com/vue/dist/vue.js"></script>
     <script src="https://unpkg.com/element-ui/lib/index.js"></script>
@@ -191,62 +227,88 @@
             :size="'600px'"
             :visible.sync="addDrawer"
             direction="btt">
-        <div class="addBox">
-            <div>
-                <span>分类:</span>
-                <el-select v-model="kindValue" clearable placeholder="请选择分类">
+        <div class="posBox">
+            <div class="addBox">
+                <div class="classifyBox">
+                    <span>分<i class="controlBigBox"></i>类:</span>
+                    <el-select v-model="kindValue" clearable placeholder="请选择分类">
+                        <el-option
+                                v-for="(item,index) in kindOptions"
+                                :key="item.value"
+                                :label="item.label"
+                                :value="index">
+                        </el-option>
+                    </el-select>
+                    <a href="classifyManagement.html"><i class="el-icon-circle-plus-outline"></i></a>
+                </div>
+                <span>谁可以看:</span>
+                <el-select v-model="checkPeoValue" clearable placeholder="请选择可查看的人">
                     <el-option
-                            v-for="(item,index) in kindOptions"
-                            :key="item.value"
-                            :label="item.label"
-                            :value="index">
-                    </el-option>
-                </el-select>
-                <a href="classifyManagement.html"><i class="el-icon-circle-plus-outline"></i></a>
-            </div>
-            <span>颜色:</span>
-            <input type="color" id="selectedColor"><br>
-            <span>字体:</span>
-            <input type="range" id="selectedFont">
-            <div>
-                <span>天气:</span>
-                <el-select v-model="weatherValue" clearable placeholder="请选择天气">
-                    <el-option
-                            v-for="item in weatherOptions"
+                            v-for="item in checkPeoOptions"
                             :key="item.value"
                             :label="item.label"
                             :value="item.value">
                     </el-option>
                 </el-select>
+
+                <div>
+                    <span>天<i class="controlBigBox"></i>气:</span>
+                    <el-select v-model="weatherValue" clearable placeholder="请选择天气">
+                        <el-option
+                                v-for="item in weatherOptions"
+                                :key="item.value"
+                                :label="item.label"
+                                :value="item.value">
+                        </el-option>
+                    </el-select>
+                </div>
+
+                <span>日<i class="controlBigBox"></i>期:</span>
+                <el-date-picker
+                        v-model="dataValue"
+                        align="right"
+                        type="date"
+                        placeholder="选择日期">
+                </el-date-picker>
+
+                <div class="colorBox">
+                    <span>颜<i class="controlBigBox"></i>色:</span>
+                    <input type="color" id="selectedColor">
+                </div>
+
+                <div class="fontBox">
+                    <span>字<i class="controlBigBox"></i>体:</span>
+                    <input type="range" id="selectedFont">
+                </div>
+
+                <!--添加日记文本内容-->
+                <el-input
+                        class="addTextArea"
+                        type="textarea"
+                        placeholder="请输入日记内容"
+                        maxlength="500"
+                        :rows="10"
+                        show-word-limit
+                        v-model="textarea1">
+                </el-input>
+
             </div>
-            <span>日期:</span>
-            <el-date-picker
-                    v-model="dataValue"
-                    align="right"
-                    type="date"
-                    placeholder="选择日期">
-            </el-date-picker>
-            <span>谁可以看:</span>
-            <el-select v-model="checkPeoValue" clearable placeholder="请选择可查看的人">
-                <el-option
-                        v-for="item in checkPeoOptions"
-                        :key="item.value"
-                        :label="item.label"
-                        :value="item.value">
-                </el-option>
-            </el-select>
-            <!--添加日记文本内容-->
-            <el-input
-                    class="addTextArea"
-                    type="textarea"
-                    placeholder="请输入日记内容"
-                    maxlength="500"
-                    :rows="10"
-                    show-word-limit
-                    v-model="textarea1">
-            </el-input>
-            <button id="publishBtn" @click="Publish">发布</button>
+            <div class="rightAddBox">
+                <el-upload
+                        class="upload-demo"
+                        drag
+                        action="https://jsonplaceholder.typicode.com/posts/"
+                        multiple>
+                    <i class="el-icon-upload"></i>
+                    <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em>
+                        <div class="el-upload__tip" slot="tip">只能上传jpg/png文件，且不超过500kb</div>
+                    </div>
+
+                </el-upload>
+                <button id="publishBtn" @click="Publish">发布</button>
+            </div>
         </div>
+
     </el-drawer>
 
     <!--个人中心折叠框-->
@@ -269,7 +331,7 @@
     <!--饿了么布局容器框架 头中右布局-->
     <el-container>
         <!--头部   包括个人中心按钮  两个div 一个全部 一个分类之后的-->
-        <el-header class="header" height="''" >
+        <el-header class="header" height="''">
 
             <div>
                 <el-button class="personalBtn" @click="personalDrawer = true" type="text">
@@ -279,7 +341,7 @@
 
             <!-- 分类-->
             <div class="classifyBtn">
-                <!--动态生成radio   这里还有点问题 单选一选会把单选按钮都选上 不互斥了-->
+                <!--动态生成radio 这里还有点问题 单选一选会把单选按钮都选上 不互斥了-->
                 <el-radio-group v-model="classifyValue" @change="ChooseDiary">
                             <!--全部-->
 <!--                    <div class="allClassifyBtn">-->
@@ -288,7 +350,6 @@
 <!--                    </div>-->
 <!--                    <el-radio v-model="classifyValue" label="-1">{{}}({{allDiaryMsg}})</el-radio>-->
 <!--                    <el-radio v-model="classifyValue" label="0">未分类({{nonDiaryMsg}})</el-radio>-->
-
 
                     <el-radio
                             :label="index"
@@ -395,7 +456,7 @@
                         value: '14',//此项分类的数量
                         classifyName: '计划',
                     }],
-                classifyValue: '0',//-1代表选中全部按钮
+                classifyValue: 0,//-1代表选中全部按钮
 
                 kindOptions: [
                     /*{
