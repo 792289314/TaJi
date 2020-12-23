@@ -54,7 +54,7 @@
         /*防止文本欲拖拽*/
         textarea {
             resize: none;
-            outline: none; /*去除轮廓线*/
+            /*outline: none; !*去除轮廓线*!*/
         }
 
         .icon-hengdengyu {
@@ -233,10 +233,12 @@
                     <span>分<i class="controlBigBox"></i>类:</span>
                     <el-select v-model="kindValue" clearable placeholder="请选择分类">
                         <el-option
-                                v-for="(item,index) in kindOptions"
+                                v-for="(item,index) in classifyList"
                                 :key="item.value"
-                                :label="item.label"
-                                :value="index">
+                                :label="item.name"
+                                :value="index"
+                                v-if="index>=1"
+                        >
                         </el-option>
                     </el-select>
                     <a href="classifyManagement.html"><i class="el-icon-circle-plus-outline"></i></a>
@@ -720,9 +722,9 @@
                     url: 'addDiary.do',
                     methods: 'post',
                     data: {
-                        'classifyId': self.kindOptions[self.kindValue].value,
+                        'classifyId': self.classifyList[self.kindValue].value,
                         //'userId': '',在 java后台session里
-                        'diaryFlag': self.checkPeoValue | self.kindOptions[self.kindValue].state,// 分类flag | 谁可以看flag
+                        'diaryFlag': self.checkPeoValue | self.classifyList[self.kindValue].flag,// 分类flag | 谁可以看flag
                         'diaryText': self.textarea1,
                         'diaryTime': time,
                         'diaryWeather': self.weatherValue
