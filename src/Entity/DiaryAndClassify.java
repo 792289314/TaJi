@@ -5,6 +5,7 @@ import java.sql.Timestamp;
 
 // 由于在 实体包含实体 的情况下 转换为json会报错
 // 因此 额外增加这个类 (太菜了 不会解决。。。)
+// ps: 这个问题解决了 是因为时间类的问题 Time不能用只能用TimeStamp 但是我懒得改了( ´ ▽ ` )ﾉ
 public class DiaryAndClassify {
     private long classifyId;
     private String classifyName;
