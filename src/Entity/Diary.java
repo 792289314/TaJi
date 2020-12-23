@@ -4,7 +4,6 @@ import java.sql.Time;
 import java.sql.Timestamp;
 
 public class Diary {
-    //did,classify.cid 'cid', cname, cflag, ccolor, dflag,dweather,dtext,dtime
     long id;
     Classify classify;
 
@@ -14,7 +13,7 @@ public class Diary {
     String text;
     Timestamp time;
 
-    public Diary(Classify classify,long id,  boolean flag, int weather, String text, Timestamp time) {
+    public Diary(Classify classify, long id, boolean flag, int weather, String text, Timestamp time) {
         this.id = id;
         this.classify = classify;
         this.flag = flag;
@@ -23,12 +22,12 @@ public class Diary {
         this.time = time;
     }
 
-    public Diary(long cid, boolean dflag, String dtext, Timestamp dtime, int dweather) {
-        this.classify.setId(cid);
-        this.flag = dflag;
-        this.weather = dweather;
-        this.text = dtext;
-        this.time = dtime;
+    public Diary(long cid, boolean _flag, String _text, Timestamp _time, int _weather) {
+        this.classify = new Classify(cid);
+        this.flag = _flag;
+        this.weather = _weather;
+        this.text = _text;
+        this.time = _time;
     }
 
     public long getId() {

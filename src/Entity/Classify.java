@@ -23,6 +23,10 @@ public class Classify {
         this.cnt = cnt;
     }
 
+    public Classify(long cid) {
+        this.Id = cid;
+    }
+
     public long getCnt() {
         return cnt;
     }

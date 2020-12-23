@@ -16,7 +16,7 @@
     <context:component-scan base-package="Service"/>
     <context:component-scan base-package="Entity"/>
     <context:component-scan base-package="Dao"/>
-	<context:component-scan base-package="Filter"/>
+    <context:component-scan base-package="Filter"/>
 
     <!-- 打开注解驱动 -->
     <mvc:annotation-driven/>
