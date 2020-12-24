@@ -339,7 +339,7 @@ var vm = new Vue({
                 url: 'addDiary.do',
                 method: 'post',
                 data: data,/*
-                // 下面这一部分解决 diaryText乱码问题
+                // 下面这一部分解决 diaryText乱码问题 // 发现后端设置一下就行
                 responseType: 'blob',
                 transformResponse: [function (data) {
                     let reader = new FileReader();
@@ -354,7 +354,9 @@ var vm = new Vue({
                     self.$message("添加日记操作失败");
                 } else {
                     self.$message("成功添加日记");
-                    // 刷新界面 重新进入该网页
+                    // 更新界面 时间列表显示全部的内容
+                    self.classifyValue = 0;
+                    self.ChooseDiary(0);
 
                 }
             }).catch(function (error) {
