@@ -139,7 +139,8 @@ public class diaryMainController extends HttpServlet {
                      HttpServletResponse response) throws ServletException, IOException {
         session.invalidate();
         RequestDispatcher dispatcher = null;
-        dispatcher = getServletContext().getRequestDispatcher("/account.html");
+        dispatcher = request.getRequestDispatcher("/account.html");
+        System.out.println(session.getAttribute("name"));
         dispatcher.forward(request, response);
 
     }
