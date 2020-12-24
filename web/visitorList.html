@@ -4,31 +4,11 @@
     <meta charset="UTF-8">
     <title>她记——————过客列表页面</title>
     <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
-    <style>
-        body {
-            /*background-color: #8e8f8d;*/
-            background-image: url(./images/lightpaperfibers.png);
-        }
 
-        .is-selected {
-            color: #1989FA;
-        }
 
-        .showCalendar {
-            width: 60%;
-            /*height: 500px;*/
-            margin: 100px auto;
-        }
-        #showDiary
-        {
-            width: 60%;
-            /*height: 500px;*/
-            margin: -50px auto;
-            background: coral;
-            /*border: 1px solid black;*/
-            /*text-align: center;*/
-        }
-    </style>
+    <!--引入css-->
+    <link rel="stylesheet" href="css/visitorList.css">
+
     <script src="http://unpkg.com/vue/dist/vue.js"></script>
     <script src="https://unpkg.com/element-ui/lib/index.js"></script>
 </head>
@@ -55,39 +35,6 @@
     </div>
 </div>
 
-<script type="text/javascript">
-    var vm = new Vue({
-        el: '#app',
-        data() {
-            return {
-                allDiaryList:[]
-            }
-        },
-        created(){
-            this.getAllDiary();
-        },
-        methods: {
-            getAllDiary:function()
-            {
-
-            },
-            showElement: function () {
-                for (let i = 0; i < 7; i++) {
-                        let div = document.createElement('div');
-                        div.style.width='100%';
-                        div.style.border = '1px solid black';
-                        // div.innerHTML = '{{左边}}';
-                        div.innerHTML = this.allDiaryList[i].diaryText;
-
-                        div.id = 'showD' + i;
-                        div.style.minHeight = "100px";
-                        document.getElementById('showDiary').appendChild(div);
-
-                }
-            }
-
-        },
-    })
-</script>
+<script type="text/javascript" src="js/visitorList.js"></script>
 </body>
 </html>

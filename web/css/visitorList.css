@@ -1,0 +1,24 @@
+
+body {
+    /*background-color: #8e8f8d;*/
+    background-image: url(../images/lightpaperfibers.png);
+}
+
+.is-selected {
+    color: #1989FA;
+}
+
+.showCalendar {
+    width: 60%;
+    /*height: 500px;*/
+    margin: 100px auto;
+}
+#showDiary
+{
+    width: 60%;
+    /*height: 500px;*/
+    margin: -50px auto;
+    background: coral;
+    /*border: 1px solid black;*/
+    /*text-align: center;*/
+}

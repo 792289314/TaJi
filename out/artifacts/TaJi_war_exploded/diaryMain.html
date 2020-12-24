@@ -81,16 +81,6 @@
                     <input type="range" id="selectedFont">
                 </div>
 
-                <!--添加日记文本内容-->
-                <el-input
-                        class="addTextArea"
-                        type="textarea"
-                        placeholder="请输入日记内容"
-                        maxlength="500"
-                        :rows="10"
-                        show-word-limit
-                        v-model="textarea1">
-                </el-input>
 
             </div>
             <div class="rightAddBox">
@@ -105,6 +95,20 @@
                     </div>
 
                 </el-upload>
+
+
+            </div>
+            <div class="rightAddBox">
+                <!--添加日记文本内容-->
+                <el-input
+                        class="addTextArea"
+                        type="textarea"
+                        placeholder="请输入日记内容"
+                        maxlength="500"
+                        :rows="15"
+                        show-word-limit
+                        v-model="textarea1">
+                </el-input>
                 <button id="publishBtn" @click="Publish">发布</button>
             </div>
         </div>
@@ -194,8 +198,13 @@
 
     </el-container>
 </div>
+
+
 <!--引入js-->
 <script src="js/diaryMain.js"></script>
+
+
+
 </body>
 
 </html>

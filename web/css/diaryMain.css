@@ -88,6 +88,7 @@ textarea {
 }
 .addBox /*添加日记*/
 {
+    position: absolute;
     width: 40%;
     margin-left: 100px;
 
@@ -105,16 +106,20 @@ textarea {
 {
     position: absolute;
     top: 0;
-    /*left: 200px;*/
+    left: 500px;
     right: 0;
     width: 45%;
     height: 100%;
-    margin-left: 50px;
-    margin-top: 170px;
+    margin-left: 20px;
+    /*margin-top: 170px;*/
 
     /*background-color: coral;*/
 }
-
+.el-upload-dragger
+{
+    width: 300px;
+    height: 200px;
+}
 .classifyBtn {
     vertical-align: middle;
     margin-left: 50px;

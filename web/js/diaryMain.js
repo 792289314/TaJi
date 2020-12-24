@@ -113,19 +113,19 @@ var vm = new Vue({
                 value: 2,
                 label: '下雨'
             },],
-            weatherValue: 0,
+            weatherValue: '',
             dataValue: '',
 
             checkPeoOptions: [
                 {//添加日记中 查看权限的下拉列表框 需要给这样的数组
-                    value: false,
+                    value: 0,
                     label: '所有人可见'
                 },
                 {
-                    value: true,
+                    value: 1,
                     label: '仅自己可见'
                 }],
-            checkPeoValue: true,
+            checkPeoValue: '',
 
 
             brandFold: true,
@@ -191,6 +191,7 @@ var vm = new Vue({
                }
 */
 
+            const self = this;
             for (let i = 0; i < this.diaryList.length; i++) {
                 /*
                              2020年12月12日 星期x
@@ -213,6 +214,11 @@ var vm = new Vue({
                     //div.innerHTML = '{{左边}}';
                     div.innerHTML = this.diaryList[i].diaryText;
                     div.id = 'Elem' + i;
+                    //div.onclick=this.diaryDivClick(div.id);
+                    div.addEventListener("click", function () {
+                        // alert(this.id);
+                        self.diaryDivClick(this.id);
+                    });
                     //var div_h = div.offsetHeight;
                     //alert(div_h);
                     document.getElementById('move').appendChild(div);
@@ -231,6 +237,10 @@ var vm = new Vue({
                     //div1.innerHTML = '{{右边}}';
                     div1.innerHTML = this.diaryList[i].diaryText;
                     div1.id = 'Elem' + i;
+                    div1.addEventListener("click", function () {
+                        // alert(this.id);
+                        self.diaryDivClick(this.id);
+                    });
 
                     document.getElementById('move').appendChild(div1);
 
@@ -244,6 +254,12 @@ var vm = new Vue({
             }
         },
 
+        //点击每一个div触发事件
+        diaryDivClick: function (id) {
+            // this.$message(id);
+            // alert("test");
+            window.open("modifyDiary.html");
+        },
 
         // 提取 该用户 所有分类 并 统计 每一个分类 所拥有的日记数量
         // 提取 该用户 所有的 相关日记 按 创建日期排列
@@ -273,7 +289,7 @@ var vm = new Vue({
             const self = this;
             axios({
                 url: 'getUserDiary.do',
-                method: 'post'
+                methods: 'post'
             }).then(function (response) {
                 if (response.data == "error") {
                     // session 中没有用户id
@@ -309,19 +325,16 @@ var vm = new Vue({
         // 还没写完
         // 右下角添加日记的发布按钮
         Publish: function () {
-            const self = this;
+            let self = this;
             //alert(self.kindValue);
-            //let selectedColor = document.getElementById('selectedColor').value;
-            //let selectedFont = document.getElementById('selectedFont').value;
+            let selectedColor = document.getElementById('selectedColor').value;
+            let selectedFont = document.getElementById('selectedFont').value;
             // self.weatherValue
             const time = new Date().getTime(); // 获取当前时间
             //alert(time);
             // self.checkPeoValue
             //alert(self.textarea1)
-
-            //  alert(self.classifyList[self.kindValue].id);
-
-
+            //alert(self.kindOptions[self.kindValue].value);
             var data = {
                 "classifyId": this.classifyList[this.kindValue].id,
                 "diaryFlag": (this.checkPeoValue || this.classifyList[this.kindValue].flag),
@@ -332,13 +345,15 @@ var vm = new Vue({
 
             axios({
                 url: 'addDiary.do',
-                method: 'post',
-                //data: data,
-               // dataType: 'json',
-                //async: true,
-                data: JSON.stringify(data),
-                //contentType: 'application/json',
-
+                methods: 'post',
+                data: {
+                    'classifyId': self.kindOptions[self.kindValue].value,
+                    //'userId': '',在 java后台session里
+                    'diaryFlag': self.checkPeoValue | self.kindOptions[self.kindValue].state,// 分类flag | 谁可以看flag
+                    'diaryText': self.textarea1,
+                    'diaryTime': time,
+                    'diaryWeather': self.weatherValue
+                }
             }).then(function (response) {
                 if (response == "error") {
                     self.$message("添加日记操作失败");
@@ -346,6 +361,11 @@ var vm = new Vue({
                     self.$message("成功添加日记");
                     // 刷新界面 重新进入该网页
 
+                }
+            }).catch(function (error) {
+                self.$message("请求过程中发生错误：" + error);
+            })
+        },
                 }
             }).catch(function (error) {
                 self.$message("请求过程中发生错误：" + error);

@@ -1,0 +1,10 @@
+.bigBox
+{
+    position: absolute;
+    left: 0;
+    right: 0;
+    top:0;
+    margin: auto;
+    width: 80%;
+    background-color: #319464;
+}

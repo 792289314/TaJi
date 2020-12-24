@@ -4,53 +4,11 @@
     <meta charset="UTF-8">
     <title>她记——————分类管理页面</title>
     <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
-    <style>
-        body {
-            /*background-color: #8e8f8d;*/
-            background-image: url(./images/lightpaperfibers.png);
-        }
 
-        * {
-            margin: 0;
-            padding: 0;
-        }
 
-        .addClassifyBtn {
-            /*width: 100px;*/
-            float: right;
-            height: 30px;
-            background-color: #319464;
-            font-size: 15px;
-            color: white;
+    <!--引入css-->
+    <link rel="stylesheet" href="css/classifyManagement.css">
 
-        }
-
-        .classifyBox {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            margin: auto;
-            width: 80%;
-            height: 500px;
-            /*background-color: #99cdaa;*/
-        }
-
-        .classifyMain {
-            margin-top: 40px;
-            /*background-color: #B3C0D1;*/
-
-        }
-        .el-table-column
-        {
-            color: black;
-        }
-        #addBox
-        {
-
-        }
-    </style>
     <script src="http://unpkg.com/vue/dist/vue.js"></script>
     <script src="https://unpkg.com/element-ui/lib/index.js"></script>
 </head>
@@ -112,76 +70,8 @@
     </div>
 
 </div>
+<!--引入js-->
+<script type="text/javascript" src="js/classifyManagement.js"></script>
 
-<script type="text/javascript">
-
-    var vm = new Vue({
-        el: '#app',
-        data() {
-            return {
-
-                classifyTableData: [{
-                    classifyName: '旅游',
-                    classifyColor: '#ffff',
-                    classifyNum: 12
-                }, {
-                    classifyName: '旅游',
-                    classifyColor: '#ffff',
-                    classifyNum: 12
-                }, {
-                    classifyName: '旅游',
-                    classifyColor: '#ffff',
-                    classifyNum: 12
-                }, {
-                    classifyName: '旅游',
-                    classifyColor: '#ffff',
-                    classifyNum: 12
-                }, {
-                    classifyName: '旅游',
-                    classifyColor: '#ffff',
-                    classifyNum: 12
-                }, {
-                    classifyName: '旅游',
-                    classifyColor: '#ffff',
-                    classifyNum: 12
-                }, {
-                    classifyName: '旅游',
-                    classifyColor: '#ffff',
-                    classifyNum: 12
-                }, {
-                    classifyName: '旅游',
-                    classifyColor: '#ffff',
-                    classifyNum: 12
-                }, {
-                    classifyName: '旅游',
-                    classifyColor: '#ffff',
-                    classifyNum: 12
-                }, {
-                    classifyName: '旅游',
-                    classifyColor: '#ffff',
-                    classifyNum: 12
-                },
-                    {
-                        classifyName: '旅游',
-                        classifyColor: '#ffff',
-                        classifyNum: 12
-                    }
-                ],
-
-            }
-        },
-        methods: {
-            $refs: undefined,
-            handleClose(index) {
-                this.$refs[`popover-${index}`].doClose()
-            },
-            addClassify:function () {
-
-            }
-            
-
-        },
-    })
-</script>
 </body>
 </html>

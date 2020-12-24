@@ -1,0 +1,161 @@
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    /*background-color: #8e8f8d;*/
+    background-image: url(./images/lightpaperfibers.png);
+}
+
+.mainBox {
+    position: absolute;
+    width: 310px;
+    height: 470px;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+    /*background-color: #fff1c8;*/
+}
+
+.TaTitle h1 {
+    text-align: center;
+    color: #319464;
+}
+
+.TaTitle h4 {
+    text-align: center;
+    margin-top: 10px;
+    color: rgba(0, 0, 0, 0.5);
+
+}
+
+button, input {
+    outline: none;
+}
+
+button {
+    background-color: transparent;
+    border-style: none;
+}
+
+input:focus::-webkit-contacts-auto-fill-button {
+    opacity: 0;
+}
+
+input::-webkit-credentials-auto-fill-button {
+    display: none !important;
+    visibility: hidden;
+    pointer-events: none;
+    position: absolute; /* 避免占用 input 元素额外的 padding，正常情况下存在 display: none!; 就可以了 */
+    right: 0;
+}
+
+.btnBox {
+    width: 310px;
+    height: 55px;
+}
+
+.loginBtn {
+
+    width: 45%;
+    height: 55px;
+    margin-left: 12px;
+    font-size: 20px;
+    color: #99cdaa;
+
+}
+
+.registerBtn {
+    width: 45%;
+    height: 55px;
+    font-size: 20px;
+    color: #99cdaa;
+}
+
+.loginBox div {
+    width: 309px;
+    height: 46px;
+    margin: 20px 0;
+    border: 1px solid #319464;
+    /*margin-left: 5px;*/
+}
+
+.loginBox input {
+    height: 100%;
+    border: none;
+    background-color: transparent;
+    margin-left: 5px;
+    font-size: 20px;
+    /*line-height:46px;*/
+}
+
+.pwdIn {
+    width: 145px;
+}
+
+#linbtn {
+    width: 310px;
+    height: 46px;
+    border: 0;
+    font-size: 15px;
+    color: white;
+    background-color: #319464;
+}
+
+.bottom {
+    margin-top: 25px;
+}
+
+.bottom button {
+    font-size: 15px;
+    color: #319464;
+}
+
+.bottom .registerNum {
+    float: left;
+}
+
+.bottom .forgetPwd {
+    float: right;
+}
+
+.regBox div {
+
+    height: 35px;
+    margin-top: 17px;
+    border: 1px solid #319464;
+    /*margin-left: 5px;*/
+}
+
+.regBox input {
+    height: 100%;
+    border: none;
+    background-color: transparent;
+    margin-left: 5px;
+    font-size: 20px;
+}
+
+#regisbtn {
+    width: 310px;
+    height: 46px;
+    background-color: #319464;
+    margin-top: 10px;
+    border: 0;
+    font-size: 15px;
+    color: white;
+}
+
+.register_context p {
+    font-size: 13px;
+    color: #8e8f8d;
+    margin: 8px 56px;
+}
+
+.iconfont {
+    font-size: 21px;
+}
+
