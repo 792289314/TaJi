@@ -100,7 +100,7 @@ var vm = new Vue({
                     state: 0,
                     kindColor: '#ffff',
                 }],
-            kindValue: '',//添加日记选中的分类的value
+            kindValue: 1,//添加日记选中的分类的value
             kindState: '',
 
             weatherOptions: [{////添加日记中 天气的下拉列表框 需要给这样的数组
@@ -310,18 +310,7 @@ var vm = new Vue({
         // 右下角添加日记的发布按钮
         Publish: function () {
             const self = this;
-            //alert(self.kindValue);
-            //let selectedColor = document.getElementById('selectedColor').value;
-            //let selectedFont = document.getElementById('selectedFont').value;
-            // self.weatherValue
             const time = new Date().getTime(); // 获取当前时间
-            //alert(time);
-            // self.checkPeoValue
-            //alert(self.textarea1)
-
-            //  alert(self.classifyList[self.kindValue].id);
-
-
             var data = {
                 "classifyId": this.classifyList[this.kindValue].id,
                 "diaryFlag": (this.checkPeoValue || this.classifyList[this.kindValue].flag),
@@ -333,40 +322,26 @@ var vm = new Vue({
             axios({
                 url: 'addDiary.do',
                 method: 'post',
-                //data: data,
-               // dataType: 'json',
-                //async: true,
-                data: JSON.stringify(data),
-                //contentType: 'application/json',
-
+                data: data,/*
+                // 下面这一部分解决 diaryText乱码问题
+                responseType: 'blob',
+                transformResponse: [function (data) {
+                    let reader = new FileReader();
+                    reader.readAsText(data, 'GBK');
+                    reader.onload = function (e) {
+                        console.log(reader.result);
+                    }
+                    return data;
+                }]*/
             }).then(function (response) {
                 if (response == "error") {
                     self.$message("添加日记操作失败");
                 } else {
                     self.$message("成功添加日记");
                     // 刷新界面 重新进入该网页
-
                 }
             }).catch(function (error) {
                 self.$message("请求过程中发生错误：" + error);
-
-                if (error.response) {
-                    // The request was made and the server responded with a status code
-                    // that falls out of the range of 2xx
-                    console.log(error.response.data);
-                    console.log(error.response.status);
-                    console.log(error.response.headers);
-                } else if (error.request) {
-                    // The request was made but no response was received
-                    // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
-                    // http.ClientRequest in node.js
-                    console.log(error.request);
-                } else {
-                    // Something happened in setting up the request that triggered an Error
-                    console.log('Error', error.message);
-                }
-                console.log(error.config);
-
             })
         },
 

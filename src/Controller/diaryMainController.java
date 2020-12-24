@@ -1,6 +1,7 @@
 package Controller;
 
 import Entity.Classify;
+import Entity.Diary;
 import Entity.DiaryAndClassify;
 import Service.diaryMainManage;
 import net.sf.json.JSONArray;
@@ -10,18 +11,21 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.Timestamp;
 import java.util.ArrayList;
+
 
 @Controller
 public class diaryMainController extends HttpServlet {
 
-
-    @RequestMapping("/getClassify.do")
     // 获取用户分类
+    @RequestMapping("/getClassify.do")
     public void getClassify(HttpSession session,
                             HttpServletResponse response) throws IOException {
         response.setContentType("text/html;  charset=utf-8");
@@ -57,6 +61,7 @@ public class diaryMainController extends HttpServlet {
 
     }
 
+    // 获取用户全部的日记记录
     @RequestMapping("/getUserDiary.do")
     public void getUserDiary(HttpSession session,
                              HttpServletResponse response) throws IOException {
@@ -83,46 +88,35 @@ public class diaryMainController extends HttpServlet {
     }
 
 
-    /*  json中的数据
-            data: {
-                'classifyId': self.kindValue,
-                //'userId': '',在 java后台session里
-                'diaryFlag': '',// 分类flag | 谁可以看flag
-                'diaryText': self.textarea1,
-                'diaryTime': time,
-                'diaryWeather': self.weatherValue
-    }*/
+    // json中的数据 data: {'classifyId', 'diaryFlag', 'diaryText', 'diaryTime', 'diaryWeather'}
+    // 咳咳 方法是有点麻烦 先提取json然后才分割转换 主要是类没有设计好... 没办法直接变成实体
     @RequestMapping("/addDiary.do")
-    public void AddDiary(@RequestBody String strJSON,
+    public void AddDiary(HttpServletRequest request,
                          HttpSession session,
                          HttpServletResponse response) throws IOException {
 
         response.setContentType("text/html;charset=utf-8");
+        request.setCharacterEncoding("utf-8");
 
-        //JSONObject json = JSONObject.fromObject(strJSON);
+        BufferedReader rd = request.getReader();
+        String strJSON = "", tmp;
+        while ((tmp = rd.readLine()) != null) {
+            strJSON += tmp;
+        }
         System.out.println(strJSON);
-/*
+
         Object userId = session.getAttribute("id");
-
-        //System.out.println("id:" + userId.toString());
         JSONObject json = JSONObject.fromObject(strJSON);
-
         long cid = Long.parseLong(json.get("classifyId").toString());
         // 得到的 json.get("classifyId") 是个 Integer（Object）类型 需要强制转换 才能够变成long
-        //System.out.println(cid);
         boolean dflag = Boolean.parseBoolean(json.get("diaryFlag").toString());// java不支持 0变false js倒是支持
-        //System.out.println(dflag);
         String dtext = (String) json.get("diaryText");
-        //System.out.println(dtext);
         long tim = Long.parseLong(json.get("diaryTime").toString());
         Timestamp dtime = new Timestamp(tim);
         // 得到的 json.get("diaryTime") 是 Long 类型的时间（所以要先转换成long）
         // 也不能直接转换成tiemstamp（所以根据时间long新建实体）
-        //System.out.println(dtime);
         int dweather = Integer.parseInt(json.get("diaryWeather").toString());
-        //System.out.println(dweather);
         PrintWriter out = response.getWriter();
-        //out.write("error");
         if (userId == null) {
             out.write("error");
         } else {
@@ -135,8 +129,5 @@ public class diaryMainController extends HttpServlet {
                 out.write("error");
             }
         }
-        */
-
-
     }
 }

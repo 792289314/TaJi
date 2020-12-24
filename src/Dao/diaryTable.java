@@ -56,7 +56,7 @@ public class diaryTable {
             conn = db.getConnection();
             if (conn != null) {
                 String sql = "select  did,classify.cid 'cid', cname, cflag, ccolor, dflag,dweather,dtext,dtime" +
-                        " from classify,diary where diary.uid =  ? and classify.cid=diary.cid";
+                        " from classify,diary where diary.uid =  ? and classify.cid=diary.cid order by diary.dtime DESC ";
                 pst = conn.prepareStatement(sql);
                 pst.setLong(1, id);
                 rs = pst.executeQuery();
