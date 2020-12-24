@@ -4,12 +4,10 @@
     <meta charset="UTF-8">
     <title>她记————————个人中心页面</title>
     <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
-    <style>
-        body {
-            /*background-color: #8e8f8d;*/
-            background-image: url(./images/lightpaperfibers.png);
-        }
-    </style>
+
+    <!--引入css-->
+    <link rel="stylesheet" href="css/person.css">
+
     <script src="http://unpkg.com/vue/dist/vue.js"></script>
     <script src="https://unpkg.com/element-ui/lib/index.js"></script>
 </head>
@@ -28,17 +26,9 @@
     </el-popover>
 </div>
 
-<script type="text/javascript">
 
-    var Main = {
-        data() {
-            return {
-                visible: false,
-            };
-        }
-    };
-    var Ctor = Vue.extend(Main);
-    new Ctor().$mount('#app')
-</script>
+<!--引入js-->
+<script type="text/javascript" src="js/person.js"></script>
+
 </body>
 </html>

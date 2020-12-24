@@ -1,0 +1,46 @@
+
+body {
+    /*background-color: #8e8f8d;*/
+    background-image: url(../images/lightpaperfibers.png);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+.addClassifyBtn {
+    /*width: 100px;*/
+    float: right;
+    height: 30px;
+    background-color: #319464;
+    font-size: 15px;
+    color: white;
+
+}
+
+.classifyBox {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+    width: 80%;
+    height: 500px;
+    /*background-color: #99cdaa;*/
+}
+
+.classifyMain {
+    margin-top: 40px;
+    /*background-color: #B3C0D1;*/
+
+}
+.el-table-column
+{
+    color: black;
+}
+#addBox
+{
+
+}

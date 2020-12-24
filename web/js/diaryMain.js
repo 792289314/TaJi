@@ -213,6 +213,11 @@ var vm = new Vue({
                     //div.innerHTML = '{{左边}}';
                     div.innerHTML = this.diaryList[i].diaryText;
                     div.id = 'Elem' + i;
+                    //div.onclick=this.diaryDivClick(div.id);
+                    div.addEventListener("click", function () {
+                        // alert(this.id);
+                        self.diaryDivClick(this.id);
+                    });
                     //var div_h = div.offsetHeight;
                     //alert(div_h);
                     document.getElementById('move').appendChild(div);
@@ -310,7 +315,18 @@ var vm = new Vue({
         // 右下角添加日记的发布按钮
         Publish: function () {
             const self = this;
+            //alert(self.kindValue);
+            //let selectedColor = document.getElementById('selectedColor').value;
+            //let selectedFont = document.getElementById('selectedFont').value;
+            // self.weatherValue
             const time = new Date().getTime(); // 获取当前时间
+            //alert(time);
+            // self.checkPeoValue
+            //alert(self.textarea1)
+
+            //  alert(self.classifyList[self.kindValue].id);
+
+
             var data = {
                 "classifyId": this.classifyList[this.kindValue].id,
                 "diaryFlag": (this.checkPeoValue || this.classifyList[this.kindValue].flag),
@@ -339,6 +355,7 @@ var vm = new Vue({
                 } else {
                     self.$message("成功添加日记");
                     // 刷新界面 重新进入该网页
+
                 }
             }).catch(function (error) {
                 self.$message("请求过程中发生错误：" + error);
