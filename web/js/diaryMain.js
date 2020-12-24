@@ -143,10 +143,14 @@ var vm = new Vue({
 
     },
     methods: {
-        ChooseDiary: function (val) {
-            this.getDiaryList(val);
+
+        // 清空 <div id="move"> 内部的组件
+        ClearMoveDiv: function () {
             var div = document.getElementById("move");
             div.innerHTML = "";
+        },
+        ChooseDiary: function (val) {
+            this.getDiaryList(val);
             this.addElement();
         },
 
@@ -172,6 +176,9 @@ var vm = new Vue({
 
         //版面中间 动态生成div 从后端拿到日记内容 并一左一右显示
         addElement: function () {
+            // 先清空
+            this.ClearMoveDiv();
+
             /*
              后端传来的所有日记数据保存在 diaryList （数组）中， 这个变量我这边建了 但是你那边没有
              {
@@ -294,7 +301,6 @@ var vm = new Vue({
             })
         },
 
-
         // 从usrDiary中筛选出相关的列表 呈现在界面上
         getDiaryList: function (classifyId) {
             this.diaryList = [];
@@ -302,7 +308,6 @@ var vm = new Vue({
             if (classifyId != 0) { // 用户特色分类
                 for (var i = 0; i < this.userDiary.length; i++) {
                     if (this.userDiary[i].classifyId == classifyId) {
-                        // this.diaryList.add(this.userDiary[i]);
                         this.diaryList.push(this.userDiary[i]);
                     }
                 }
@@ -315,18 +320,7 @@ var vm = new Vue({
         // 右下角添加日记的发布按钮
         Publish: function () {
             const self = this;
-            //alert(self.kindValue);
-            //let selectedColor = document.getElementById('selectedColor').value;
-            //let selectedFont = document.getElementById('selectedFont').value;
-            // self.weatherValue
             const time = new Date().getTime(); // 获取当前时间
-            //alert(time);
-            // self.checkPeoValue
-            //alert(self.textarea1)
-
-            //  alert(self.classifyList[self.kindValue].id);
-
-
             var data = {
                 "classifyId": this.classifyList[this.kindValue].id,
                 "diaryFlag": (this.checkPeoValue || this.classifyList[this.kindValue].flag),
@@ -354,10 +348,8 @@ var vm = new Vue({
                     self.$message("添加日记操作失败");
                 } else {
                     self.$message("成功添加日记");
-                    // 更新界面 时间列表显示全部的内容
-                    self.classifyValue = 0;
-                    self.ChooseDiary(0);
-
+                    //重新获取一遍数据库里的日记信息
+                    self.getUserDiary();
                 }
             }).catch(function (error) {
                 self.$message("请求过程中发生错误：" + error);
@@ -366,10 +358,10 @@ var vm = new Vue({
 
         exit: function () {
             axios({
-                url: '',
+                url: 'exit.do',
                 methods: 'post'
-            }).then(function (response) {
-
+            }).then(function () {
+                self.$message("退出成功");
             }).catch(function (error) {
 
             })
