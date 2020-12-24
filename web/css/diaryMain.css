@@ -203,10 +203,57 @@ textarea {
 
 #publishBtn
 {
+    margin-top: 2px;
     background-color: #99cdaa;
     width: 200px;
     height: 43px;
     margin-left: 80px;
     border-radius: 5px;
     border: none;
+    font-size: 16px;
+    color: white;
+}
+
+
+.personalHead
+{
+    width: 300px;
+    height: 100px;
+    background-color: #6d9474;
+    /*background: url(../images/personHead.jpg) no-repeat;*/
+    /*background-size: 100% 100%;*/
+}
+
+.exitBtn
+{
+    position: fixed;
+    width: 100px;
+    height: 30px;
+    background-color: #99cdaa;
+    color: white;
+    border-radius: 5px;
+    font-size: 15px;
+    border: none;
+    left: 10px;
+    bottom: 10px;
+
+}
+.el-avatar
+{
+    margin-top: 10px;
+    margin-left: 20px;
+    width:65px;
+    height: 65px;
+
+}
+.el-avatar>img
+{
+    display: inline-block;
+    vertical-align:bottom;
+}
+
+.welText{
+    /*vertical-align: center;*/
+    font-size: 15px;
+    color: aliceblue;
 }

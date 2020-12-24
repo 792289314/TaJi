@@ -12,7 +12,6 @@
     <link rel="stylesheet" type="text/css" href="css/diaryMain.css">
 
 
-
     <script src="http://unpkg.com/vue/dist/vue.js"></script>
     <script src="https://unpkg.com/element-ui/lib/index.js"></script>
 </head>
@@ -114,21 +113,58 @@
     </el-drawer>
 
     <!--个人中心折叠框-->
-    <el-drawer class="personalDrawer"
-               :size="'300px'"
-               :visible.sync="personalDrawer"
-               direction="ltr">
-        <div>
-            <span>{{welcomeUser}}</span><!--欢迎用户-->
-            <!--个人中心折叠框中的过客列表页面-->
-            <a href="visitorList.html" target="_blank">过客列表</a>
-            <!--个人中心折叠框中的个人中心页面-->
-            <a href="person.html" target="_blank">个人中心</a>
-            <!--个人中心折叠框中的管理分类-->
-            <a href="classifyManagement.html" target="_blank">管理分类</a>
-
-            <button @click="exit">退出登录</button>
+    <el-drawer
+            title="个人中心"
+            class="personalDrawer"
+            :size="'300px'"
+            :visible.sync="personalDrawer"
+            direction="ltr">
+        <div class="personalHead">
+            <el-avatar src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"></el-avatar>
+            <span class="welText">欢迎{{welcomeUser}}</span><!--欢迎用户-->
         </div>
+        <el-menu >
+            <el-submenu index="1">
+                <template slot="title"><i class="el-icon-s-promotion"></i>过客</template>
+                <el-menu-item-group>
+                    <!--<template slot="title">分组一</template>-->
+                    <el-menu-item index="1-1" @click="visitor">
+                        &nbsp;&nbsp; <i class="el-icon-coordinate"></i>过客列表
+                    </el-menu-item>
+                </el-menu-item-group>
+            </el-submenu>
+
+            <el-submenu index="2">
+                <template slot="title"><i class="el-icon-user-solid"></i>我的</template>
+                <el-menu-item-group>
+                    <template slot="title">账户管理</template>
+                    <el-menu-item index="2-1" @click="personClick">
+                        &nbsp;&nbsp;<i class="el-icon-edit-outline"></i>资料修改
+                    </el-menu-item>
+                </el-menu-item-group>
+            </el-submenu>
+
+            <el-submenu index="3">
+                <template slot="title"><i class="el-icon-s-tools"></i>设置</template>
+                <el-menu-item-group>
+                   <!-- <template slot="title">分组一</template>-->
+                    <el-menu-item index="3-1" @click="classifyMan">
+                        &nbsp;&nbsp;<i class="el-icon-folder-opened"></i>分类管理
+
+                    </el-menu-item>
+                </el-menu-item-group>
+            </el-submenu>
+        </el-menu>
+
+<!--                <div>-->
+<!--                    &lt;!&ndash;个人中心折叠框中的过客列表页面&ndash;&gt;-->
+<!--                    <a href="visitorList.html" target="_blank">过客列表</a>-->
+<!--                    &lt;!&ndash;个人中心折叠框中的个人中心页面&ndash;&gt;-->
+<!--                    <a href="person.html" target="_blank">个人中心</a>-->
+<!--                    &lt;!&ndash;个人中心折叠框中的管理分类&ndash;&gt;-->
+<!--                    <a href="classifyManagement.html" target="_blank">管理分类</a>-->
+<!--                </div>-->
+        <button @click="exit" class="exitBtn">退出登录</button>
     </el-drawer>
     <!--饿了么布局容器框架 头中右布局-->
     <el-container>
@@ -145,13 +181,13 @@
             <div class="classifyBtn">
                 <!--动态生成radio 这里还有点问题 单选一选会把单选按钮都选上 不互斥了-->
                 <el-radio-group v-model="classifyValue" @change="ChooseDiary">
-                            <!--全部-->
-<!--                    <div class="allClassifyBtn">-->
-<!--                        &lt;!&ndash;{"cnt":7,"color":"7DCC67","flag":false,"id":0,"name":"全部"}-->
-<!--                        {"cnt":5,"color":"#3f3f3f3f","flag":false,"id":1,"name":"未命名"}&ndash;&gt;-->
-<!--                    </div>-->
-<!--                    <el-radio v-model="classifyValue" label="-1">{{}}({{allDiaryMsg}})</el-radio>-->
-<!--                    <el-radio v-model="classifyValue" label="0">未分类({{nonDiaryMsg}})</el-radio>-->
+                    <!--全部-->
+                    <!--                    <div class="allClassifyBtn">-->
+                    <!--                        &lt;!&ndash;{"cnt":7,"color":"7DCC67","flag":false,"id":0,"name":"全部"}-->
+                    <!--                        {"cnt":5,"color":"#3f3f3f3f","flag":false,"id":1,"name":"未命名"}&ndash;&gt;-->
+                    <!--                    </div>-->
+                    <!--                    <el-radio v-model="classifyValue" label="-1">{{}}({{allDiaryMsg}})</el-radio>-->
+                    <!--                    <el-radio v-model="classifyValue" label="0">未分类({{nonDiaryMsg}})</el-radio>-->
 
                     <el-radio
                             :label="index"

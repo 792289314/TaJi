@@ -1,10 +1,27 @@
+body
+{
+
+    background-image: url(../images/lightpaperfibers.png);
+}
+
 .bigBox
 {
     position: absolute;
     left: 0;
     right: 0;
-    top:0;
+    top: 100px;
     margin: auto;
     width: 80%;
-    background-color: #319464;
+    height: 200px;
+    background-color: beige;
+    z-index: 6;
+    box-shadow: 0 0 10px  #885182;
+}
+
+.head
+{
+    width: 100%;
+    height: 100px;
+    background-color: #99cdaa;
+    border-bottom: 1px solid rgba(255,255,255,0.4);
 }
