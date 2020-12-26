@@ -22,12 +22,32 @@
             <button class="addClassifyBtn" @click="addClassify">添加我的分类</button>
         </div>
         <div id="addBox">
-
+            <el-dialog
+                    title="添加分类"
+                    :visible.sync="addDialogVisible"
+                    width="30%">
+                <div class="classifyDialog">
+                    分类<el-input
+                            placeholder="请输入内容"
+                            v-model="nameIn"
+                            clearable>
+                    </el-input>
+                    颜色<el-input
+                            placeholder="请输入内容"
+                            v-model="colorIn"
+                            clearable>
+                        </el-input>
+                </div>
+                <span slot="footer" class="dialog-footer">
+                <el-button @click="addDialogVisible = false">取 消</el-button>
+                <el-button type="primary" @click="addBtn">确 定</el-button>
+                </span>
+            </el-dialog>
         </div>
         <div class="classifyMain">
             <el-table
                     :data="classifyTableData"
-                    height="250"
+                    ref="multipleTable"
                     border
                     stripe
                     style="width: 100%"
@@ -51,7 +71,7 @@
                                  label="操作">
                     <template slot-scope="scope">
                         <el-button
-                                size="mini">编辑
+                                size="mini" @click="editClick">编辑
                         </el-button>
                         <el-popover width="160" :ref="`popover-${scope.$index}`">
                             <p>确定删除吗？</p>
@@ -66,6 +86,30 @@
 
 
             </el-table>
+            <el-dialog
+                    title="编辑分类"
+                    :visible.sync="editDialogVisible"
+                    width="50%"
+                   >
+                分类<el-input
+                        v-model="classify.name"
+                        clearable>
+                </el-input>
+                颜色
+                <el-input
+                        v-model="classify.color"
+                        clearable>
+                </el-input>
+                日记数
+                <el-input
+                        v-model="classify.diaryNum"
+                        :disabled="true">
+                </el-input>
+                <span slot="footer" class="dialog-footer">
+                <el-button @click="editDialogVisible = false">取 消</el-button>
+                <el-button type="primary" @click="editSureClick">确 定</el-button>
+                 </span>
+            </el-dialog>
         </div>
     </div>
 

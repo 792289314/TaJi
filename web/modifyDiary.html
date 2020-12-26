@@ -9,19 +9,40 @@
 
     <script src="http://unpkg.com/vue/dist/vue.js"></script>
     <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+    <script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.js"></script>
 </head>
 <body>
-    <div id="app">
-        <div class="bigBox">
-            <div class="head" >
-                {{name}}
+<div id="app">
+    <div class="bigBox">
+        <div class="head">
+            <div class="editBox">
+                <el-button type="text" icon="el-icon-edit"></el-button>
+                <el-button type="text" icon="el-icon-delete" @click="deleteBtn"></el-button>
             </div>
-            <div class="contain">
-                {{text1}}
-            </div>
+            {{name}}
+        </div>
+        <div id="textAreaDiv"   class="contain" contenteditable="true" @click="editDiaryBox">
+            {{text1}}
+        </div>
+        <div class="saveBox" >
+           <button class="saveBtn" @click="saveClick">保存</button>
         </div>
     </div>
 
-    <script src="js/modifyDiary.js"></script>
+    <el-dialog
+            title="提示"
+            :visible.sync="deleteDialogVisible"
+            width="30%">
+        <span>您确定要删除此条日记？</span>
+        <span slot="footer" class="dialog-footer">
+            <el-button @click="deleteDialogVisible = false">取 消</el-button>
+            <el-button type="primary" @click="sureDeleteClick">确 定</el-button>
+        </span>
+    </el-dialog>
+
+
+</div>
+
+<script src="js/modifyDiary.js"></script>
 </body>
 </html>

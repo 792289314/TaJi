@@ -9,6 +9,9 @@ var vm = new Vue({
         //注册
         RuserEmail: "", RuserName: "", RpassWord: "", RRpassWord: "",
         show_loginbox: true, show_registerbox: false,
+        //忘记密码
+        forgetPwdDialogVisible:false,
+        forgetActive:0,
 
     },
 
@@ -227,8 +230,19 @@ var vm = new Vue({
 
                 }
             })
+        },
+
+        //忘记密码按钮
+        forgetPwd:function () {
+            this.forgetPwdDialogVisible=true;
+        },
+        //忘记密码弹出窗口 确定按钮
+        forgetSureClick:function () {
+            this.forgetPwdDialogVisible=false;
+        },
+        //忘记密码弹出窗口 下一步按钮
+        pwdNextClick:function () {
+            if (this.forgetActive++ > 2) this.active = 0;
         }
-
-
     },
 });

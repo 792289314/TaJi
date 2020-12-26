@@ -2,10 +2,6 @@ var vm = new Vue({
     el: '#app',
     data() {
         return {
-
-
-
-
             // 该用户所有的分类，默认第一个为 未分类
             userClassify: [],
 
@@ -229,7 +225,7 @@ var vm = new Vue({
                     {
                         let div = document.createElement('div');
                         // div.style.backgroundColor = 'red';
-                        div.className = "move_div";
+                        div.className = "card move_div";
                         // 放日记主体text
                         //div.innerHTML = '{{左边}}';
                         div.innerHTML = this.diaryList[i].diaryText;
@@ -251,7 +247,7 @@ var vm = new Vue({
 
                     } else {
                         let div1 = document.createElement('div');
-                        div1.className = "move_div1";
+                        div1.className = "card move_div1";
 
 
                         //div1.innerHTML = '{{右边}}';

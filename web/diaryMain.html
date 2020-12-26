@@ -150,21 +150,20 @@
                    <!-- <template slot="title">分组一</template>-->
                     <el-menu-item index="3-1" @click="classifyMan">
                         &nbsp;&nbsp;<i class="el-icon-folder-opened"></i>分类管理
+                    </el-menu-item>
+                </el-menu-item-group>
+            </el-submenu>
 
+            <el-submenu index="4">
+                <template slot="title"><i class="el-icon-s-home"></i>登录管理</template>
+                <el-menu-item-group>
+                    <!-- <template slot="title">分组一</template>-->
+                    <el-menu-item index="4-1" @click="exit">
+                        &nbsp;&nbsp;<i class="el-icon-truck"></i>退出登录
                     </el-menu-item>
                 </el-menu-item-group>
             </el-submenu>
         </el-menu>
-
-<!--                <div>-->
-<!--                    &lt;!&ndash;个人中心折叠框中的过客列表页面&ndash;&gt;-->
-<!--                    <a href="visitorList.html" target="_blank">过客列表</a>-->
-<!--                    &lt;!&ndash;个人中心折叠框中的个人中心页面&ndash;&gt;-->
-<!--                    <a href="person.html" target="_blank">个人中心</a>-->
-<!--                    &lt;!&ndash;个人中心折叠框中的管理分类&ndash;&gt;-->
-<!--                    <a href="classifyManagement.html" target="_blank">管理分类</a>-->
-<!--                </div>-->
-        <button @click="exit" class="exitBtn">退出登录</button>
     </el-drawer>
     <!--饿了么布局容器框架 头中右布局-->
     <el-container>
@@ -179,16 +178,8 @@
 
             <!-- 分类-->
             <div class="classifyBtn">
-                <!--动态生成radio 这里还有点问题 单选一选会把单选按钮都选上 不互斥了-->
+                <!--动态生成radio -->
                 <el-radio-group v-model="classifyValue" @change="ChooseDiary">
-                    <!--全部-->
-                    <!--                    <div class="allClassifyBtn">-->
-                    <!--                        &lt;!&ndash;{"cnt":7,"color":"7DCC67","flag":false,"id":0,"name":"全部"}-->
-                    <!--                        {"cnt":5,"color":"#3f3f3f3f","flag":false,"id":1,"name":"未命名"}&ndash;&gt;-->
-                    <!--                    </div>-->
-                    <!--                    <el-radio v-model="classifyValue" label="-1">{{}}({{allDiaryMsg}})</el-radio>-->
-                    <!--                    <el-radio v-model="classifyValue" label="0">未分类({{nonDiaryMsg}})</el-radio>-->
-
                     <el-radio
                             :label="index"
                             v-for=" (item,index) in classifyList">
@@ -207,18 +198,6 @@
             <el-main>
                 <!-- 目前暂时通过按钮来实现动态增加div 后期会放入watch还是computer里面-->
                 <div id="move">
-                    <!--                    <el-timeline>-->
-                    <!--                        <el-timeline-item-->
-                    <!--                                v-for="(activity, index) in activities"-->
-                    <!--                                :key="index"-->
-                    <!--                                :icon="activity.icon"-->
-                    <!--                                :type="activity.type"-->
-                    <!--                                :color="activity.color"-->
-                    <!--                                :size="activity.size"-->
-                    <!--                                :timestamp="activity.timestamp">-->
-                    <!--                            {{activity.content}}-->
-                    <!--                        </el-timeline-item>-->
-                    <!--                    </el-timeline>-->
                 </div>
             </el-main>
 
