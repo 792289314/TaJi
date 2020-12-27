@@ -35,7 +35,6 @@
         <jarDirectory url="file://$MODULE_DIR$/web/WEB-INF/lib" recursive="false" />
       </library>
     </orderEntry>
-    <orderEntry type="library" name="element-ui" level="application" />
     <orderEntry type="library" name="index" level="application" />
     <orderEntry type="library" name="jquery" level="application" />
   </component>

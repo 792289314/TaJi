@@ -93,7 +93,7 @@ public class diaryMainController extends HttpServlet {
 
     // json中的数据 data: {'classifyId', 'diaryFlag', 'diaryText', 'diaryTime', 'diaryWeather'}
     // 咳咳 方法是有点麻烦 先提取json然后才分割转换 主要是类没有设计好... 没办法直接变成实体
-    @RequestMapping("/addDiary.do")
+    @RequestMapping("/TaJiMain/addDiary.do")
     public void AddDiary(HttpServletRequest request,
                          HttpSession session,
                          HttpServletResponse response) throws IOException {
