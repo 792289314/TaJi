@@ -1,4 +1,3 @@
-
 // 携带cookie信息 保持session的一致性
 axios.defaults.withCredentials = true;
 var vm = new Vue({
@@ -164,12 +163,12 @@ var vm = new Vue({
                     // 登陆成功 切换页面
                     // alert("登陆成功");
                     //登录成功，1s后调入主页面
-                    self.$message('登录成功');
+                    self.$message('登录成功！正在跳转页面ing...');
                     // 把用户名放到sessionStorage里
                     sessionStorage.setItem("name", response.data);
 
                     setTimeout(function () {
-                        window.location.href = "diaryMain.html";
+                        window.location.href = "TaJiMain/diaryMain.html";
                     }, 500);
                     // window.location.href="diaryMain.html";
                 }
@@ -222,7 +221,7 @@ var vm = new Vue({
 
                     //登录成功，1s后调入主页面
                     setTimeout(function () {
-                        window.location.href = "diaryMain.html";
+                        window.location.href = "TaJiMain/diaryMain.html";
                     }, 1000);
 
                 }

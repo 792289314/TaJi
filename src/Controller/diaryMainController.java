@@ -27,7 +27,8 @@ import java.util.ArrayList;
 public class diaryMainController extends HttpServlet {
 
     // 获取用户分类
-    @RequestMapping("/getClassify.do")
+    // Filter监管的文件夹TaJiMain的html里调用的Servlet
+    @RequestMapping("/TaJiMain/getClassify.do")
     public void getClassify(HttpSession session,
                             HttpServletResponse response) throws IOException {
         response.setContentType("text/html;  charset=utf-8");
@@ -64,7 +65,7 @@ public class diaryMainController extends HttpServlet {
     }
 
     // 获取用户全部的日记记录
-    @RequestMapping("/getUserDiary.do")
+    @RequestMapping("/TaJiMain/getUserDiary.do")
     public void getUserDiary(HttpSession session,
                              HttpServletResponse response) throws IOException {
         response.setContentType("text/html;  charset=utf-8");
@@ -133,15 +134,15 @@ public class diaryMainController extends HttpServlet {
         }
     }
 
-    @RequestMapping("/exit.do")
+    @RequestMapping("/TaJiMain/exit.do")
     public void exit(HttpServletRequest request,
                      HttpSession session,
                      HttpServletResponse response) throws ServletException, IOException {
         session.invalidate();
-        RequestDispatcher dispatcher = null;
-        dispatcher = request.getRequestDispatcher("/account.html");
-        System.out.println(session.getAttribute("name"));
-        dispatcher.forward(request, response);
+        //  RequestDispatcher dispatcher = request.getRequestDispatcher("/account.html");
+        // dispatcher.forward(request, response);
+        //response.sendRedirect("../account.html");
+        //return "redirect:/account.html";
 
     }
 }

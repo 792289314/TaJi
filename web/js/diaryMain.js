@@ -4,8 +4,6 @@ var vm = new Vue({
         return {
 
 
-
-
             // 该用户所有的分类，默认第一个为 未分类
             userClassify: [],
 
@@ -156,16 +154,13 @@ var vm = new Vue({
             this.getDiaryList(val);
             this.addElement();
         },
-        visitor:function()/*点击个人中心折叠框中过客列表打开过客页面*/
-        {
+        visitor: function ()/*点击个人中心折叠框中过客列表打开过客页面*/ {
             window.open("visitorList.html");
         },
-        personClick:function()/*点击个人中心折叠框中过客列表 打开person页面 修改密码*/
-        {
+        personClick: function ()/*点击个人中心折叠框中过客列表 打开person页面 修改密码*/ {
             window.open("person.html");
         },
-        classifyMan:function()/*点击个人中心折叠框中过客列表 打开分类管理页面 */
-        {
+        classifyMan: function ()/*点击个人中心折叠框中过客列表 打开分类管理页面 */ {
             window.open("classifyManagement.html");
         },
 
@@ -211,7 +206,7 @@ var vm = new Vue({
                 "diaryWeather":1 // 当前天气 0-晴天 1-多云 2-雨天
                }
 */
-            let self=this;
+            let self = this;
             for (let i = 0; i < this.diaryList.length; i++) {
                 /*
                              2020年12月12日 星期x
@@ -225,105 +220,105 @@ var vm = new Vue({
                     t.getMinutes() + " : " + t.getSeconds() + "   " +
                     this.getWeatherToString(this.diaryList[i].diaryWeather);
 
-                    if (i % 2 === 0)//偶数 显示在左边
-                    {
-                        let div = document.createElement('div');
-                        // div.style.backgroundColor = 'red';
-                        div.className = "move_div";
-                        // 放日记主体text
-                        //div.innerHTML = '{{左边}}';
-                        div.innerHTML = this.diaryList[i].diaryText;
-                        div.id = 'Elem' + i;
-                        //div.onclick=this.diaryDivClick(div.id);
-                        div.addEventListener("click", function () {
-                            // alert(this.id);
-                            self.diaryDivClick(this.id);
-                        });
-                        //var div_h = div.offsetHeight;
-                        //alert(div_h);
-                        document.getElementById('move').appendChild(div);
+                if (i % 2 === 0)//偶数 显示在左边
+                {
+                    let div = document.createElement('div');
+                    // div.style.backgroundColor = 'red';
+                    div.className = "move_div";
+                    // 放日记主体text
+                    //div.innerHTML = '{{左边}}';
+                    div.innerHTML = this.diaryList[i].diaryText;
+                    div.id = 'Elem' + i;
+                    //div.onclick=this.diaryDivClick(div.id);
+                    div.addEventListener("click", function () {
+                        // alert(this.id);
+                        self.diaryDivClick(this.id);
+                    });
+                    //var div_h = div.offsetHeight;
+                    //alert(div_h);
+                    document.getElementById('move').appendChild(div);
 
-                        let div2 = document.createElement('div');
-                        div2.className = "move_div2";
-                        div2.innerHTML = str1 + '<br>' + str2;
-                        div2.id = 'Ele' + i;
-                        document.getElementById('move').appendChild(div2);
+                    let div2 = document.createElement('div');
+                    div2.className = "move_div2";
+                    div2.innerHTML = str1 + '<br>' + str2;
+                    div2.id = 'Ele' + i;
+                    document.getElementById('move').appendChild(div2);
 
-                    } else {
-                        let div1 = document.createElement('div');
-                        div1.className = "move_div1";
-
-
-                        //div1.innerHTML = '{{右边}}';
-                        div1.innerHTML = this.diaryList[i].diaryText;
-                        div1.id = 'Elem' + i;
-                        div1.addEventListener("click", function () {
-                            // alert(this.id);
-                            self.diaryDivClick(this.id);
-                        });
-
-                        document.getElementById('move').appendChild(div1);
+                } else {
+                    let div1 = document.createElement('div');
+                    div1.className = "move_div1";
 
 
-                        let div3 = document.createElement('div');
-                        div3.className = "move_div3";
-                        div3.innerHTML = str1 + '<br>' + str2;
-                        div3.id = 'Ele' + i;
-                        document.getElementById('move').appendChild(div3);
-                    }
+                    //div1.innerHTML = '{{右边}}';
+                    div1.innerHTML = this.diaryList[i].diaryText;
+                    div1.id = 'Elem' + i;
+                    div1.addEventListener("click", function () {
+                        // alert(this.id);
+                        self.diaryDivClick(this.id);
+                    });
+
+                    document.getElementById('move').appendChild(div1);
+
+
+                    let div3 = document.createElement('div');
+                    div3.className = "move_div3";
+                    div3.innerHTML = str1 + '<br>' + str2;
+                    div3.id = 'Ele' + i;
+                    document.getElementById('move').appendChild(div3);
                 }
-            },
+            }
+        },
 
-            //点击每一个div触发事件
-            diaryDivClick: function (id) {
-                // this.$message(id);
-                // alert("test");
-                window.open("modifyDiary.html");
-            },
+        //点击每一个div触发事件
+        diaryDivClick: function (id) {
+            // this.$message(id);
+            // alert("test");
+            window.open("modifyDiary.html");
+        },
 
-            // 提取 该用户 所有分类 并 统计 每一个分类 所拥有的日记数量
-            // 提取 该用户 所有的 相关日记 按 创建日期排列
-            // 点击 分类 显示 该分类下的日记 按创建事件排列
-            getClassify: function () {
-                var self = this;
-                axios({
-                    url: 'getClassify.do',
-                    methods: 'post',
-                }).then(function (response) {
-                    if (response.data == "error") {
-                        // session 中没有用户id
-                        // 此时应该返回登陆界面重新登陆
+        // 提取 该用户 所有分类 并 统计 每一个分类 所拥有的日记数量
+        // 提取 该用户 所有的 相关日记 按 创建日期排列
+        // 点击 分类 显示 该分类下的日记 按创建事件排列
+        getClassify: function () {
+            var self = this;
+            axios({
+                url: 'getClassify.do',
+                methods: 'post',
+            }).then(function (response) {
+                if (response.data == "error") {
+                    // session 中没有用户id
+                    // 此时应该返回登陆界面重新登陆
 
-                    } else {
-                        // self.userClassify = response.data;
-                        self.classifyList = response.data;
+                } else {
+                    // self.userClassify = response.data;
+                    self.classifyList = response.data;
 
-                    }
-                }).catch(function (error) {
-                    self.$message("请求过程中发生错误：" + error);
-                })
-            },
+                }
+            }).catch(function (error) {
+                self.$message("请求过程中发生错误：" + error);
+            })
+        },
 
-            // 获得用户的所有日记
-            getUserDiary: function () {
-                const self = this;
-                axios({
-                    url: 'getUserDiary.do',
-                    method: 'post'
-                }).then(function (response) {
-                    if (response.data == "error") {
-                        // session 中没有用户id
-                        // 此时应该返回登陆界面重新登陆
-                    } else {
-                        self.diaryList = self.userDiary = response.data;
-                        self.addElement();// 得到日记记录后 更新ui
-                    }
+        // 获得用户的所有日记
+        getUserDiary: function () {
+            const self = this;
+            axios({
+                url: 'getUserDiary.do',
+                method: 'post'
+            }).then(function (response) {
+                if (response.data == "error") {
+                    // session 中没有用户id
+                    // 此时应该返回登陆界面重新登陆
+                } else {
+                    self.diaryList = self.userDiary = response.data;
+                    self.addElement();// 得到日记记录后 更新ui
+                }
 
-                }).catch(function (error) {
-                    self.$message("提交过程中发生错误： error");
+            }).catch(function (error) {
+                self.$message("提交过程中发生错误： error");
 
-                })
-            },
+            })
+        },
 
         // 从usrDiary中筛选出相关的列表 呈现在界面上
         getDiaryList: function (classifyId) {
@@ -344,7 +339,7 @@ var vm = new Vue({
         // 右下角添加日记的发布按钮
         Publish: function () {
             const self = this;
-            this.addDrawer=false;
+            this.addDrawer = false;
             const time = new Date().getTime(); // 获取当前时间
             var data = {
                 "classifyId": this.classifyList[this.kindValue].id,
@@ -382,13 +377,21 @@ var vm = new Vue({
         },
 
         exit: function () {
+            const self = this;
             axios({
                 url: 'exit.do',
-                methods: 'post'
-            }).then(function () {
-                self.$message("退出成功");
-            }).catch(function (error) {
+                method: 'post'
+            }).then(function (response) {
+                self.$message("退出成功！正在返回登陆界面ing...");
+                //不知道为什么 后台控制的跳转没成功 response.sendRedirect后 需要手动刷新才能打开
+                // 这里暂时先这么写着
+                //window.open("../account.html");  这是在新的窗口打开
+                setTimeout(function () {
+                    window.location.href = "../account.html";
+                }, 500);
 
+            }).catch(function (error) {
+                self.$message("退出失败！" + error);
             })
         },
 
