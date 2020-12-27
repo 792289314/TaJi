@@ -23,7 +23,7 @@
     <inspection_tool class="HtmlUnknownTag" enabled="true" level="WARNING" enabled_by_default="true">
       <option name="myValues">
         <value>
-          <list size="32">
+          <list size="37">
             <item index="0" class="java.lang.String" itemvalue="nobr" />
             <item index="1" class="java.lang.String" itemvalue="noembed" />
             <item index="2" class="java.lang.String" itemvalue="comment" />
@@ -56,6 +56,11 @@
             <item index="29" class="java.lang.String" itemvalue="el-menu-item-group" />
             <item index="30" class="java.lang.String" itemvalue="el-menu-item" />
             <item index="31" class="java.lang.String" itemvalue="el-avatar" />
+            <item index="32" class="java.lang.String" itemvalue="el-dialog" />
+            <item index="33" class="java.lang.String" itemvalue="el-form" />
+            <item index="34" class="java.lang.String" itemvalue="el-form-item" />
+            <item index="35" class="java.lang.String" itemvalue="el-steps" />
+            <item index="36" class="java.lang.String" itemvalue="el-step" />
           </list>
         </value>
       </option>

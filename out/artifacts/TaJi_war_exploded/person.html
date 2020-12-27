@@ -13,17 +13,33 @@
 </head>
 <body>
 <div id="app">
-    <el-popover
-            placement="top"
-            width="160"
-            v-model="visible">
-        <p>这是一段内容这是一段内容确定删除吗？</p>
-        <div style="text-align: right; margin: 0">
-            <el-button size="mini" type="text" @click="visible = false">取消</el-button>
-            <el-button type="primary" size="mini" @click="visible = false">确定</el-button>
+        <div class="box">
+            <div class="titleBox">
+                <h4>个人信息修改</h4>
+            </div>
+
+            <div class="posBox">
+                <el-form v-model="labelPosition" label-width="80px" :model="ruleForm" :rules="rules" ref="ruleForm" class="demo-ruleForm">
+                    <el-form-item label="邮箱账号" prop="email">
+                        <el-input v-model="ruleForm.email"></el-input>
+                    </el-form-item>
+                    <el-form-item label="昵称"  prop="name">
+                        <el-input v-model="ruleForm.name"></el-input>
+                    </el-form-item>
+                    <el-form-item label="密码" prop="pwd">
+                        <el-input type="password" v-model="ruleForm.pwd"></el-input>
+                    </el-form-item>
+                    <el-form-item label="再次输入" prop="repwd">
+                        <el-input type="password" v-model="ruleForm.repwd"></el-input>
+                    </el-form-item>
+                    <el-form-item>
+                        <el-button  @click="submitForm('ruleForm')">保存</el-button>
+                        <el-button @click="resetForm('ruleForm')">重置</el-button>
+                    </el-form-item>
+                </el-form>
+            </div>
+
         </div>
-        <el-button slot="reference">删除</el-button>
-    </el-popover>
 </div>
 
 

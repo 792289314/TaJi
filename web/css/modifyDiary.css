@@ -1,27 +1,68 @@
-body
-{
-
-    background-image: url(../images/lightpaperfibers.png);
+html, body {
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+    margin: 0;
+    padding: 0;
 }
 
-.bigBox
-{
+body {
+    background: #ecf0f3;
+}
+
+:root {
+    --main-bg-shadow: 18px 18px 30px #d1d9e6, -18px -18px 30px #fff;
+}
+
+.bigBox {
     position: absolute;
     left: 0;
     right: 0;
-    top: 100px;
-    margin: auto;
+    top: 120px;
+    margin: 0 auto;
     width: 80%;
-    height: 200px;
-    background-color: beige;
-    z-index: 6;
-    box-shadow: 0 0 10px  #885182;
+    height: 60%;
+    background: #ecf0f3;
 }
 
-.head
-{
+.head {
     width: 100%;
     height: 100px;
-    background-color: #99cdaa;
-    border-bottom: 1px solid rgba(255,255,255,0.4);
+    text-align: center;
+    line-height: 100px;
+    box-shadow: var(--main-bg-shadow);
+}
+
+.contain {
+    width: 100%;
+    height: 100%;
+    margin-top: 20px;
+    box-shadow: var(--main-bg-shadow);
+}
+
+.editBox {
+
+    float: right;
+    margin-top: -23px;
+    margin-right: 20px;
+}
+
+.el-button--text {
+    font-size: 17px;
+    color: rgba(0, 0, 0, .7);
+}
+.saveBox {
+    position: relative;
+    width: 200px;
+    margin: 30px auto;
+}
+.saveBtn {
+    width: 200px;
+    height: 50px;
+    border: none;
+    color: rgba(0,0,0,0.7);
+    font-size: 20px;
+    box-shadow: var(--main-bg-shadow);
+    background: #ecf0f3;
+    border-radius: 10px;
 }
