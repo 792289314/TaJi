@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>她记————————个人中心页面</title>
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+
+    <!--引入css-->
+    <link rel="stylesheet" href="../css/person.css">
+
+    <script src="http://unpkg.com/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+</head>
+<body>
+<div id="app">
+        <div class="box">
+            <div class="titleBox">
+                <h4>个人信息修改</h4>
+            </div>
+
+            <div class="posBox">
+                <el-form v-model="labelPosition" label-width="80px" :model="ruleForm" :rules="rules" ref="ruleForm" class="demo-ruleForm">
+                    <el-form-item label="邮箱账号" prop="email">
+                        <el-input v-model="ruleForm.email"></el-input>
+                    </el-form-item>
+                    <el-form-item label="昵称"  prop="name">
+                        <el-input v-model="ruleForm.name"></el-input>
+                    </el-form-item>
+                    <el-form-item label="密码" prop="pwd">
+                        <el-input type="password" v-model="ruleForm.pwd"></el-input>
+                    </el-form-item>
+                    <el-form-item label="再次输入" prop="repwd">
+                        <el-input type="password" v-model="ruleForm.repwd"></el-input>
+                    </el-form-item>
+                    <el-form-item>
+                        <el-button  @click="submitForm('ruleForm')">保存</el-button>
+                        <el-button @click="resetForm('ruleForm')">重置</el-button>
+                    </el-form-item>
+                </el-form>
+            </div>
+
+        </div>
+</div>
+
+
+<!--引入js-->
+<script type="text/javascript" src="../js/person.js"></script>
+
+</body>
+</html>
