@@ -192,7 +192,7 @@ public class diaryTable {
             if (conn != null) {
                 // 可以修改 分类归属、可见状态 文本 天气
                 String sql = "select uname, dtime, dtext, dweather, cname, ccolor from diary,user, classify\n" +
-                        "where to_days(dtime) = to_days(?) and dflag = 0  " +
+                        "where to_days(dtime) = to_days(?) and ( dflag or cflag) = false  " +
                         "and diary.uid = user.uid and diary.cid = classify.cid";
                 pst = conn.prepareStatement(sql);
                 pst.setString(1, time);
