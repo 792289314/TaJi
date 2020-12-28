@@ -7,11 +7,8 @@ import Service.diaryMainManage;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -135,14 +132,11 @@ public class diaryMainController extends HttpServlet {
     }
 
     @RequestMapping("/TaJiMain/exit.do")
-    public void exit(HttpServletRequest request,
-                     HttpSession session,
-                     HttpServletResponse response) throws ServletException, IOException {
+    public void exit(HttpSession session) {
         session.invalidate();
-        //  RequestDispatcher dispatcher = request.getRequestDispatcher("/account.html");
-        // dispatcher.forward(request, response);
-        //response.sendRedirect("../account.html");
-        //return "redirect:/account.html";
-
     }
+
+    // 剩下的Servlet在 modifyDiaryController.java 里
+    // 两个页面合并了： diaryMain.html 与 modifyDiary.html 合并到 diaryMain.html 里了
+
 }

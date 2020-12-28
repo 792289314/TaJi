@@ -2,7 +2,14 @@ var vm = new Vue({
     el: '#app',
     data() {
         return {
-
+            diaryMainFlag: true,
+            modifyDiaryFlag: false,
+            modifyDiary: {
+                id: 0,// diaryList列表里的第id项记录
+                name: '111',
+                text1: 'hjkhjkhjkkj',
+                deleteDialogVisible: false,
+            },// 原先 modifyDiary.html里的内容
 
             // 该用户所有的分类，默认第一个为 未分类
             userClassify: [],
@@ -19,88 +26,23 @@ var vm = new Vue({
             personalDrawer: false,//个人中心折叠框
             addDrawer: false,//添加日记折叠框
             textarea1: '',//添加日记加的日记内容
-            // allRadio:'-1',//绑定第一次选中全部按钮
             allDiaryMsg: '1',//全部日记数量
             nonDiaryMsg: '1',//未分类日记数量
-            /*classifyList: [
-                {
-                    value: '12',
-                    classifyName: '旅行',
-                },
-                {
-                    value: '13',
-                    classifyName: '心情',
-                },
-                {
-                    value: '14',//此项分类的数量
-                    classifyName: '计划',
-                },
-            ],
-            classifyValue: '',*/
             /*
                 {"color":"#3f3f3f3f","flag":false,"id":1,"name":"未命名",cnt:9}
                 {"color":"#4a4a4a4a","flag":false,"id":2,"name":"学习",cnt:10}
             */
-            classifyList: [
-                {//头部 显示右哪些分类的单选按钮
-                    id: '2',
-                    label: 2,
-                    value: '12',
-                    classifyName: '旅行',
-                },
-                {
-                    id: '3',
-                    label: 3,
-                    value: '13',
-                    classifyName: '心情',
-                },
-                {
-                    id: '4',
-                    label: 4,
-                    value: '14',//此项分类的数量
-                    classifyName: '计划',
-                }],
+            classifyList: [],
             classifyValue: 0,//-1代表选中全部按钮
 
-            kindOptions: [
-                /*{
-                    数组id
-                    分类id
-                    分类名
-                    分类状态：公开/私密
-                    分类显示的颜色
-                },*/
-                {
-                    //添加日记中 分类的下拉列表框 需要给这样的数组
-                    value: '选项1',// 值改成 用户分类的id
-                    label: '旅游',
-                    state: 0,
-                    kindColor: '#ffff',
-                },
-                {
-                    value: '选项2',
-                    label: '心情',
-                    state: 0,
-                    kindColor: '#ffff',
-                },
-                {
-                    value: '选项3',
-                    label: '计划',
-                    state: 0,
-                    kindColor: '#ffff',
-                },
-                {
-                    value: '选项4',
-                    label: '与男友的事',
-                    state: 0,
-                    kindColor: '#ffff',
-                },
-                {
-                    value: '选项5',
-                    label: '。。。',
-                    state: 0,
-                    kindColor: '#ffff',
-                }],
+            /*{
+                                数组id
+                                分类id
+                                分类名
+                                分类状态：公开/私密
+                                分类显示的颜色
+                            },*/
+            kindOptions: [],
             kindValue: 1,//添加日记选中的分类的value
             kindState: '',
 
@@ -127,8 +69,6 @@ var vm = new Vue({
                     label: '仅自己可见'
                 }],
             checkPeoValue: true,
-
-
             brandFold: true,
         }
     },
@@ -144,7 +84,6 @@ var vm = new Vue({
 
     },
     methods: {
-
         // 清空 <div id="move"> 内部的组件
         ClearMoveDiv: function () {
             var div = document.getElementById("move");
@@ -154,16 +93,16 @@ var vm = new Vue({
             this.getDiaryList(val);
             this.addElement();
         },
-        visitor:function(){/*点击个人中心折叠框中过客列表打开过客页面*/
-
+        visitor: function () {
+            /*点击个人中心折叠框中过客列表打开过客页面*/
             window.open("visitorList.html");
         },
-        personClick:function(){/*点击个人中心折叠框中过客列表 打开person页面 修改密码*/
-
+        personClick: function () {
+            /*点击个人中心折叠框中过客列表 打开person页面 修改密码*/
             window.open("person.html");
         },
-        classifyMan:function(){/*点击个人中心折叠框中过客列表 打开分类管理页面 */
-
+        classifyMan: function () {
+            /*点击个人中心折叠框中过客列表 打开分类管理页面 */
             window.open("classifyManagement.html");
         },
 
@@ -209,7 +148,7 @@ var vm = new Vue({
                 "diaryWeather":1 // 当前天气 0-晴天 1-多云 2-雨天
                }
 */
-            let self=this;
+            let self = this;
             for (let i = 0; i < this.diaryList.length; i++) {
                 /*
                              2020年12月12日 星期x
@@ -223,23 +162,23 @@ var vm = new Vue({
                     t.getMinutes() + " : " + t.getSeconds() + "   " +
                     this.getWeatherToString(this.diaryList[i].diaryWeather);
 
-                    if (i % 2 === 0)//偶数 显示在左边
-                    {
-                        let div = document.createElement('div');
-                        // div.style.backgroundColor = 'red';
-                        div.className = "card move_div";
-                        // 放日记主体text
-                        //div.innerHTML = '{{左边}}';
-                        div.innerHTML = this.diaryList[i].diaryText;
-                        div.id = 'Elem' + i;
-                        //div.onclick=this.diaryDivClick(div.id);
-                        div.addEventListener("click", function () {
-                            // alert(this.id);
-                            self.diaryDivClick(this.id);
-                        });
-                        //var div_h = div.offsetHeight;
-                        //alert(div_h);
-                        document.getElementById('move').appendChild(div);
+                if (i % 2 === 0)//偶数 显示在左边
+                {
+                    let div = document.createElement('div');
+                    // div.style.backgroundColor = 'red';
+                    div.className = "card move_div";
+                    // 放日记主体text
+                    //div.innerHTML = '{{左边}}';
+                    div.innerHTML = this.diaryList[i].diaryText;
+                    div.id = 'Elem' + i;
+                    //div.onclick=this.diaryDivClick(div.id);
+                    div.addEventListener("click", function () {
+                        // alert(this.id);
+                        self.diaryDivClick(i);
+                    });
+                    //var div_h = div.offsetHeight;
+                    //alert(div_h);
+                    document.getElementById('move').appendChild(div);
 
                     let div2 = document.createElement('div');
                     div2.className = "move_div2";
@@ -247,9 +186,9 @@ var vm = new Vue({
                     div2.id = 'Ele' + i;
                     document.getElementById('move').appendChild(div2);
 
-                    } else {
-                        let div1 = document.createElement('div');
-                        div1.className = "card move_div1";
+                } else {
+                    let div1 = document.createElement('div');
+                    div1.className = "card move_div1";
 
 
                     //div1.innerHTML = '{{右边}}';
@@ -274,9 +213,13 @@ var vm = new Vue({
 
         //点击每一个div触发事件
         diaryDivClick: function (id) {
-            // this.$message(id);
-            // alert("test");
-            window.open("modifyDiary.html");
+            this.$message(id);
+            this.modifyDiary.id = id;
+            this.modifyDiary.name = this.diaryList[id].classifyName;
+            this.modifyDiary.text1 = this.diaryList[id].diaryText;
+
+            this.diaryMainFlag = false;
+            this.modifyDiaryFlag = true;
         },
 
         // 提取 该用户 所有分类 并 统计 每一个分类 所拥有的日记数量
@@ -292,15 +235,15 @@ var vm = new Vue({
                     // session 中没有用户id
                     // 此时应该返回登陆界面重新登陆
 
-                    } else {
-                        // self.userClassify = response.data;
-                        self.classifyList = response.data;
+                } else {
+                    // self.userClassify = response.data;
+                    self.classifyList = response.data;
 
-                    }
-                }).catch(function (error) {
-                    self.$message("请求过程中发生错误：" + error);
-                })
-            },
+                }
+            }).catch(function (error) {
+                self.$message("请求过程中发生错误：" + error);
+            })
+        },
 
         // 获得用户的所有日记
         getUserDiary: function () {
@@ -342,7 +285,7 @@ var vm = new Vue({
         // 右下角添加日记的发布按钮
         Publish: function () {
             const self = this;
-            this.addDrawer=false;
+            this.addDrawer = false;
             const time = new Date().getTime(); // 获取当前时间
             var data = {
                 "classifyId": this.classifyList[this.kindValue].id,
@@ -399,5 +342,50 @@ var vm = new Vue({
         },
 
 
+        /* ---- modifyDiary 里的方法     ---- */
+
+
+        /* 删除日记*/
+        deleteBtn: function () {
+            this.modifyDiary.deleteDialogVisible = true;
+        },
+        /* 确定删除日记*/
+        sureDeleteClick: function () {
+            this.modifyDiary.deleteDialogVisible = false
+        },
+        /* 日记div*/
+        editDiaryBox: function () {
+
+        },
+        /* 保存日记*/
+        saveClick: function () {
+            this.diaryMainFlag = true;
+
+            this.modifyDiary.id;
+            this.modifyDiary.text1;
+            // 更新后台数据库里的内容
+            axios({
+                url: 'modifyDiary.do',
+                method: 'post',
+                data: {}
+            }).then(function (response) {
+                if (response.data == "error") {
+                    this.$message("修改日记失败");
+                } else {
+                    this.$message("修改成功！");
+                }
+            }).catch(function (error) {
+                this.$message("修改日记发生错误 " + error);
+            })
+        },
+
+        // 返回按钮
+        returnClick: function () {
+            this.modifyDiaryFlag = false;
+            this.diaryMainFlag = true;
+            //this.addElement();
+        }
+
     },
+
 });

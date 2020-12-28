@@ -133,4 +133,32 @@ public class diaryTable {
 
         return cnt;
     }
+
+
+    // 修改日记
+    public boolean modifyDiary(Diary diary) {
+        DBUtil db = new DB();
+        boolean flag = false;
+        try {
+            conn = db.getConnection();
+            if (conn != null) {
+                // 可以修改 分类归属、可见状态 文本 天气
+                String sql = "update diary set cid=?,dflag=?,dtext=?,dweather=? where did=?";
+                pst = conn.prepareStatement(sql);
+                pst.setLong(1, diary.getClassify().getId());
+                pst.setBoolean(2, diary.getFlag());
+                pst.setString(3,diary.getText());
+                pst.setInt(4,diary.getWeather());
+                pst.setLong(5,diary.getId());
+
+                pst.executeUpdate();
+                flag = true;
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        } finally {
+            db.close(conn, pst, rs);
+        }
+        return flag;
+    }
 }

@@ -10,13 +10,14 @@
 
     <!--引入css-->
     <link rel="stylesheet" type="text/css" href="../css/diaryMain.css">
-
+    <link rel="stylesheet" href="../css/modifyDiary.css">
 
     <script src="http://unpkg.com/vue/dist/vue.js"></script>
     <script src="https://unpkg.com/element-ui/lib/index.js"></script>
 </head>
 <body>
 <div id="app">
+
     <!--    :direction="direction"控制显示方向 rtl / ltr / ttb / btt-->
     <!--    添加日记折叠框-->
     <el-drawer
@@ -204,12 +205,49 @@
 
             <!--右边那个添加日记+按钮 占浏览器右边50px宽-->
             <el-aside width="50px">
-                <el-button class="addDiaryBtn" @click="addDrawer = true" type="text" icon="el-icon-circle-plus-outline">
+                <el-button class="addDiaryBtn" @click="addDrawer = true" type="text"
+                           icon="el-icon-circle-plus-outline">
                 </el-button>
             </el-aside>
         </el-container>
 
     </el-container>
+
+
+    <!--原先modifyDiary.html里的内容-->
+    <div v-show="modifyDiaryFlag" class="modifyDiary">
+        <div class="bigBox">
+            <div class="head">
+                <div class="editBox">
+                    <el-button type="text" icon="el-icon-edit"></el-button>
+                    <el-button type="text" icon="el-icon-delete" @click="deleteBtn"></el-button>
+                </div>
+                {{modifyDiary.name}}
+            </div>
+            <div id="textAreaDiv" class="contain" contenteditable="true" @click="editDiaryBox">
+                {{modifyDiary.text1}}
+            </div>
+            <!--<div class="saveBox" >
+                <button class="saveBtn" @click="saveClick">保存</button>
+            </div>-->
+            <div class="saveBox">
+                <button class="saveBtn" @click="returnClick">返回</button>
+            </div>
+        </div>
+
+        <el-dialog
+                title="提示"
+                :visible.sync="modifyDiary.deleteDialogVisible"
+                width="30%">
+            <span>您确定要删除此条日记？</span>
+            <span slot="footer" class="dialog-footer">
+            <el-button @click="modifyDiary.deleteDialogVisible = false">取 消</el-button>
+            <el-button type="primary" @click="sureDeleteClick">确 定</el-button>
+        </span>
+        </el-dialog>
+
+
+    </div>
 </div>
 <!--引入js 其实就是vue 必须放在这-->
 <script src="../js/diaryMain.js"></script>
