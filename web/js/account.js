@@ -222,10 +222,13 @@ var vm = new Vue({
                     obj.style.borderBottom = "2px solid #99cdaa";
                     document.getElementById("registerBtn1").style.borderBottom = "none";
 
+
+                    sessionStorage.setItem("name", self.RuserName );
+
                     //登录成功，1s后调入主页面
                     setTimeout(function () {
                         window.location.href = "TaJiMain/diaryMain.html";
-                    }, 1000);
+                    }, 500);
 
                 }
             })
