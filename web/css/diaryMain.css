@@ -1,11 +1,19 @@
 
 ::-webkit-scrollbar {
-   display: none;
-   width: 0;
+    display: none;
+    width: 0;
 }
 
 a {
     text-decoration: none;
+}
+
+.diaryMainBody {
+   position: absolute;
+    z-index: 1;
+    height: 100%;
+    width: 100%;
+
 }
 
 html, body, #app, .el-container {
@@ -15,6 +23,7 @@ html, body, #app, .el-container {
     margin: 0;
     /*统一设置高度为100%*/
     height: 100%;
+
 }
 
 .el-header {
@@ -76,9 +85,9 @@ textarea {
     min-height: 60px;
     background-color: #99cdaa;
 }
-.posBox
-{
-    position : relative;
+
+.posBox {
+    position: relative;
     width: 80%;
     margin: auto;
     left: 0;
@@ -87,6 +96,7 @@ textarea {
     bottom: 0;
     /*border: 1px solid #99cdaa;*/
 }
+
 .addBox /*添加日记*/
 {
     position: absolute;
@@ -94,17 +104,18 @@ textarea {
     margin-left: 100px;
 
 }
-.addBox span{
+
+.addBox span {
     display: inline-block;
     font-size: 15px;
     text-align: justify;
 }
-.controlBigBox
-{
+
+.controlBigBox {
     margin-left: 30px;
 }
-.rightAddBox
-{
+
+.rightAddBox {
     position: absolute;
     top: 0;
     left: 500px;
@@ -116,17 +127,17 @@ textarea {
 
     /*background-color: coral;*/
 }
-.el-upload-dragger
-{
+
+.el-upload-dragger {
     width: 300px;
     height: 200px;
 }
+
 .classifyBtn {
     vertical-align: middle;
     margin-left: 50px;
     margin-top: 20px;
 }
-
 
 
 #move {
@@ -142,6 +153,7 @@ textarea {
 
     outline: 0;
 }
+
 /*.card {*/
 /*    height: 200px;*/
 /*    width: 48%;*/
@@ -155,7 +167,7 @@ textarea {
     /*box-shadow: var(--blackShadow2),*/
     /*var(--whiteShadow2);*/
     height: 200px;
-    text-indent:1em;
+    text-indent: 1em;
     /*box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);*/
     width: 48%;
     float: left;
@@ -182,7 +194,7 @@ textarea {
     /*box-shadow: var(--blackShadow2),*/
     /*var(--whiteShadow2);*/
     height: 200px;
-    text-indent:1em;
+    text-indent: 1em;
     /*box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);*/
     width: 48%;
     float: right;
@@ -202,14 +214,13 @@ textarea {
     color: rgba(128, 128, 128, 0.8);
     padding-top: 20px;
 }
-.el-input__inner
-{
+
+.el-input__inner {
     height: 30px;
     line-height: 30px;
 }
 
-#publishBtn
-{
+#publishBtn {
     margin-top: 2px;
     background-color: #99cdaa;
     width: 200px;
@@ -222,8 +233,7 @@ textarea {
 }
 
 
-.personalHead
-{
+.personalHead {
     width: 300px;
     height: 100px;
     background-color: #6d9474;
@@ -245,21 +255,20 @@ textarea {
 /*    bottom: 10px;*/
 
 /*}*/
-.el-avatar
-{
+.el-avatar {
     margin-top: 10px;
     margin-left: 20px;
-    width:65px;
+    width: 65px;
     height: 65px;
 
 }
-.el-avatar>img
-{
+
+.el-avatar > img {
     display: inline-block;
-    vertical-align:bottom;
+    vertical-align: bottom;
 }
 
-.welText{
+.welText {
     /*vertical-align: center;*/
     font-size: 15px;
     color: aliceblue;

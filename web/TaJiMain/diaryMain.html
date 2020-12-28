@@ -7,7 +7,7 @@
     <link rel="stylesheet" type="text/css" href="../fonts/loginFonts/iconfont.css">
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-
+    <link rel="shortcut icon" href="#" />
     <!--引入css-->
     <link rel="stylesheet" type="text/css" href="../css/diaryMain.css">
     <link rel="stylesheet" href="../css/modifyDiary.css">
@@ -20,198 +20,201 @@
 
     <!--    :direction="direction"控制显示方向 rtl / ltr / ttb / btt-->
     <!--    添加日记折叠框-->
-    <el-drawer
-            title="添加日记"
-            :size="'600px'"
-            :visible.sync="addDrawer"
-            direction="btt">
-        <div class="posBox">
-            <div class="addBox">
-                <div class="classifyBox">
-                    <span>分<i class="controlBigBox"></i>类:</span>
-                    <el-select v-model="kindValue" clearable placeholder="请选择分类">
+    <div class="diaryMainBody">
+        <el-drawer
+                title="添加日记"
+                :size="'600px'"
+                :visible.sync="addDrawer"
+                direction="btt">
+            <div class="posBox">
+                <div class="addBox">
+                    <div class="classifyBox">
+                        <span>分<i class="controlBigBox"></i>类:</span>
+                        <el-select v-model="kindValue" clearable placeholder="请选择分类">
+                            <el-option
+                                    v-for="(item,index) in classifyList"
+                                    :key="item.value"
+                                    :label="item.name"
+                                    :value="index"
+                                    v-if="index>=1"
+                            >
+                            </el-option>
+                        </el-select>
+                        <a href="classifyManagement.html"><i class="el-icon-circle-plus-outline"></i></a>
+                    </div>
+                    <span>谁可以看:</span>
+                    <el-select v-model="checkPeoValue" clearable placeholder="请选择可查看的人">
                         <el-option
-                                v-for="(item,index) in classifyList"
-                                :key="item.value"
-                                :label="item.name"
-                                :value="index"
-                                v-if="index>=1"
-                        >
-                        </el-option>
-                    </el-select>
-                    <a href="classifyManagement.html"><i class="el-icon-circle-plus-outline"></i></a>
-                </div>
-                <span>谁可以看:</span>
-                <el-select v-model="checkPeoValue" clearable placeholder="请选择可查看的人">
-                    <el-option
-                            v-for="item in checkPeoOptions"
-                            :key="item.value"
-                            :label="item.label"
-                            :value="item.value">
-                    </el-option>
-                </el-select>
-
-                <div>
-                    <span>天<i class="controlBigBox"></i>气:</span>
-                    <el-select v-model="weatherValue" clearable placeholder="请选择天气">
-                        <el-option
-                                v-for="item in weatherOptions"
+                                v-for="item in checkPeoOptions"
                                 :key="item.value"
                                 :label="item.label"
                                 :value="item.value">
                         </el-option>
                     </el-select>
-                </div>
 
-                <span>日<i class="controlBigBox"></i>期:</span>
-                <el-date-picker
-                        v-model="dataValue"
-                        align="right"
-                        type="date"
-                        placeholder="选择日期">
-                </el-date-picker>
-
-                <div class="colorBox">
-                    <span>颜<i class="controlBigBox"></i>色:</span>
-                    <input type="color" id="selectedColor">
-                </div>
-
-                <div class="fontBox">
-                    <span>字<i class="controlBigBox"></i>体:</span>
-                    <input type="range" id="selectedFont">
-                </div>
-
-
-                <el-upload
-                        class="upload-demo"
-                        drag
-                        action="https://jsonplaceholder.typicode.com/posts/"
-                        multiple>
-                    <i class="el-icon-upload"></i>
-                    <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em>
-                        <div class="el-upload__tip" slot="tip">只能上传jpg/png文件，且不超过500kb</div>
+                    <div>
+                        <span>天<i class="controlBigBox"></i>气:</span>
+                        <el-select v-model="weatherValue" clearable placeholder="请选择天气">
+                            <el-option
+                                    v-for="item in weatherOptions"
+                                    :key="item.value"
+                                    :label="item.label"
+                                    :value="item.value">
+                            </el-option>
+                        </el-select>
                     </div>
 
-                </el-upload>
+                    <span>日<i class="controlBigBox"></i>期:</span>
+                    <el-date-picker
+                            v-model="dataValue"
+                            align="right"
+                            type="date"
+                            placeholder="选择日期">
+                    </el-date-picker>
+
+                    <div class="colorBox">
+                        <span>颜<i class="controlBigBox"></i>色:</span>
+                        <input type="color" id="selectedColor">
+                    </div>
+
+                    <div class="fontBox">
+                        <span>字<i class="controlBigBox"></i>体:</span>
+                        <input type="range" id="selectedFont">
+                    </div>
 
 
-            </div>
-            <div class="rightAddBox">
-                <!--添加日记文本内容-->
-                <el-input
-                        class="addTextArea"
-                        type="textarea"
-                        placeholder="请输入日记内容"
-                        maxlength="500"
-                        :rows="15"
-                        show-word-limit
-                        v-model="textarea1">
-                </el-input>
-                <button id="publishBtn" @click="Publish">发布</button>
-            </div>
-        </div>
+                    <el-upload
+                            class="upload-demo"
+                            drag
+                            action="https://jsonplaceholder.typicode.com/posts/"
+                            multiple>
+                        <i class="el-icon-upload"></i>
+                        <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em>
+                            <div class="el-upload__tip" slot="tip">只能上传jpg/png文件，且不超过500kb</div>
+                        </div>
 
-    </el-drawer>
+                    </el-upload>
 
-    <!--个人中心折叠框-->
-    <el-drawer
-            title="个人中心"
-            class="personalDrawer"
-            :size="'300px'"
-            :visible.sync="personalDrawer"
-            direction="ltr">
-        <div class="personalHead">
-            <el-avatar src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"></el-avatar>
-            <span class="welText">欢迎{{welcomeUser}}</span><!--欢迎用户-->
-        </div>
-        <el-menu>
-            <el-submenu index="1">
-                <template slot="title"><i class="el-icon-s-promotion"></i>过客</template>
-                <el-menu-item-group>
-                    <!--<template slot="title">分组一</template>-->
-                    <el-menu-item index="1-1" @click="visitor">
-                        &nbsp;&nbsp; <i class="el-icon-coordinate"></i>过客列表
-                    </el-menu-item>
-                </el-menu-item-group>
-            </el-submenu>
 
-            <el-submenu index="2">
-                <template slot="title"><i class="el-icon-user-solid"></i>我的</template>
-                <el-menu-item-group>
-                    <template slot="title">账户管理</template>
-                    <el-menu-item index="2-1" @click="personClick">
-                        &nbsp;&nbsp;<i class="el-icon-edit-outline"></i>资料修改
-                    </el-menu-item>
-                </el-menu-item-group>
-            </el-submenu>
-
-            <el-submenu index="3">
-                <template slot="title"><i class="el-icon-s-tools"></i>设置</template>
-                <el-menu-item-group>
-                    <!-- <template slot="title">分组一</template>-->
-                    <el-menu-item index="3-1" @click="classifyMan">
-                        &nbsp;&nbsp;<i class="el-icon-folder-opened"></i>分类管理
-                    </el-menu-item>
-                </el-menu-item-group>
-            </el-submenu>
-
-            <el-submenu index="4">
-                <template slot="title"><i class="el-icon-s-home"></i>登录管理</template>
-                <el-menu-item-group>
-                    <!-- <template slot="title">分组一</template>-->
-                    <el-menu-item index="4-1" @click="exit">
-                        &nbsp;&nbsp;<i class="el-icon-truck"></i>退出登录
-                    </el-menu-item>
-                </el-menu-item-group>
-            </el-submenu>
-        </el-menu>
-    </el-drawer>
-    <!--饿了么布局容器框架 头中右布局-->
-    <el-container>
-        <!--头部   包括个人中心按钮  两个div 一个全部 一个分类之后的-->
-        <el-header class="header" height="''">
-
-            <div>
-                <el-button class="personalBtn" @click="personalDrawer = true" type="text">
-                    <i class="iconfont icon-hengdengyu"></i>
-                </el-button>
-            </div>
-
-            <!-- 分类-->
-            <div class="classifyBtn">
-                <!--动态生成radio -->
-                <el-radio-group v-model="classifyValue" @change="ChooseDiary">
-                    <el-radio
-                            :label="index"
-                            v-for=" (item,index) in classifyList">
-                        {{item.name}}({{item.cnt}})
-                        <!--前者是分类的名字 后者是对应的数量-->
-                    </el-radio>
-
-                </el-radio-group>
-
-            </div>
-
-        </el-header>
-        <!--中间显示日记内容部分-->
-        <el-container>
-
-            <el-main>
-                <!-- 目前暂时通过按钮来实现动态增加div 后期会放入watch还是computer里面-->
-                <div id="move">
                 </div>
-            </el-main>
+                <div class="rightAddBox">
+                    <!--添加日记文本内容-->
+                    <el-input
+                            class="addTextArea"
+                            type="textarea"
+                            placeholder="请输入日记内容"
+                            maxlength="500"
+                            :rows="15"
+                            show-word-limit
+                            v-model="textarea1">
+                    </el-input>
+                    <button id="publishBtn" @click="Publish">发布</button>
+                </div>
+            </div>
+
+        </el-drawer>
+
+        <!--个人中心折叠框-->
+        <el-drawer
+                title="个人中心"
+                class="personalDrawer"
+                :size="'300px'"
+                :visible.sync="personalDrawer"
+                direction="ltr">
+            <div class="personalHead">
+                <el-avatar src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"></el-avatar>
+                <span class="welText">欢迎{{welcomeUser}}</span><!--欢迎用户-->
+            </div>
+            <el-menu>
+                <el-submenu index="1">
+                    <template slot="title"><i class="el-icon-s-promotion"></i>过客</template>
+                    <el-menu-item-group>
+                        <!--<template slot="title">分组一</template>-->
+                        <el-menu-item index="1-1" @click="visitor">
+                            &nbsp;&nbsp; <i class="el-icon-coordinate"></i>过客列表
+                        </el-menu-item>
+                    </el-menu-item-group>
+                </el-submenu>
+
+                <el-submenu index="2">
+                    <template slot="title"><i class="el-icon-user-solid"></i>我的</template>
+                    <el-menu-item-group>
+                        <template slot="title">账户管理</template>
+                        <el-menu-item index="2-1" @click="personClick">
+                            &nbsp;&nbsp;<i class="el-icon-edit-outline"></i>资料修改
+                        </el-menu-item>
+                    </el-menu-item-group>
+                </el-submenu>
+
+                <el-submenu index="3">
+                    <template slot="title"><i class="el-icon-s-tools"></i>设置</template>
+                    <el-menu-item-group>
+                        <!-- <template slot="title">分组一</template>-->
+                        <el-menu-item index="3-1" @click="classifyMan">
+                            &nbsp;&nbsp;<i class="el-icon-folder-opened"></i>分类管理
+                        </el-menu-item>
+                    </el-menu-item-group>
+                </el-submenu>
+
+                <el-submenu index="4">
+                    <template slot="title"><i class="el-icon-s-home"></i>登录管理</template>
+                    <el-menu-item-group>
+                        <!-- <template slot="title">分组一</template>-->
+                        <el-menu-item index="4-1" @click="exit">
+                            &nbsp;&nbsp;<i class="el-icon-truck"></i>退出登录
+                        </el-menu-item>
+                    </el-menu-item-group>
+                </el-submenu>
+            </el-menu>
+        </el-drawer>
+        <!--饿了么布局容器框架 头中右布局-->
+        <el-container>
+            <!--头部   包括个人中心按钮  两个div 一个全部 一个分类之后的-->
+            <el-header class="header" height="''">
+
+                <div>
+                    <el-button class="personalBtn" @click="personalDrawer = true" type="text">
+                        <i class="iconfont icon-hengdengyu"></i>
+                    </el-button>
+                </div>
+
+                <!-- 分类-->
+                <div class="classifyBtn">
+                    <!--动态生成radio -->
+                    <el-radio-group v-model="classifyValue" @change="ChooseDiary">
+                        <el-radio
+                                :label="index"
+                                v-for=" (item,index) in classifyList">
+                            {{item.name}}({{item.cnt}})
+                            <!--前者是分类的名字 后者是对应的数量-->
+                        </el-radio>
+
+                    </el-radio-group>
+
+                </div>
+
+            </el-header>
+            <!--中间显示日记内容部分-->
+            <el-container>
+
+                <el-main>
+                    <!-- 目前暂时通过按钮来实现动态增加div 后期会放入watch还是computer里面-->
+                    <div id="move">
+                    </div>
+                </el-main>
 
 
-            <!--右边那个添加日记+按钮 占浏览器右边50px宽-->
-            <el-aside width="50px">
-                <el-button class="addDiaryBtn" @click="addDrawer = true" type="text"
-                           icon="el-icon-circle-plus-outline">
-                </el-button>
-            </el-aside>
+                <!--右边那个添加日记+按钮 占浏览器右边50px宽-->
+                <el-aside width="50px">
+                    <el-button class="addDiaryBtn" @click="addDrawer = true" type="text"
+                               icon="el-icon-circle-plus-outline">
+                    </el-button>
+                </el-aside>
+            </el-container>
+
         </el-container>
+    </div>
 
-    </el-container>
 
 
     <!--原先modifyDiary.html里的内容-->

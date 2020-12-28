@@ -2,7 +2,7 @@ var vm = new Vue({
     el: '#app',
     data() {
         return {
-            diaryMainFlag: true,
+            // diaryMainFlag: true,
             modifyDiaryFlag: false,
             modifyDiary: {
                 id: 0,// diaryList列表里的第id项记录
@@ -48,13 +48,13 @@ var vm = new Vue({
 
             weatherOptions: [{////添加日记中 天气的下拉列表框 需要给这样的数组
                 value: 0,
-                label: '晴天'
+                label: 'el-icon-sunny'
             }, {
                 value: 1,
-                label: '多云'
+                label: 'el-icon-cloudy'
             }, {
                 value: 2,
-                label: '下雨'
+                label: 'el-icon-heavy-rain'
             },],
             weatherValue: 0,
             dataValue: '',
@@ -196,7 +196,7 @@ var vm = new Vue({
                     div1.id = 'Elem' + i;
                     div1.addEventListener("click", function () {
                         // alert(this.id);
-                        self.diaryDivClick(this.id);
+                        self.diaryDivClick(i);
                     });
 
                     document.getElementById('move').appendChild(div1);
@@ -213,13 +213,14 @@ var vm = new Vue({
 
         //点击每一个div触发事件
         diaryDivClick: function (id) {
-            this.$message(id);
+         //   this.$message(id);
             this.modifyDiary.id = id;
             this.modifyDiary.name = this.diaryList[id].classifyName;
             this.modifyDiary.text1 = this.diaryList[id].diaryText;
 
-            this.diaryMainFlag = false;
+            // this.diaryMainFlag = false;
             this.modifyDiaryFlag = true;
+            // document.getElementById("diaryMainFlag").style.display="none";
         },
 
         // 提取 该用户 所有分类 并 统计 每一个分类 所拥有的日记数量

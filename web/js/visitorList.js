@@ -12,6 +12,9 @@ var vm = new Vue({
     methods: {
         // 获得全部日记记录
         getAllDiary: function () {
+
+
+
             axios({
                 url: 'getAllDiaryByDate.do',
                 method: 'post',
