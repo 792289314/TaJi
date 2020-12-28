@@ -27,6 +27,11 @@ public class Classify {
         this.Id = cid;
     }
 
+    public Classify(String classifyName, String classifyColor) {
+        Name = classifyName;
+        Color = classifyColor;
+    }
+
     public long getCnt() {
         return cnt;
     }

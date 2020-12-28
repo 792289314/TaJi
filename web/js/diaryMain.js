@@ -348,6 +348,15 @@ var vm = new Vue({
         /* 删除日记*/
         deleteBtn: function () {
             this.modifyDiary.deleteDialogVisible = true;
+            axios({
+                url: 'deleteDiary.do',
+                method: 'post',
+            }).then(function (response) {
+                if(response.data=="error") this.$message("删除日记失败");
+                else this.$message("成功删除日记！");
+            }).catch(function (error) {
+                this.$message("删除日记发生错误 " + error);
+            })
         },
         /* 确定删除日记*/
         sureDeleteClick: function () {

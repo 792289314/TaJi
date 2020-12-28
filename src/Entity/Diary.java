@@ -30,6 +30,15 @@ public class Diary {
         this.time = _time;
     }
 
+    public Diary(Timestamp _time, String _text, int _weather, String classifyName, String classifyColor) {
+        time = _time;
+        text = _text;
+        weather = _weather;
+        classify = new Classify(classifyName, classifyColor);
+
+    }
+
+
     public long getId() {
         return id;
     }

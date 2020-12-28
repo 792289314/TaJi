@@ -3,11 +3,9 @@ package Dao;
 import Entity.Classify;
 import Entity.Diary;
 import Entity.DiaryAndClassify;
+import Entity.DiaryAndUserAndClassify;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 
 public class diaryTable {
@@ -95,10 +93,10 @@ public class diaryTable {
                 pst = conn.prepareStatement(sql);
                 pst.setLong(1, id);
                 pst.setLong(2, diary.getClassify().getId());
-                pst.setBoolean(3,diary.getFlag());
-                pst.setString(4,diary.getText());
-                pst.setTimestamp(5,diary.getTime());
-                pst.setInt(6,diary.getWeather());
+                pst.setBoolean(3, diary.getFlag());
+                pst.setString(4, diary.getText());
+                pst.setTimestamp(5, diary.getTime());
+                pst.setInt(6, diary.getWeather());
 
                 pst.executeUpdate();
                 flag = true;
@@ -147,9 +145,9 @@ public class diaryTable {
                 pst = conn.prepareStatement(sql);
                 pst.setLong(1, diary.getClassify().getId());
                 pst.setBoolean(2, diary.getFlag());
-                pst.setString(3,diary.getText());
-                pst.setInt(4,diary.getWeather());
-                pst.setLong(5,diary.getId());
+                pst.setString(3, diary.getText());
+                pst.setInt(4, diary.getWeather());
+                pst.setLong(5, diary.getId());
 
                 pst.executeUpdate();
                 flag = true;
@@ -160,5 +158,61 @@ public class diaryTable {
             db.close(conn, pst, rs);
         }
         return flag;
+    }
+
+    // 删除日记
+    public boolean deleteDiary(long diaryId) {
+        DBUtil db = new DB();
+        boolean flag = false;
+        try {
+            conn = db.getConnection();
+            if (conn != null) {
+                // 可以修改 分类归属、可见状态 文本 天气
+                String sql = "delete from diary where did=?";
+                pst = conn.prepareStatement(sql);
+                pst.setLong(1, diaryId);
+                pst.executeUpdate();
+                flag = true;
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        } finally {
+            db.close(conn, pst, rs);
+        }
+        return flag;
+    }
+
+
+    // 过客列表里 获取 指定日期当天 所有 公开的日记
+    public ArrayList<DiaryAndUserAndClassify> getAllDiaryByDate(String time) {
+        DBUtil db = new DB();
+        ArrayList<DiaryAndUserAndClassify> list = new ArrayList<>();
+        try {
+            conn = db.getConnection();
+            if (conn != null) {
+                // 可以修改 分类归属、可见状态 文本 天气
+                String sql = "select uname, dtime, dtext, dweather, cname, ccolor from diary,user, classify\n" +
+                        "where to_days(dtime) = to_days(?) and dflag = 0  " +
+                        "and diary.uid = user.uid and diary.cid = classify.cid";
+                pst = conn.prepareStatement(sql);
+                pst.setString(1, time);
+                rs = pst.executeQuery();
+
+                while (rs.next()) {
+                    list.add(new DiaryAndUserAndClassify(
+                            rs.getString("uname"),
+                            rs.getString("dtext"),
+                            rs.getTimestamp("dtime"),
+                            rs.getInt("dweather"),
+                            rs.getString("cname"),
+                            rs.getString("ccolor")));
+                }
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        } finally {
+            db.close(conn, pst, rs);
+        }
+        return list;
     }
 }

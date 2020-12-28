@@ -8,4 +8,8 @@ public class modifyDiaryManage {
         if (diary == null) return false;
         return new diaryTable().modifyDiary(diary);
     }
+
+    public static boolean DeleteDiary(long id){
+        return new diaryTable().deleteDiary(id);
+    }
 }

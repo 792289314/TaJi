@@ -4,6 +4,7 @@ package Controller;
 import Entity.Diary;
 import net.sf.json.JSONObject;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletRequest;
@@ -44,9 +45,22 @@ public class modifyDiaryController {
             Diary diary = null;
             if (modifyDiaryManage.ModifyDiary(diary)) {
                 out.write("ok");
-            }else{
+            } else {
                 out.write("error");
             }
+        }
+    }
+
+    // 删除日记
+    @RequestMapping("/TaJiMain/deleteDiary.do")
+    public void deleteDiary(@RequestBody String diaryId, HttpServletResponse response) throws IOException {
+        PrintWriter out=response.getWriter();
+        if(diaryId==null){
+            out.write("error");
+        }else{
+            long id = Long.parseLong(diaryId);
+            if(modifyDiaryManage.DeleteDiary(id))  out.write("ok");
+            else  out.write("error");
         }
     }
 }

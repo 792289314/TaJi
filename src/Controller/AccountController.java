@@ -20,7 +20,7 @@ public class AccountController {
     public void onLoginSubmit(@RequestBody String strJSON,
                               HttpSession session,
                               HttpServletResponse response) throws IOException {
-        System.out.println(strJSON);
+        System.out.println("当前登陆的用户："+strJSON);
 
         response.setContentType("text/html;  charset=utf-8");
         JSONObject userObj = JSONObject.fromObject(strJSON);
