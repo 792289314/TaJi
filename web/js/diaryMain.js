@@ -323,10 +323,10 @@ var vm = new Vue({
             })
         },
 
-        exit: function () {
+        Exit: function () {
             const self = this;
             axios({
-                url: 'exit.do',
+                url: 'Exit.do',
                 method: 'post'
             }).then(function (response) {
                 self.$message("退出成功！正在返回登陆界面ing...");

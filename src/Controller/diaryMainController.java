@@ -131,7 +131,7 @@ public class diaryMainController extends HttpServlet {
         }
     }
 
-    @RequestMapping("/TaJiMain/exit.do")
+    @RequestMapping("/TaJiMain/Exit.do")
     public void exit(HttpSession session) {
         session.invalidate();
     }

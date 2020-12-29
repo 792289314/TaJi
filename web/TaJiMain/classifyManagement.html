@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>她记——————分类管理页面</title>
     <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
-
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 
     <!--引入css-->
     <link rel="stylesheet" href="../css/classifyManagement.css">
@@ -53,6 +53,11 @@
                 </span>
             </el-dialog>
         </div>
+
+
+
+
+
         <div class="classifyMain">
             <el-table
                     :data="classifyTableData"
@@ -71,6 +76,9 @@
                         prop="classifyName"
                         label="分类"
                         width="180">
+                    <div style="width: 20px;height: 20px" backgroundcolor="classifyColor"  >
+                        {{classifyColor}}
+                    </div>
                 </el-table-column>
                 <el-table-column
                         label="颜色"
@@ -96,13 +104,13 @@
                                  label="操作">
                     <template slot-scope="scope">
                         <el-button
-                                size="mini" @click="editClick">编辑
+                                size="mini" @click="editClick(scope.$index)">编辑
                         </el-button>
                         <el-popover width="160" :ref="`popover-${scope.$index}`">
                             <p>确定删除吗？</p>
                             <div style="text-align: right; margin: 0">
                                 <el-button size="mini" type="text" @click="handleClose(scope.$index)">取消</el-button>
-                                <el-button type="primary" size="mini" @click="handleClose(scope.$index)">确定</el-button>
+                                <el-button type="primary" size="mini" @click="deleteClick(scope.$index)">确定</el-button>
                             </div>
                             <el-button size="mini" slot="reference" type="danger">删除</el-button>
                         </el-popover>

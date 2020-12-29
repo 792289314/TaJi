@@ -30,6 +30,32 @@ public class classifyManagementController {
             JSONObject json = JSONObject.fromObject(strJSON);
             // 根据json 直接生成实体
             // 导入的 Bean.jar 终于派上用场了 :)
+            // json转换实体时  json中的键值名必须与实体的变量名一摸一样
+            Classify classify = (Classify) JSONObject.toBean(json, Classify.class);
+            long id = Long.parseLong(userId.toString());
+            if (classifyManagementManage.AddClassify(id, classify)) {
+                out.write("ok");
+            }else{
+                out.write("error");
+            }
+        }
+    }
+
+
+
+    @RequestMapping("/TaJiMain/modifyClassify.do")
+    public void modifyClassify(@RequestBody String strJSON,
+                            //HttpServletRequest request,
+                            HttpSession session,
+                            HttpServletResponse response) throws IOException {
+        Object userId = session.getAttribute("id");
+        PrintWriter out = response.getWriter();
+        if (userId == null) {
+            // 存在会话过期的可能性 但是好像因为有filter过滤器的存在 好像 不写也没事啊
+        } else {
+            JSONObject json = JSONObject.fromObject(strJSON);
+            // 根据json 直接生成实体
+            // 导入的 Bean.jar 终于派上用场了 :)
             Classify classify = (Classify) JSONObject.toBean(json, Classify.class);
             long id = Long.parseLong(userId.toString());
             if (classifyManagementManage.AddClassify(id, classify)) {

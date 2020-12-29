@@ -3,24 +3,24 @@ package Entity;
 public class Classify {
     private long Id;
     private String Name;
-    private boolean flag;// 公开 / 私密
+    private boolean Flag;// 公开 / 私密
     private String Color;
-    private long cnt;
+    private long Cnt;
 
 
     public Classify(long id, String name, boolean flag, String color) {
         Id = id;
         Name = name;
-        this.flag = flag;
+        this.Flag = flag;
         Color = color;
     }
 
     public Classify(long id, String name, boolean flag, String color, long cnt) {
         Id = id;
         Name = name;
-        this.flag = flag;
+        this.Flag = flag;
         Color = color;
-        this.cnt = cnt;
+        this.Cnt = cnt;
     }
 
     public Classify(long cid) {
@@ -33,11 +33,11 @@ public class Classify {
     }
 
     public long getCnt() {
-        return cnt;
+        return Cnt;
     }
 
     public void setCnt(long cnt) {
-        this.cnt = cnt;
+        this.Cnt = cnt;
     }
 
     public long getId() {
@@ -57,11 +57,11 @@ public class Classify {
     }
 
     public boolean isFlag() {
-        return flag;
+        return Flag;
     }
 
     public void setFlag(boolean flag) {
-        this.flag = flag;
+        this.Flag = flag;
     }
 
     public String getColor() {
