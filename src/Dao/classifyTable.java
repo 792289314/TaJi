@@ -39,6 +39,30 @@ public class classifyTable {
         return classifyList;
     }
 
+    // 新建用户分类
+    public boolean addClassify(long id, Classify classify) {
+        boolean flag = false;
+        DBUtil db = new DB();
+        try {
+            conn = db.getConnection();
+            if (conn == null) return false;
+            String sql = "insert into classify(uid,  cname, cflag, ccolor) VALUES (?,?,?,?)";
+            pst = conn.prepareStatement(sql);
+            pst.setLong(1, id);
+            pst.setString(2, classify.getName());
+            pst.setBoolean(3, classify.isFlag());
+            pst.setString(4, classify.getColor());
+            pst.executeUpdate();
+            flag = true;
 
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        } finally {
+            db.close(conn, pst, rs);
+        }
+
+        return flag;
+    }
 
 }

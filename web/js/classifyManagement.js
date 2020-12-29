@@ -17,17 +17,19 @@ var vm = new Vue({
             //--------------------------------------分割线
             addDialogVisible: false,
             editDialogVisible: false,
-            //显示分类的table需要的数据
             classify: [
                 {
                     name: '',
                     color: '',
                     diaryNum: '',
-
-                },
+                }
             ],
 
-            //---------------------------------------分割线
+            /*
+                现在 classifyTableData 改成这种格式了 ⬇
+               {"color":"#3f3f3f3f","flag":false,"id":1,"name":"未命名",cnt:9}
+               {"color":"#4a4a4a4a","flag":false,"id":2,"name":"学习",cnt:10}
+           */
             classifyTableData: [{
                 classifyName: '旅游',
                 classifyColor: '#cd4a57',
@@ -69,7 +71,31 @@ var vm = new Vue({
 
         }
     },
+
+    created() {
+        //classifyTableData
+        this.getAllClassifies();
+
+    },
+
     methods: {
+
+        // 界面刚载入时，获取用户所有的分类信息
+        getAllClassifies: function () {
+            const self = this;
+            axios({
+                url: 'getClassify.do', // 突然发现 这个功能在diaryMain.html界面里写过
+                method: 'post'
+            }).then(function (response) {
+                if (response.data != "error") {
+                    self.classifyTableData = response.data();
+                }
+            }).catch(function (error) {
+                this.$message("获取用户分类信息发生错误 " + error);
+            })
+        },
+
+        // 与关闭相关的代码(...我也没看懂 =。= 另一个队友写的)
         $refs: undefined,
         handleClose(index) {
             this.$refs[`popover-${index}`].doClose()
@@ -111,4 +137,4 @@ var vm = new Vue({
             this.editDialogVisible = false;
         }
     },
-});
+})

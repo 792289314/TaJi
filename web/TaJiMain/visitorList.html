@@ -22,22 +22,19 @@
     <div class="showCalendar">
         <el-calendar>
             <!-- 这里使用的是 2.5 slot 语法，对于新项目请使用 2.6 slot 语法-->
-            <template slot="dateCell"
+            <template
 
-                      slot-scope="{date, data}">
-
-            <div slot="reference" class="current" @click="calendarOnClick(data)" style="padding: 0;margin: 0" >
-                    <p :class="data.isSelected ? 'is-selected' : ''">
+                    slot="dateCell"
+                    slot-scope="{date, data}">
+                <div @click="getSelectedDiary(data.day)" class="el-calendar-day">
+                    <p :class="data.isSelected ? 'is-selected' : '' ">
                         {{ data.day.split('-').slice(1).join('-') }} {{ data.isSelected ? '✔️' : ''}}
                     </p>
                 </div>
-
             </template>
-
         </el-calendar>
     </div>
     <div id="showDiary">
-
         <button @click="showElement">点击触发</button>
     </div>
 </div>
