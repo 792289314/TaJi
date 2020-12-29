@@ -20,9 +20,7 @@
 
 <div id="app">
     <div class="showCalendar">
-        <el-calendar id="DATE"
-                     :aria-selected="dataValue"
-        >
+        <el-calendar>
             <!-- 这里使用的是 2.5 slot 语法，对于新项目请使用 2.6 slot 语法-->
             <template
 
@@ -39,8 +37,6 @@
     <div id="showDiary">
         <button @click="showElement">点击触发</button>
     </div>
-
-
 </div>
 
 <script type="text/javascript" src="../js/visitorList.js"></script>

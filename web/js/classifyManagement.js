@@ -2,8 +2,19 @@ var vm = new Vue({
     el: '#app',
     data() {
         return {
+            //添加分类需要的分类名 颜色 状态
             nameIn: '',
             colorIn: '',
+            stateIn:'',
+            stateOptions: [{
+                value: '选项1',
+                label: '私密'
+            }, {
+                value: '选项2',
+                label: '公开'
+            }],
+            stateValue:'',
+            //--------------------------------------分割线
             addDialogVisible: false,
             editDialogVisible: false,
             classify: [
@@ -22,48 +33,59 @@ var vm = new Vue({
             classifyTableData: [{
                 classifyName: '旅游',
                 classifyColor: '#ffff',
-                classifyNum: 12
+                classifyNum: 12,
+                classifyState:"公开",
             }, {
                 classifyName: '旅游',
                 classifyColor: '#ffff',
-                classifyNum: 12
+                classifyNum: 12,
+                classifyState:"公开",
             }, {
                 classifyName: '旅游',
                 classifyColor: '#ffff',
-                classifyNum: 12
+                classifyNum: 12,
+                classifyState:"公开",
             }, {
                 classifyName: '旅游',
                 classifyColor: '#ffff',
-                classifyNum: 12
+                classifyNum: 12,
+                classifyState:"公开",
             }, {
                 classifyName: '旅游',
                 classifyColor: '#ffff',
-                classifyNum: 12
+                classifyNum: 12,
+                classifyState:"公开",
             }, {
                 classifyName: '旅游',
                 classifyColor: '#ffff',
-                classifyNum: 12
+                classifyNum: 12,
+                classifyState:"公开",
             }, {
                 classifyName: '旅游',
                 classifyColor: '#ffff',
-                classifyNum: 12
+                classifyNum: 12,
+                classifyState:"公开",
             }, {
                 classifyName: '旅游',
                 classifyColor: '#ffff',
-                classifyNum: 12
+                classifyNum: 12,
+                classifyState:"公开",
             }, {
                 classifyName: '旅游',
                 classifyColor: '#ffff',
-                classifyNum: 12
+                classifyNum: 12,
+                classifyState:"公开",
             }, {
                 classifyName: '旅游',
                 classifyColor: '#ffff',
-                classifyNum: 12
+                classifyNum: 12,
+                classifyState:"公开",
             },
                 {
                     classifyName: '旅游',
                     classifyColor: '#ffff',
-                    classifyNum: 12
+                    classifyNum: 12,
+                    classifyState:"公开",
                 }
             ],
 
@@ -98,8 +120,6 @@ var vm = new Vue({
         handleClose(index) {
             this.$refs[`popover-${index}`].doClose()
         },
-
-
         /*点击添加分类按钮 */
         addClassify: function () {
             this.addDialogVisible = true;

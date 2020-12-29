@@ -215,12 +215,12 @@ var vm = new Vue({
                     // * 提示 注册成功
                     // 登陆成功 切换页面
                     self.$message("欢迎用户" + self.RuserName + "的到来");
-                    self.show_registerbox = false;
-                    self.show_loginbox = true;
+                    // self.show_registerbox = false;
+                    // self.show_loginbox = true;
 
-                    var obj = document.getElementById("loginBtn1");
-                    obj.style.borderBottom = "2px solid #99cdaa";
-                    document.getElementById("registerBtn1").style.borderBottom = "none";
+                    // var obj = document.getElementById("loginBtn1");
+                    // obj.style.borderBottom = "2px solid #99cdaa";
+                    // document.getElementById("registerBtn1").style.borderBottom = "none";
 
 
                     sessionStorage.setItem("name", self.RuserName );
