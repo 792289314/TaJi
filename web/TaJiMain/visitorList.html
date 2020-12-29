@@ -20,20 +20,27 @@
 
 <div id="app">
     <div class="showCalendar">
-        <el-calendar>
+        <el-calendar id="DATE"
+                     :aria-selected="dataValue"
+        >
             <!-- 这里使用的是 2.5 slot 语法，对于新项目请使用 2.6 slot 语法-->
             <template
+
                     slot="dateCell"
                     slot-scope="{date, data}">
-                <p :class="data.isSelected ? 'is-selected' : ''">
-                    {{ data.day.split('-').slice(1).join('-') }} {{ data.isSelected ? '✔️' : ''}}
-                </p>
+                <div @click="getSelectedDiary(data.day)" class="el-calendar-day">
+                    <p :class="data.isSelected ? 'is-selected' : '' ">
+                        {{ data.day.split('-').slice(1).join('-') }} {{ data.isSelected ? '✔️' : ''}}
+                    </p>
+                </div>
             </template>
         </el-calendar>
     </div>
     <div id="showDiary">
         <button @click="showElement">点击触发</button>
     </div>
+
+
 </div>
 
 <script type="text/javascript" src="../js/visitorList.js"></script>
