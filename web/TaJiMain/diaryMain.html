@@ -8,19 +8,23 @@
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <link rel="shortcut icon" href="#" />
-    <!--引入css-->
-    <link rel="stylesheet" type="text/css" href="../css/diaryMain.css">
-    <link rel="stylesheet" href="../css/modifyDiary.css">
+
 
     <script src="http://unpkg.com/vue/dist/vue.js"></script>
     <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+
+    <!--引入css-->
+    <link rel="stylesheet" type="text/css" href="../css/diaryMain.css">
+    <link rel="stylesheet" href="../css/modifyDiary.css">
 </head>
 <body>
 <div id="app">
 
     <!--    :direction="direction"控制显示方向 rtl / ltr / ttb / btt-->
-    <!--    添加日记折叠框-->
+
     <div class="diaryMainBody">
+
+        <!--    添加日记折叠框-->
         <el-drawer
                 title="添加日记"
                 :size="'600px'"
@@ -167,6 +171,7 @@
                 </el-submenu>
             </el-menu>
         </el-drawer>
+
         <!--饿了么布局容器框架 头中右布局-->
         <el-container>
             <!--头部   包括个人中心按钮  两个div 一个全部 一个分类之后的-->
@@ -212,42 +217,42 @@
                 </el-aside>
             </el-container>
 
-        </el-container>
-    </div>
-
-
-
-    <!--原先modifyDiary.html里的内容-->
-    <div v-show="modifyDiaryFlag" class="modifyDiaryBody">
-        <div class="bigBox">
-            <div class="head">
-                <div class="editBox">
-                    <el-button type="text" icon="el-icon-edit"></el-button>
-                    <el-button type="text" icon="el-icon-delete" @click="deleteBtn"></el-button>
+            <!--原先modifyDiary.html里的内容-->
+            <div v-show="modifyDiaryFlag" class="modifyDiaryBody">
+                <div class="bigBox">
+                    <div class="head">
+                        <div class="editBox">
+                            <el-button type="text" icon="el-icon-edit"></el-button>
+                            <el-button type="text" icon="el-icon-delete" @click="deleteBtn"></el-button>
+                        </div>
+                        {{modifyDiary.name}}
+                    </div>
+                    <div id="textAreaDiv" class="contain" contenteditable="true" @click="editDiaryBox">
+                        {{modifyDiary.text1}}
+                    </div>
+                    <!--<div class="saveBox" >
+                        <button class="saveBtn" @click="saveClick">保存</button>
+                    </div>-->
+                    <div class="saveBox">
+                        <button class="saveBtn" @click="returnClick">返回</button>
+                    </div>
                 </div>
-                {{modifyDiary.name}}
-            </div>
-            <div id="textAreaDiv" class="contain" contenteditable="true" @click="editDiaryBox">
-                {{modifyDiary.text1}}
-            </div>
-            <!--<div class="saveBox" >
-                <button class="saveBtn" @click="saveClick">保存</button>
-            </div>-->
-            <div class="saveBox">
-                <button class="saveBtn" @click="returnClick">返回</button>
-            </div>
-        </div>
 
-        <el-dialog
-                title="提示"
-                :visible.sync="modifyDiary.deleteDialogVisible"
-                width="30%">
-            <span>您确定要删除此条日记？</span>
-            <span slot="footer" class="dialog-footer">
+                <el-dialog
+                        title="提示"
+                        :visible.sync="modifyDiary.deleteDialogVisible"
+                        width="30%">
+                    <span>您确定要删除此条日记？</span>
+                    <span slot="footer" class="dialog-footer">
             <el-button @click="modifyDiary.deleteDialogVisible = false">取 消</el-button>
             <el-button type="primary" @click="sureDeleteClick">确 定</el-button>
         </span>
-        </el-dialog>
+                </el-dialog>
+
+
+            </div>
+
+        </el-container>
 
 
     </div>
