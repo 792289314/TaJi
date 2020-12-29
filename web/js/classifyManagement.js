@@ -30,58 +30,38 @@ var vm = new Vue({
             //---------------------------------------分割线
             classifyTableData: [{
                 classifyName: '旅游',
-                classifyColor: '#ffff',
+                classifyColor: '#cd4a57',
                 classifyNum: 12,
                 classifyState:"公开",
             }, {
                 classifyName: '旅游',
-                classifyColor: '#ffff',
+                classifyColor: '#cd4a57',
                 classifyNum: 12,
                 classifyState:"公开",
             }, {
                 classifyName: '旅游',
-                classifyColor: '#ffff',
+                classifyColor: '#cd4a57',
                 classifyNum: 12,
                 classifyState:"公开",
             }, {
                 classifyName: '旅游',
-                classifyColor: '#ffff',
+                classifyColor: '#cd4a57',
                 classifyNum: 12,
                 classifyState:"公开",
             }, {
                 classifyName: '旅游',
-                classifyColor: '#ffff',
+                classifyColor: '#cd4a57',
                 classifyNum: 12,
                 classifyState:"公开",
             }, {
                 classifyName: '旅游',
-                classifyColor: '#ffff',
-                classifyNum: 12,
-                classifyState:"公开",
-            }, {
-                classifyName: '旅游',
-                classifyColor: '#ffff',
-                classifyNum: 12,
-                classifyState:"公开",
-            }, {
-                classifyName: '旅游',
-                classifyColor: '#ffff',
-                classifyNum: 12,
-                classifyState:"公开",
-            }, {
-                classifyName: '旅游',
-                classifyColor: '#ffff',
-                classifyNum: 12,
-                classifyState:"公开",
-            }, {
-                classifyName: '旅游',
-                classifyColor: '#ffff',
+                classifyColor: '#cd4a57',
                 classifyNum: 12,
                 classifyState:"公开",
             },
                 {
                     classifyName: '旅游',
-                    classifyColor: '#ffff',
+                    classifyColor: '#cd4a57',
                     classifyNum: 12,
                     classifyState:"公开",
                 }

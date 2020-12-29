@@ -63,14 +63,27 @@
                     :header-cell-style="{textAlign: 'center',background:'#99cdaa',color:'black'}"
                     :cell-style="{ textAlign: 'center' }">
                 <el-table-column
+                        type="index"
+                        label="序号" width="100" align="center">
+
+                </el-table-column>
+                <el-table-column
                         prop="classifyName"
                         label="分类"
                         width="180">
                 </el-table-column>
                 <el-table-column
-                        prop="classifyColor"
                         label="颜色"
                         width="180">
+                    <template slot-scope="scope">
+                        <div class="colorBox" :style="{'background':'{{ scope.row.classifyColor }}'}" >
+
+                        </div>
+                    </template>
+
+
+
+
                 </el-table-column>
                 <el-table-column
                         prop="classifyNum"

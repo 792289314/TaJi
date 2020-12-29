@@ -50,3 +50,14 @@ body {
     height: 100%;
     z-index: 1;
 }
+.colorBox {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    width: 50%;
+    height: 50%;
+    margin: auto;
+    /*background-color: #cd4a57;*/
+}
