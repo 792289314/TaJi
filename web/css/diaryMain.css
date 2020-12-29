@@ -73,9 +73,9 @@ textarea {
 .addDiaryBtn /*添加日记按钮*/
 {
     position: fixed;
-    right: 10px;
+    right: 20px;
     bottom: 10px;
-    font-size: 40px;
+    font-size: 40px !important;
 }
 
 .header {
