@@ -37,6 +37,15 @@
                             v-model="colorIn"
                             clearable>
                         </el-input>
+                    状态
+                    <el-select v-model="stateValue" placeholder="请选择状态">
+                        <el-option
+                                v-for="item in stateOptions"
+                                :key="item.value"
+                                :label="item.label"
+                                :value="item.value">
+                        </el-option>
+                    </el-select>
                 </div>
                 <span slot="footer" class="dialog-footer">
                 <el-button @click="addDialogVisible = false">取 消</el-button>
@@ -66,6 +75,10 @@
                 <el-table-column
                         prop="classifyNum"
                         label="日记数">
+                </el-table-column>
+                <el-table-column
+                        prop="classifyState"
+                        label="状态">
                 </el-table-column>
                 <el-table-column prop="classifyModify"
                                  label="操作">
@@ -105,6 +118,16 @@
                         v-model="classify.diaryNum"
                         :disabled="true">
                 </el-input>
+                状态
+                <el-select v-model="stateValue" placeholder="请选择状态">
+                    <el-option
+                            v-for="item in stateOptions"
+                            :key="item.value"
+                            :label="item.label"
+                            :value="item.value">
+                    </el-option>
+                </el-select>
+
                 <span slot="footer" class="dialog-footer">
                 <el-button @click="editDialogVisible = false">取 消</el-button>
                 <el-button type="primary" @click="editSureClick">确 定</el-button>
