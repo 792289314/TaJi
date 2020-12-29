@@ -32,7 +32,7 @@ var vm = new Vue({
            */
             classifyTableData: [{
                 classifyName: '旅游',
-                classifyColor: '#cd4a57',
+                classifyColor: '#89cd91',
                 classifyNum: 12,
                 classifyState:"公开",
             }, {
@@ -42,7 +42,7 @@ var vm = new Vue({
                 classifyState:"公开",
             }, {
                 classifyName: '旅游',
-                classifyColor: '#cd4a57',
+                classifyColor: '#4134cd',
                 classifyNum: 12,
                 classifyState:"公开",
             }, {
@@ -52,7 +52,7 @@ var vm = new Vue({
                 classifyState:"公开",
             }, {
                 classifyName: '旅游',
-                classifyColor: '#cd4a57',
+                classifyColor: '#5fcd86',
                 classifyNum: 12,
                 classifyState:"公开",
             }, {
@@ -63,7 +63,7 @@ var vm = new Vue({
             },
                 {
                     classifyName: '旅游',
-                    classifyColor: '#cd4a57',
+                    classifyColor: '#a6a8cd',
                     classifyNum: 12,
                     classifyState:"公开",
                 }
@@ -79,7 +79,10 @@ var vm = new Vue({
     },
 
     methods: {
-
+        exitMainBtn:function()
+        {
+            window.history.back()
+        },
         // 界面刚载入时，获取用户所有的分类信息
         getAllClassifies: function () {
             const self = this;
@@ -137,4 +140,4 @@ var vm = new Vue({
             this.editDialogVisible = false;
         }
     },
-})
+});

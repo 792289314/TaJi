@@ -19,6 +19,7 @@
 <div id="app">
     <div class="classifyBox">
         <div>
+            <button class="addClassifyBtn" @click="exitMainBtn" style="margin-left: 10px">返回</button>
             <button class="addClassifyBtn" @click="addClassify">添加我的分类</button>
         </div>
         <div id="addBox">
@@ -37,8 +38,7 @@
                             v-model="colorIn"
                             clearable>
                         </el-input>
-                    状态
-                    <el-select v-model="stateValue" placeholder="请选择状态">
+                    状态<el-select v-model="stateValue" placeholder="请选择状态">
                         <el-option
                                 v-for="item in stateOptions"
                                 :key="item.value"
@@ -76,8 +76,7 @@
                         label="颜色"
                         width="180">
                     <template slot-scope="scope">
-                        <div class="colorBox" :style="{'background':'{{ scope.row.classifyColor }}'}" >
-
+                        <div class="colorBox" :style="{'background-color':scope.row.classifyColor}" >
                         </div>
                     </template>
 
@@ -119,7 +118,7 @@
             <el-dialog
                     title="编辑分类"
                     :visible.sync="editDialogVisible"
-                    width="50%"
+                    width="30%"
                    >
                 分类<el-input
                         v-model="classify.name"

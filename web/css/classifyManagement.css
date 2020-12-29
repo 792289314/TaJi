@@ -61,3 +61,7 @@ body {
     margin: auto;
     /*background-color: #cd4a57;*/
 }
+.el-select
+{
+    width: 100%;
+}
