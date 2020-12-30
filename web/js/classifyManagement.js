@@ -76,7 +76,7 @@ var vm = new Vue({
 
     created() {
         //classifyTableData
-     //   this.getAllClassifies();
+        this.getAllClassifies();
 
     },
 
@@ -89,11 +89,11 @@ var vm = new Vue({
         getAllClassifies: function () {
             const self = this;
             axios({
-                url: 'getClassify.do', // 突然发现 这个功能在diaryMain.html界面里写过
+                url: 'getAllClassifiesExceptUnClassified.do', // 突然发现 这个功能在diaryMain.html界面里写过
                 method: 'post'
             }).then(function (response) {
                 if (response.data != "error") {
-                    self.classifyTableData = response.data();
+                    self.classifyTableData = response.data;
                 }
             }).catch(function (error) {
                 self.$message("获取用户分类信息发生错误 " + error);

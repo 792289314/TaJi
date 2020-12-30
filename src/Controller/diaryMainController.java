@@ -38,7 +38,7 @@ public class diaryMainController extends HttpServlet {
             long id = Integer.parseInt(userId.toString());
 
             ArrayList<Classify> classifies = diaryMainManage.getClassifyById(id);
-            Classify allDiary = new Classify(0, "全部", false, "7DCC67");
+            Classify allDiary = new Classify(0, "全部", false, "#7DCC67");
             classifies.add(0, allDiary);//在开头加上 '全部' 分类
             // 统计每个分类下日记的的个数
             long allCnt = 0;
