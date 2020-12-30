@@ -33,7 +33,7 @@ var vm = new Vue({
                 {"color":"#4a4a4a4a","flag":false,"id":2,"name":"学习",cnt:10}
             */
             classifyList: [],
-            classifyValue: 0,//-1代表选中全部按钮
+            classifyValue: 0,//0代表选中全部按钮
 
             /*{
                                 数组id
@@ -207,8 +207,8 @@ var vm = new Vue({
 
         //点击每一个div触发事件
         diaryDivClick: function (id) {
-         //   this.$message(id);
-            this.modifyDiary.id = id;
+            //   this.$message(id);
+            this.modifyDiary.id = this.diaryList[id].diaryId;
             this.modifyDiary.name = this.diaryList[id].classifyName;
             this.modifyDiary.text1 = this.diaryList[id].diaryText;
 
@@ -276,7 +276,6 @@ var vm = new Vue({
             }
         },
 
-        // 还没写完
         // 右下角添加日记的发布按钮
         Publish: function () {
             const self = this;
@@ -343,19 +342,30 @@ var vm = new Vue({
         /* 删除日记*/
         deleteBtn: function () {
             this.modifyDiary.deleteDialogVisible = true;
-            axios({
-                url: 'deleteDiary.do',
-                method: 'post',
-            }).then(function (response) {
-                if(response.data=="error") this.$message("删除日记失败");
-                else this.$message("成功删除日记！");
-            }).catch(function (error) {
-                this.$message("删除日记发生错误 " + error);
-            })
+
         },
         /* 确定删除日记*/
         sureDeleteClick: function () {
             this.modifyDiary.deleteDialogVisible = false
+            const self = this;
+            axios({
+                url: 'deleteDiary.do',
+                method: 'post',
+                data: {
+                    diaryId: self.modifyDiary.id
+                }
+            }).then(function (response) {
+                if (response.data == "error") self.$message("删除日记失败");
+                else {
+                    self.$message("成功删除日记！");
+                    self.classifyValue = 0;
+                    self.getUserDiary();
+                    self.modifyDiaryFlag = false;
+                }
+            }).catch(function (error) {
+                self.$message("删除日记发生错误 " + error);
+            })
+
         },
         /* 日记div*/
         editDiaryBox: function () {

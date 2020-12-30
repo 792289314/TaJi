@@ -167,7 +167,6 @@ public class diaryTable {
         try {
             conn = db.getConnection();
             if (conn != null) {
-                // 可以修改 分类归属、可见状态 文本 天气
                 String sql = "delete from diary where did=?";
                 pst = conn.prepareStatement(sql);
                 pst.setLong(1, diaryId);

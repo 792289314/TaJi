@@ -52,15 +52,15 @@ public class modifyDiaryController {
     }
 
     // 删除日记
+    // 突然想起来 数据库里diary的id属性被我设成自增的 就不需要userId了
     @RequestMapping("/TaJiMain/deleteDiary.do")
-    public void deleteDiary(@RequestBody String diaryId, HttpServletResponse response) throws IOException {
-        PrintWriter out=response.getWriter();
-        if(diaryId==null){
-            out.write("error");
-        }else{
-            long id = Long.parseLong(diaryId);
-            if(modifyDiaryManage.DeleteDiary(id))  out.write("ok");
-            else  out.write("error");
-        }
+    public void deleteDiary(@RequestBody String strJSON, HttpServletResponse response) throws IOException {
+        PrintWriter out = response.getWriter();
+        JSONObject json = JSONObject.fromObject(strJSON);
+
+        long diaryId = Long.parseLong(json.get("diaryId").toString());
+        if (modifyDiaryManage.DeleteDiary(diaryId)) out.write("ok");
+        else out.write("error");
+
     }
 }
