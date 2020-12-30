@@ -82,6 +82,7 @@ input::-webkit-credentials-auto-fill-button {
     margin: 20px 0;
     border: 1px solid #319464;
     /*margin-left: 5px;*/
+
 }
 
 .loginBox input {
@@ -157,5 +158,6 @@ input::-webkit-credentials-auto-fill-button {
 
 .iconfont {
     font-size: 21px;
+    margin: 0 10px !important;
 }
 

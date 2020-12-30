@@ -2,6 +2,10 @@ var vm = new Vue({
     el: '#app',
     data() {
         return {
+            //添加日记里的字体大小
+            Font: '50px',
+
+
             // diaryMainFlag: true,
             modifyDiaryFlag: false,
             modifyDiary: {
@@ -406,5 +410,11 @@ var vm = new Vue({
         }
 
     },
+    watch: {
+        Font: function (val) {
+            this.$message(val);
+            document.getElementById("addTextArea").style.fontSize = val;
+        }
+    }
 
 });

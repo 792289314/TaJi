@@ -83,35 +83,29 @@ var vm = new Vue({
             this.stateValue = false;
             this.addDialogVisible = true;
         },
-       judgeClassifyName:function()
-       {
-           var flag=0;
-           for(var i=0;i<this.classifyTableData.length;i++)
-           {
-               if(this.classifyTableData[i].name===this.nameIn||(this.nameIn!=='全部')||this.nameIn!=='未分类')
-               {
-                   return false;
-               }
-           }
-           // if(flag===this.classifyTableData.length)
-           // {
-           //     return true;
-           // }else
-           // {
-           //     return false;
-           // }
-       },
+        judgeClassifyName: function () {
+            const name = this.nameIn;
+            if (name == '全部' || name == '未分类') {
+                this.$message('非法取名！换一个吧！');
+                return false;
+            }
+            for (var i = 0; i < this.classifyTableData.length; i++) {
+                if (this.classifyTableData[i].name == name) {
+                    this.$message('该分类已经存在！换一个吧！');
+                    return false;
+                }
+            }
+            return true;
+        },
         /*点击添加分类 确定按钮 把数据更新到后台*/
         addBtn: function () {
             this.addDialogVisible = false;
 
             const self = this;
 
-            if(!this.judgeClassifyName())
-            {
-                self.$message("分类名一样，请重新编辑");
-            }else
-            {
+            if (!this.judgeClassifyName()) {
+                //self.$message("分类名一样，请重新编辑");
+            } else {
                 axios({
                     url: 'addClassify.do',
                     method: 'post',
