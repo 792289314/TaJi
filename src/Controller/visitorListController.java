@@ -21,6 +21,7 @@ public class visitorListController {
     @RequestMapping("/TaJiMain/getAllDiaryByDate.do")
     public void getAllDiaryByDate(@RequestBody String strJSON, // json { date }
                                   HttpServletResponse response) throws IOException {
+        response.setContentType("text/html;  charset=utf-8");
         JSONObject json=JSONObject.fromObject(strJSON);
         String dateTime= (String) json.get("date");
         PrintWriter out = response.getWriter();
@@ -31,6 +32,8 @@ public class visitorListController {
                     visitorListManage.getAllDiaryByDate(dateTime);
 
             JSONArray jsons = JSONArray.fromObject(list);
+            System.out.println(jsons);
+
             out.write(String.valueOf(jsons));
         }
     }
