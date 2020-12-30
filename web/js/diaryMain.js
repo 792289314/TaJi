@@ -48,13 +48,13 @@ var vm = new Vue({
 
             weatherOptions: [{////添加日记中 天气的下拉列表框 需要给这样的数组
                 value: 0,
-                label: 'el-icon-sunny'
+                label: '晴天'
             }, {
                 value: 1,
-                label: 'el-icon-cloudy'
+                label: '多云'
             }, {
                 value: 2,
-                label: 'el-icon-heavy-rain'
+                label: '下雨'
             },],
             weatherValue: 0,
             dataValue: '',
@@ -119,9 +119,9 @@ var vm = new Vue({
         // 获得天气中文
         // ps：后悔 为啥不数据库里写好
         getWeatherToString(x) {
-            if (x == 0) return "晴";
-            if (x == 1) return "雨天";
-            if (x == 2) return "多云";
+            if (x == 0) return "<i class=\"el-icon-sunny\" style='font-size: 30px'></i>";
+            if (x == 1) return "<i class=\"el-icon-heavy-rain\" style='font-size: 30px'></i>";
+            if (x == 2) return "<i class=\"el-icon-cloudy\n\" style='font-size: 30px'></i>";
         },
 
 

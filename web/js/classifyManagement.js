@@ -32,43 +32,13 @@ var vm = new Vue({
                {"color":"#3f3f3f3f","flag":false,"id":1,"name":"未命名",cnt:9}
                {"color":"#4a4a4a4a","flag":false,"id":2,"name":"学习",cnt:10}
            */
+
             classifyTableData: [{
-                classifyName: '旅游',
+                classifyName: '',
                 classifyColor: '#89cd91',
                 classifyNum: 12,
-                classifyState: "公开",
-            }, {
-                classifyName: '旅游',
-                classifyColor: '#cd4a57',
-                classifyNum: 12,
-                classifyState: "公开",
-            }, {
-                classifyName: '旅游',
-                classifyColor: '#4134cd',
-                classifyNum: 12,
-                classifyState: "公开",
-            }, {
-                classifyName: '旅游',
-                classifyColor: '#cd4a57',
-                classifyNum: 12,
-                classifyState: "公开",
-            }, {
-                classifyName: '旅游',
-                classifyColor: '#5fcd86',
-                classifyNum: 12,
-                classifyState: "公开",
-            }, {
-                classifyName: '旅游',
-                classifyColor: '#cd4a57',
-                classifyNum: 12,
-                classifyState: "公开",
+                classifyState:"公开",
             },
-                {
-                    classifyName: '旅游',
-                    classifyColor: '#a6a8cd',
-                    classifyNum: 12,
-                    classifyState: "公开",
-                }
             ],
 
         }
@@ -165,7 +135,7 @@ var vm = new Vue({
             ],
 
            */
-            this.$message(index);
+          //  this.$message(index);
             this.classify.name = this.classifyTableData[index].name;
             this.classify.color = this.classifyTableData[index].color;
             this.classify.diaryNum = this.classifyTableData[index].cnt;

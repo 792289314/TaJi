@@ -5,10 +5,14 @@ var vm = new Vue({
         return {
             allDiaryList: [],
             // 缺一个默认选择的日期
+            //data1:'',
         }
     },
     created() {
-        this.getSelectedDiary('2020-12-12');
+        const tim=new Date();
+
+        this.getSelectedDiary(tim.getUTCFullYear()+"-"+tim.getUTCMonth()+"-"+tim.getUTCDay());
+
         this.showElement();
     },
     methods: {
@@ -19,7 +23,7 @@ var vm = new Vue({
         },
 
         getSelectedDiary: function (date) {
-            this.$message(date);
+           // this.$message(date);
             const self=this;
 
             axios({
@@ -31,6 +35,7 @@ var vm = new Vue({
                     self.$message("啊呀，数据库连接被拒绝了");
                 } else {
                    self.allDiaryList = response.data;
+
                     /*  { 后台拿来的数据
                             "diary":{
                                     "classify":{
@@ -54,12 +59,23 @@ var vm = new Vue({
 
         showElement: function () {
             this.ClearShowDiaryDiv();
-            for (let i = 0; i < this.allDiaryList.length; i++) {
-                let div = document.createElement('div');
-                div.className = "show_div";
-                div.innerHTML = this.allDiaryList[i].diary.text;
-                div.id = 'showD' + i;
-                document.getElementById('showDiary').appendChild(div);
+            if(this.allDiaryList.length!=0)
+            {
+                for (let i = 0; i < this.allDiaryList.length; i++) {
+                    let div = document.createElement('div');
+                    div.className = "show_div";
+                    div.innerHTML = this.allDiaryList[i].diary.text;
+                    div.id = 'showD' + i;
+                    document.getElementById('showDiary').appendChild(div);
+
+                }
+            }
+            else
+            {
+                let div1 = document.createElement('div');
+                div1.className="noneDiary";
+                div1.innerHTML = "当前没人写日记";
+                document.getElementById('showDiary').appendChild(div1);
 
             }
         }
