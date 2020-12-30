@@ -227,10 +227,18 @@
                         </div>
                         {{modifyDiary.name}}
                     </div>
-                    <div id="textAreaDiv" class="contain" contenteditable="true"
-                         v-model="modifyDiary.text1"
-                         @click="editDiaryBox">
-                        {{modifyDiary.text1}}
+                    <div  class="contain" >
+                        <div class="modifyText">
+                            <el-input
+
+                                    type="textarea"
+                                    :rows="15"
+                                    show-word-limit
+                                    v-model="modifyDiary.text1">
+                            </el-input>
+                        </div>
+
+
                     </div>
                     <!--<div class="saveBox" >
                         <button class="saveBtn" @click="saveClick">保存</button>

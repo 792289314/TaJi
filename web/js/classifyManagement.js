@@ -83,40 +83,65 @@ var vm = new Vue({
             this.stateValue = false;
             this.addDialogVisible = true;
         },
-
+       judgeClassifyName:function()
+       {
+           var flag=0;
+           for(var i=0;i<this.classifyTableData.length;i++)
+           {
+               if(this.classifyTableData[i].name===this.nameIn||(this.nameIn!=='全部')||this.nameIn!=='未分类')
+               {
+                   return false;
+               }
+           }
+           // if(flag===this.classifyTableData.length)
+           // {
+           //     return true;
+           // }else
+           // {
+           //     return false;
+           // }
+       },
         /*点击添加分类 确定按钮 把数据更新到后台*/
         addBtn: function () {
             this.addDialogVisible = false;
 
             const self = this;
 
-            axios({
-                url: 'addClassify.do',
-                method: 'post',
-                /*data: {
-                    'id': 0,//占位
-                    'Name': '测试分类',
-                    'Flag': false,
-                    'Color': '#0x3f3f3f3f'
-                },*/
-                data: {
-                    id: 0,//占位 和后台直接 json转实例 有关
-                    name: self.nameIn,
-                    flag: self.stateValue,
-                    color: self.colorIn,
-                    cnt: 0
-                }
-                // long id, String name, boolean flag, String color
-            }).then(function (response) {
-                if (response.data == "error") {
-                    self.$message("添加分类失败！");
-                } else {
-                    self.$message("成功添加新的分类");
-                    self.getAllClassifies();
-                }
-            }).catch(function (error) {
-                self.$message("添加分类出错！" + error);
-            })
+            if(!this.judgeClassifyName())
+            {
+                self.$message("分类名一样，请重新编辑");
+            }else
+            {
+                axios({
+                    url: 'addClassify.do',
+                    method: 'post',
+                    /*data: {
+                        'id': 0,//占位
+                        'Name': '测试分类',
+                        'Flag': false,
+                        'Color': '#0x3f3f3f3f'
+                    },*/
+                    data: {
+                        id: 0,//占位 和后台直接 json转实例 有关
+                        name: self.nameIn,
+                        flag: self.stateValue,
+                        color: self.colorIn,
+                        cnt: 0
+                    }
+                    // long id, String name, boolean flag, String color
+                }).then(function (response) {
+                    if (response.data == "error") {
+                        self.$message("添加分类失败！");
+                    } else {
+                        self.$message("成功添加新的分类");
+                        self.getAllClassifies();
+
+                    }
+                }).catch(function (error) {
+                    self.$message("添加分类出错！" + error);
+                })
+            }
+
         },
 
 

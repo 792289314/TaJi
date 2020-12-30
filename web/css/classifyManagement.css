@@ -72,6 +72,6 @@ body {
 }
 .el-color-picker__empty, .el-color-picker__icon
 {
-    left: 0;
     right: 5px;
+    left: unset;
 }
