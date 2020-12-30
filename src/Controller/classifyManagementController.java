@@ -33,8 +33,6 @@ public class classifyManagementController {
             System.out.println(jsons);
             out.write(String.valueOf(jsons));
         }
-
-
     }
 
 
@@ -81,11 +79,31 @@ public class classifyManagementController {
             // 导入的 Bean.jar 终于派上用场了 :)
             Classify classify = (Classify) JSONObject.toBean(json, Classify.class);
             long id = Long.parseLong(userId.toString());
-            if (classifyManagementManage.AddClassify(id, classify)) {
+            if (classifyManagementManage.modifyClassify(id, classify)) {
                 out.write("ok");
             } else {
                 out.write("error");
             }
         }
     }
+
+
+    @RequestMapping("/TaJiMain/deleteClassify.do")
+    public void deleteClassify(@RequestBody String strJSON,
+                               HttpSession session,
+                               HttpServletResponse response) throws IOException {
+        Object id = session.getAttribute("id");
+        PrintWriter out = response.getWriter();
+        if (id != null) {
+            JSONObject json = JSONObject.fromObject(strJSON);
+            long classifyId = Long.parseLong( json.get("classifyId").toString());
+            long userId = Long.parseLong(id.toString());
+            if (classifyManagementManage.deleteClassify(userId, classifyId)) {
+                out.write("ok");
+            } else {
+                out.write("error");
+            }
+        }
+    }
+
 }

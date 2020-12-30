@@ -21,6 +21,7 @@ var vm = new Vue({
             editDialogVisible: false,
             classify: [
                 {
+                    id: '',
                     name: '',
                     color: '',
                     diaryNum: '',
@@ -37,7 +38,7 @@ var vm = new Vue({
                 classifyName: '',
                 classifyColor: '#89cd91',
                 classifyNum: 12,
-                classifyState:"公开",
+                classifyState: "公开",
             },
             ],
 
@@ -135,7 +136,8 @@ var vm = new Vue({
             ],
 
            */
-          //  this.$message(index);
+            //  this.$message(index);
+            this.classify.id = index;
             this.classify.name = this.classifyTableData[index].name;
             this.classify.color = this.classifyTableData[index].color;
             this.classify.diaryNum = this.classifyTableData[index].cnt;
@@ -147,16 +149,22 @@ var vm = new Vue({
         /*点击编辑中确定按钮*/
         editSureClick: function () {
             this.editDialogVisible = false;
-
-
             axios({
                 url: 'modifyClassify.do',
                 method: 'post',
+                /*data: {
+                    id: 0,
+                    name: '测试分类',
+                    flag: false,
+                    color: '#0x3f3f3f3f',
+                    cnt: ''
+                }*/
                 data: {
-                    'id': 0,
-                    'Name': '测试分类',
-                    'Flag': false,
-                    'Color': '#0x3f3f3f3f'
+                    id: self.classify.id,
+                    name: self.classify.name,
+                    flag: self.classify.flag,
+                    color: self.classify.color,
+                    cnt: 0//占位
                 }
             }).then(function (response) {
                 if (response.data == "error") {
@@ -174,14 +182,15 @@ var vm = new Vue({
         deleteClick: function (index) {
             const self = this;
             axios({
-                url: '',
+                url: 'deleteClassify.do',
                 method: 'post',
-                data: {'classifyId': self.classifyTableData[index].id}
+                data: {classifyId: self.classifyTableData[index].id}
             }).then(function (response) {
                 if (response.data == "error") {
                     self.$message("删除失败！");
                 } else {
                     self.$message("成功删除！");
+                    self.getAllClassifies();
                 }
             }).catch(function (error) {
                 self.$message("获取用户分类信息发生错误 " + error);

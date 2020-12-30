@@ -13,4 +13,11 @@ public class classifyManagementManage {
     public static ArrayList<Classify> getAllClassifiesExceptUnClassified(long id){
         return new classifyTable().getAllClassifiesExceptUnClassified(id);
     }
+    public static boolean deleteClassify(long userId,long classifyId){
+        return new classifyTable().deleteClassify(userId,classifyId);
+    }
+
+    public static boolean modifyClassify(long userId,Classify classify){
+        return new classifyTable().modifyClassify(userId, classify);
+    }
 }

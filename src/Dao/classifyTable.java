@@ -98,4 +98,58 @@ public class classifyTable {
         return classifyList;
     }
 
+    // 删除分类
+    public boolean deleteClassify(long userId, long classifyId) {
+        boolean flag = false;
+        DBUtil db = new DB();
+        try {
+            conn = db.getConnection();
+            if (conn == null) return false;
+            String sql = "delete from classify where cid = ? and uid =?";
+            pst = conn.prepareStatement(sql);
+            pst.setLong(1, classifyId);
+            pst.setLong(2, userId);
+
+            pst.executeUpdate();
+            flag = true;
+
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        } finally {
+            db.close(conn, pst, rs);
+        }
+
+        return flag;
+    }
+
+    //修改分类的信息
+    public boolean modifyClassify(long userId, Classify classify) {
+        boolean flag = false;
+        DBUtil db = new DB();
+        try {
+            conn = db.getConnection();
+            if (conn == null) return false;
+            String sql = "update classify set cname=?,ccolor=?,cflag=? where cid=? and uid=?";
+            pst = conn.prepareStatement(sql);
+            pst.setString(1, classify.getName());
+            pst.setString(2, classify.getColor());
+            pst.setBoolean(3, classify.getFlag());
+            pst.setLong(4, classify.getId());
+            pst.setLong(5, userId);
+
+            pst.executeUpdate();
+            flag = true;
+
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        } finally {
+            db.close(conn, pst, rs);
+        }
+
+        return flag;
+    }
+
+
 }

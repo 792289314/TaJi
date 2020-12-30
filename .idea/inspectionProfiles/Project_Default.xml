@@ -1,69 +1,17 @@
 <component name="InspectionProjectProfileManager">
   <profile version="1.0">
     <option name="myName" value="Project Default" />
-    <inspection_tool class="CssInvalidPseudoSelector" enabled="false" level="WARNING" enabled_by_default="false" />
-    <inspection_tool class="HtmlUnknownAttribute" enabled="true" level="WARNING" enabled_by_default="true">
-      <option name="myValues">
-        <value>
-          <list size="11">
-            <item index="0" class="java.lang.String" itemvalue="@change" />
-            <item index="1" class="java.lang.String" itemvalue="v-model" />
-            <item index="2" class="java.lang.String" itemvalue="v-text" />
-            <item index="3" class="java.lang.String" itemvalue="﻿v-for" />
-            <item index="4" class="java.lang.String" itemvalue="v-for" />
-            <item index="5" class="java.lang.String" itemvalue="v-if" />
-            <item index="6" class="java.lang.String" itemvalue="@click" />
-            <item index="7" class="java.lang.String" itemvalue="slot-scope" />
-            <item index="8" class="java.lang.String" itemvalue="scoped" />
-            <item index="9" class="java.lang.String" itemvalue="v-show" />
-            <item index="10" class="java.lang.String" itemvalue="backgroundcolor" />
-          </list>
-        </value>
-      </option>
-      <option name="myCustomValuesEnabled" value="true" />
-    </inspection_tool>
     <inspection_tool class="HtmlUnknownTag" enabled="true" level="WARNING" enabled_by_default="true">
       <option name="myValues">
         <value>
-          <list size="38">
+          <list size="7">
             <item index="0" class="java.lang.String" itemvalue="nobr" />
             <item index="1" class="java.lang.String" itemvalue="noembed" />
             <item index="2" class="java.lang.String" itemvalue="comment" />
             <item index="3" class="java.lang.String" itemvalue="noscript" />
             <item index="4" class="java.lang.String" itemvalue="embed" />
             <item index="5" class="java.lang.String" itemvalue="script" />
-            <item index="6" class="java.lang.String" itemvalue="el-button" />
-            <item index="7" class="java.lang.String" itemvalue="el-drawer" />
-            <item index="8" class="java.lang.String" itemvalue="el-container" />
-            <item index="9" class="java.lang.String" itemvalue="el-header" />
-            <item index="10" class="java.lang.String" itemvalue="el-main" />
-            <item index="11" class="java.lang.String" itemvalue="el-aside" />
-            <item index="12" class="java.lang.String" itemvalue="el-input" />
-            <item index="13" class="java.lang.String" itemvalue="el-radio" />
-            <item index="14" class="java.lang.String" itemvalue="el-radio-group" />
-            <item index="15" class="java.lang.String" itemvalue="el-select" />
-            <item index="16" class="java.lang.String" itemvalue="el-option" />
-            <item index="17" class="java.lang.String" itemvalue="el-date-picker" />
-            <item index="18" class="java.lang.String" itemvalue="lable" />
-            <item index="19" class="java.lang.String" itemvalue="div" />
-            <item index="20" class="java.lang.String" itemvalue="el-table" />
-            <item index="21" class="java.lang.String" itemvalue="el-table-column" />
-            <item index="22" class="java.lang.String" itemvalue="el-popover" />
-            <item index="23" class="java.lang.String" itemvalue="el-calendar" />
-            <item index="24" class="java.lang.String" itemvalue="el-timeline-item" />
-            <item index="25" class="java.lang.String" itemvalue="el-timeline" />
-            <item index="26" class="java.lang.String" itemvalue="el-upload" />
-            <item index="27" class="java.lang.String" itemvalue="el-menu" />
-            <item index="28" class="java.lang.String" itemvalue="el-submenu" />
-            <item index="29" class="java.lang.String" itemvalue="el-menu-item-group" />
-            <item index="30" class="java.lang.String" itemvalue="el-menu-item" />
-            <item index="31" class="java.lang.String" itemvalue="el-avatar" />
-            <item index="32" class="java.lang.String" itemvalue="el-dialog" />
-            <item index="33" class="java.lang.String" itemvalue="el-form" />
-            <item index="34" class="java.lang.String" itemvalue="el-form-item" />
-            <item index="35" class="java.lang.String" itemvalue="el-steps" />
-            <item index="36" class="java.lang.String" itemvalue="el-step" />
-            <item index="37" class="java.lang.String" itemvalue="el-color-picker" />
+            <item index="6" class="java.lang.String" itemvalue="el-popover" />
           </list>
         </value>
       </option>

@@ -30,13 +30,16 @@
                     :visible.sync="addDialogVisible"
                     width="30%">
                 <div class="classifyDialog">
-                    分类<el-input
+                    分类
+                    <el-input
                             placeholder="请输入内容"
                             v-model="nameIn"
                             clearable>
                     </el-input>
-                    颜色<el-color-picker v-model="colorIn"></el-color-picker>
-                    状态<el-select v-model="stateValue" placeholder="请选择状态">
+                    颜色
+                    <el-color-picker v-model="colorIn"></el-color-picker>
+                    状态
+                    <el-select v-model="stateValue" placeholder="请选择状态">
                         <el-option
                                 v-for="item in stateOptions"
                                 :key="item.value"
@@ -51,9 +54,6 @@
                 </span>
             </el-dialog>
         </div>
-
-
-
 
 
         <div class="classifyMain">
@@ -79,7 +79,7 @@
                         label="颜色"
                         width="180">
                     <template slot-scope="scope">
-                        <div class="colorBox" :style="{'background-color':scope.row.color}" >
+                        <div class="colorBox" :style="{'background-color':scope.row.color}">
                         </div>
                     </template>
                 </el-table-column>
@@ -90,7 +90,7 @@
                 <el-table-column
                         label="状态">
                     <template slot-scope="scope">
-                       {{scope.row.flag?'私密':'公开'}}
+                        {{scope.row.flag ? '私密' : '公开'}}
                     </template>
                 </el-table-column>
                 <el-table-column prop="classifyModify"
@@ -112,16 +112,13 @@
             </el-table>
 
 
-
-
-
-
             <el-dialog
                     title="编辑分类"
                     :visible.sync="editDialogVisible"
                     width="30%"
-                   >
-                分类<el-input
+            >
+                分类
+                <el-input
                         v-model="classify.name"
                         clearable>
                 </el-input>

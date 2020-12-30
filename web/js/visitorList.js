@@ -16,12 +16,13 @@ var vm = new Vue({
         this.showElement();
     },
     methods: {
-        // 获得全部日记记录
+
         ClearShowDiaryDiv: function () {
             var div = document.getElementById("showDiary");
             div.innerHTML = "";
         },
 
+        // 根据日期获得当天全部公开日记记录
         getSelectedDiary: function (date) {
            // this.$message(date);
             const self=this;
@@ -74,7 +75,7 @@ var vm = new Vue({
             {
                 let div1 = document.createElement('div');
                 div1.className="noneDiary";
-                div1.innerHTML = "当前没人写日记";
+                div1.innerHTML = "当天没有人写过日记诶 Σ（ﾟдﾟlll）";
                 document.getElementById('showDiary').appendChild(div1);
 
             }
