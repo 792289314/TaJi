@@ -16,6 +16,7 @@ var vm = new Vue({
 
         getSelectedDiary: function (date) {
             this.$message(date);
+            const self=this;
 
             axios({
                 url: 'getAllDiaryByDate.do',
@@ -23,9 +24,9 @@ var vm = new Vue({
                 data: {'date': date}
             }).then(function (response) {
                 if (response.data == "error") {
-                    this.$message("啊呀，数据库连接被拒绝了");
+                    self.$message("啊呀，数据库连接被拒绝了");
                 } else {
-                    this.allDiaryList = response.data;
+                   self.allDiaryList = response.data;
                     /*  { 后台拿来的数据
                             "diary":{
                                     "classify":{
@@ -41,7 +42,7 @@ var vm = new Vue({
 
                 }
             }).catch(function (error) {
-                this.$message("获取随机日记记录出错 " + error);
+                self.$message("获取随机日记记录出错 " + error);
             })
 
         },

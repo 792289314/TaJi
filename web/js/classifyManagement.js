@@ -161,12 +161,13 @@ var vm = new Vue({
             ],
 
            */
-            this.editDialogVisible = true;
+            this.$message(index);
             this.classify.name = this.classifyTableData[index].name;
             this.classify.color = this.classifyTableData[index].color;
             this.classify.diaryNum = this.classifyTableData[index].cnt;
             this.stateValue = this.classifyTableData[index].flag;
 
+            this.editDialogVisible = true;
 
         },
         /*点击编辑中确定按钮*/
