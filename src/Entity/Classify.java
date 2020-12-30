@@ -1,74 +1,75 @@
 package Entity;
 
 public class Classify {
-    private long Id;
-    private String Name;
-    private boolean Flag;// 公开 / 私密
-    private String Color;
-    private long Cnt;
+    private long id;
+    private String name;
+    private boolean flag;// 公开 / 私密
+    private String color;
+    private long cnt;
 
+    public Classify(){}
 
-    public Classify(long id, String name, boolean flag, String color) {
-        Id = id;
-        Name = name;
-        this.Flag = flag;
-        Color = color;
+    public Classify(long _id, String _name, boolean _flag, String _color) {
+        id = _id;
+        name = _name;
+        flag = _flag;
+        color = _color;
     }
 
-    public Classify(long id, String name, boolean flag, String color, long cnt) {
-        Id = id;
-        Name = name;
-        this.Flag = flag;
-        Color = color;
-        this.Cnt = cnt;
+    public Classify(long _id, String _name, boolean _flag, String _color, long _cnt) {
+        id = _id;
+        name = _name;
+        flag = _flag;
+        color = _color;
+        cnt = _cnt;
     }
 
     public Classify(long cid) {
-        this.Id = cid;
+        id = cid;
     }
 
     public Classify(String classifyName, String classifyColor) {
-        Name = classifyName;
-        Color = classifyColor;
+        name = classifyName;
+        color = classifyColor;
     }
 
     public long getCnt() {
-        return Cnt;
+        return cnt;
     }
 
-    public void setCnt(long cnt) {
-        this.Cnt = cnt;
+    public void setCnt(long _cnt) {
+        this.cnt = _cnt;
     }
 
     public long getId() {
-        return Id;
+        return id;
     }
 
-    public void setId(long id) {
-        Id = id;
+    public void setId(long _id) {
+        id = _id;
     }
 
     public String getName() {
-        return Name;
+        return name;
     }
 
-    public void setName(String name) {
-        Name = name;
+    public void setName(String _name) {
+        name = _name;
     }
 
-    public boolean isFlag() {
-        return Flag;
+    public boolean getFlag() {
+        return flag;
     }
 
-    public void setFlag(boolean flag) {
-        this.Flag = flag;
+    public void setFlag(boolean _flag) {
+        this.flag = _flag;
     }
 
     public String getColor() {
-        return Color;
+        return color;
     }
 
-    public void setColor(String color) {
-        Color = color;
+    public void setColor(String _color) {
+        color = _color;
     }
 }

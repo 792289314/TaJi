@@ -50,7 +50,7 @@ public class classifyTable {
             pst = conn.prepareStatement(sql);
             pst.setLong(1, id);
             pst.setString(2, classify.getName());
-            pst.setBoolean(3, classify.isFlag());
+            pst.setBoolean(3, classify.getFlag());
             pst.setString(4, classify.getColor());
             pst.executeUpdate();
             flag = true;

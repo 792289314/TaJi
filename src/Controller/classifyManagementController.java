@@ -52,6 +52,9 @@ public class classifyManagementController {
             // 根据json 直接生成实体
             // 导入的 Bean.jar 终于派上用场了 :)
             // json转换实体时  json中的键值名必须与实体的变量名一摸一样
+            // 使用toBean生成实体时 需要确保
+            //      1. 实体的所有成员变量均是小写 首字母大写 会导致生成的实体的成员变量null
+            //      2. 需要注意 所有变量的 set/get 函数均已生成 如果变量为boolean 需要将isXXX 改为 getXXX
             Classify classify = (Classify) JSONObject.toBean(json, Classify.class);
             long id = Long.parseLong(userId.toString());
             if (classifyManagementManage.AddClassify(id, classify)) {

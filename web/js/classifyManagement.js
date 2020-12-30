@@ -89,7 +89,7 @@ var vm = new Vue({
         getAllClassifies: function () {
             const self = this;
             axios({
-                url: 'getAllClassifiesExceptUnClassified.do', // 突然发现 这个功能在diaryMain.html界面里写过
+                url: 'getAllClassifiesExceptUnClassified.do',
                 method: 'post'
             }).then(function (response) {
                 if (response.data != "error") {
@@ -110,6 +110,7 @@ var vm = new Vue({
             this.stateValue = false;
             this.addDialogVisible = true;
         },
+
         /*点击添加分类 确定按钮 把数据更新到后台*/
         addBtn: function () {
             this.addDialogVisible = false;
@@ -126,11 +127,11 @@ var vm = new Vue({
                     'Color': '#0x3f3f3f3f'
                 },*/
                 data: {
-                    'Id': 0,//占位 和后台直接 json转实例 有关
-                    'Name': self.nameIn,
-                    'Flag': self.stateValue,
-                    'Color': self.colorIn,
-                    'Cnt': 0
+                    id: 0,//占位 和后台直接 json转实例 有关
+                    name: self.nameIn,
+                    flag: self.stateValue,
+                    color: self.colorIn,
+                    cnt: 0
                 }
                 // long id, String name, boolean flag, String color
             }).then(function (response) {
@@ -138,6 +139,7 @@ var vm = new Vue({
                     self.$message("添加分类失败！");
                 } else {
                     self.$message("成功添加新的分类");
+                    self.getAllClassifies();
                 }
             }).catch(function (error) {
                 self.$message("添加分类出错！" + error);
