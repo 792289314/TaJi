@@ -9,10 +9,14 @@ var vm = new Vue({
     },
     created() {
         this.getSelectedDiary('2020-12-12');
+        this.showElement();
     },
     methods: {
         // 获得全部日记记录
-
+        ClearShowDiaryDiv: function () {
+            var div = document.getElementById("showDiary");
+            div.innerHTML = "";
+        },
 
         getSelectedDiary: function (date) {
             this.$message(date);
@@ -39,7 +43,7 @@ var vm = new Vue({
                                     "weather":0},
                             "user":{"name":"zaller12"}
                             }*/
-
+                    self.showElement();
                 }
             }).catch(function (error) {
                 self.$message("获取随机日记记录出错 " + error);
@@ -49,15 +53,12 @@ var vm = new Vue({
 
 
         showElement: function () {
+            this.ClearShowDiaryDiv();
             for (let i = 0; i < this.allDiaryList.length; i++) {
                 let div = document.createElement('div');
-                div.style.width = '100%';
-                div.style.border = '1px solid black';
-                // div.innerHTML = '{{左边}}';
-                div.innerHTML = this.allDiaryList[i].diaryText;
-
+                div.className = "show_div";
+                div.innerHTML = this.allDiaryList[i].diary.text;
                 div.id = 'showD' + i;
-                div.style.minHeight = "100px";
                 document.getElementById('showDiary').appendChild(div);
 
             }

@@ -13,8 +13,8 @@ body {
     /*height: 500px;*/
     margin: 100px auto;
 }
-
-#showDiary {
+#showDiary
+{
     width: 60%;
     /*height: 500px;*/
     margin: -50px auto;
@@ -22,19 +22,38 @@ body {
     /*border: 1px solid black;*/
     /*text-align: center;*/
 }
-
-/*.div-Calendar*/
-/*{*/
-/*    padding: 0;*/
-/*    margin: 0;*/
-/*    width: 100%;*/
-/*    height: 85px;*/
-/*}*/
-/*p{*/
-/*    width: 100%;*/
-/*    height: 100%;*/
-/*}*/
-.el-calendar-day {
+.show_div
+{
+    width: 100%;
+    min-height: 100px;
+    margin-bottom: 20px;
+}
+#dataP
+{
+    text-align: center;
+    height: 85px;
+    line-height: 85px;
     margin: 0 !important;
-    padding: 0 !important;
+}
+#dataP .is-selected
+{
+    text-align: center;
+    height: 85px;
+    line-height: 85px;
+    margin: 0 !important;
+}
+.el-calendar-day
+{
+    width: 100%;
+    display: inline-block;
+    margin: 0!important;
+    padding: 0!important;
+}
+.el-calendar-day,
+.posBox
+{
+    width: 100%;
+    display: inline-block;
+    margin: 0!important;
+    padding: 0!important;
 }

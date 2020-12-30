@@ -165,19 +165,13 @@ var vm = new Vue({
                 if (i % 2 === 0)//偶数 显示在左边
                 {
                     let div = document.createElement('div');
-                    // div.style.backgroundColor = 'red';
-                    div.className = "card move_div";
+                    div.className = "move_div";
                     // 放日记主体text
-                    //div.innerHTML = '{{左边}}';
                     div.innerHTML = this.diaryList[i].diaryText;
                     div.id = 'Elem' + i;
-                    //div.onclick=this.diaryDivClick(div.id);
                     div.addEventListener("click", function () {
-                        // alert(this.id);
                         self.diaryDivClick(i);
                     });
-                    //var div_h = div.offsetHeight;
-                    //alert(div_h);
                     document.getElementById('move').appendChild(div);
 
                     let div2 = document.createElement('div');
