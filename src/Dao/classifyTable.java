@@ -72,10 +72,10 @@ public class classifyTable {
         try {
             conn = db.getConnection();
             if (conn == null) return null;
-            String sql = "select classify.cid 'cid', cname, cflag, ccolor, count('*') 'cnt'\n" +
-                    "from classify,diary\n" +
-                    "where classify.uid = ?  and classify.cid = diary.cid and classify.uid = diary.uid\n" +
-                    "  and not (cname = '未分类') group by classify.cid";
+            String sql = "select A.cid 'cid', cname, cflag, ccolor, ifnull(B.count, 0) 'cnt'\n" +
+                    "from classify A left join (select B.cid, count(B.cid) as count\n" +
+                    "from diary B group by B.cid) as B on A.cid = B.cid\n" +
+                    "where not (A.cname = '未分类') and A.uid = ?\n";
             pst = conn.prepareStatement(sql);
             pst.setLong(1, id);
             rs = pst.executeQuery();

@@ -36,38 +36,38 @@ var vm = new Vue({
                 classifyName: '旅游',
                 classifyColor: '#89cd91',
                 classifyNum: 12,
-                classifyState:"公开",
+                classifyState: "公开",
             }, {
                 classifyName: '旅游',
                 classifyColor: '#cd4a57',
                 classifyNum: 12,
-                classifyState:"公开",
+                classifyState: "公开",
             }, {
                 classifyName: '旅游',
                 classifyColor: '#4134cd',
                 classifyNum: 12,
-                classifyState:"公开",
+                classifyState: "公开",
             }, {
                 classifyName: '旅游',
                 classifyColor: '#cd4a57',
                 classifyNum: 12,
-                classifyState:"公开",
+                classifyState: "公开",
             }, {
                 classifyName: '旅游',
                 classifyColor: '#5fcd86',
                 classifyNum: 12,
-                classifyState:"公开",
+                classifyState: "公开",
             }, {
                 classifyName: '旅游',
                 classifyColor: '#cd4a57',
                 classifyNum: 12,
-                classifyState:"公开",
+                classifyState: "公开",
             },
                 {
                     classifyName: '旅游',
                     classifyColor: '#a6a8cd',
                     classifyNum: 12,
-                    classifyState:"公开",
+                    classifyState: "公开",
                 }
             ],
 
@@ -81,8 +81,7 @@ var vm = new Vue({
     },
 
     methods: {
-        exitMainBtn:function()
-        {
+        exitMainBtn: function () {
             window.history.back()
         },
         // 界面刚载入时，获取用户所有的分类信息
@@ -93,7 +92,10 @@ var vm = new Vue({
                 method: 'post'
             }).then(function (response) {
                 if (response.data != "error") {
+                    self.$message("刷新成功");
                     self.classifyTableData = response.data;
+                } else {
+                    self.$message("刷新失败");
                 }
             }).catch(function (error) {
                 self.$message("获取用户分类信息发生错误 " + error);
@@ -208,7 +210,7 @@ var vm = new Vue({
             }).then(function (response) {
                 if (response.data == "error") {
                     self.$message("删除失败！");
-                }else{
+                } else {
                     self.$message("成功删除！");
                 }
             }).catch(function (error) {
