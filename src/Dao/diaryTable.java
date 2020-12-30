@@ -140,14 +140,15 @@ public class diaryTable {
         try {
             conn = db.getConnection();
             if (conn != null) {
-                // 可以修改 分类归属、可见状态 文本 天气
-                String sql = "update diary set cid=?,dflag=?,dtext=?,dweather=? where did=?";
+                // 可以修改 分类归属、可见状态 文本 天气 (当前只支持修改文本)
+                //String sql = "update diary set cid=?,dflag=?,dtext=?,dweather=? where did=?";
+                String sql = "update diary set dtext=? where did=?";
                 pst = conn.prepareStatement(sql);
-                pst.setLong(1, diary.getClassify().getId());
-                pst.setBoolean(2, diary.getFlag());
-                pst.setString(3, diary.getText());
-                pst.setInt(4, diary.getWeather());
-                pst.setLong(5, diary.getId());
+                //pst.setLong(1, diary.getClassify().getId());
+                //pst.setBoolean(2, diary.getFlag());
+                pst.setString(1, diary.getText());
+                //pst.setInt(4, diary.getWeather());
+                pst.setLong(2, diary.getId());
 
                 pst.executeUpdate();
                 flag = true;

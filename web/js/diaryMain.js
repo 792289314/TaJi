@@ -373,30 +373,35 @@ var vm = new Vue({
         },
         /* 保存日记*/
         saveClick: function () {
-            this.diaryMainFlag = true;
+            //this.diaryMainFlag = true;
+            const self = this;
 
-            this.modifyDiary.id;
-            this.modifyDiary.text1;
             // 更新后台数据库里的内容
             axios({
                 url: 'modifyDiary.do',
                 method: 'post',
-                data: {}
+                data: {
+                    diaryId: self.modifyDiary.id,
+                    diaryText: self.modifyDiary.text1
+                }
             }).then(function (response) {
                 if (response.data == "error") {
-                    this.$message("修改日记失败");
+                    self.$message("修改日记失败");
                 } else {
-                    this.$message("修改成功！");
+                    self.$message("修改成功！");
+                    self.classifyValue = 0;
+                    self.getUserDiary();
+                    self.modifyDiaryFlag = false;
                 }
             }).catch(function (error) {
-                this.$message("修改日记发生错误 " + error);
+                self.$message("修改日记发生错误 " + error);
             })
         },
 
         // 返回按钮
         returnClick: function () {
             this.modifyDiaryFlag = false;
-            this.diaryMainFlag = true;
+            //this.diaryMainFlag = true;
             //this.addElement();
         }
 

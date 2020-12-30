@@ -22,27 +22,21 @@ public class modifyDiaryController {
 
     // 更新日记信息
     @RequestMapping("/TaJiMain/modifyDiary.do")
-    public void modifyDiary(HttpServletRequest request,
+    public void modifyDiary(@RequestBody String strJSON,
                             HttpSession session,
                             HttpServletResponse response) throws IOException {
         response.setContentType("text/html;charset=utf-8");
-        request.setCharacterEncoding("utf-8");
-
-        BufferedReader rd = request.getReader();
-        String strJSON = "", tmp;
-        while ((tmp = rd.readLine()) != null) {
-            strJSON += tmp;
-        }
-        System.out.println(strJSON);
-
         Object userId = session.getAttribute("id");
-        JSONObject json = JSONObject.fromObject(strJSON);
         PrintWriter out = response.getWriter();
-
         if (userId == null) {
             out.write("error");
         } else {
-            Diary diary = null;
+            JSONObject json = JSONObject.fromObject(strJSON);
+            String diaryText = json.get("diaryText").toString();
+            long diaryId = Long.parseLong(json.get("diaryId").toString());
+            Diary diary = new Diary();
+            diary.setId(diaryId);
+            diary.setText(diaryText);
             if (modifyDiaryManage.ModifyDiary(diary)) {
                 out.write("ok");
             } else {

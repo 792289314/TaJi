@@ -227,7 +227,9 @@
                         </div>
                         {{modifyDiary.name}}
                     </div>
-                    <div id="textAreaDiv" class="contain" contenteditable="true" @click="editDiaryBox">
+                    <div id="textAreaDiv" class="contain" contenteditable="true"
+                         v-model="modifyDiary.text1"
+                         @click="editDiaryBox">
                         {{modifyDiary.text1}}
                     </div>
                     <!--<div class="saveBox" >

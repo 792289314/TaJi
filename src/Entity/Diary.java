@@ -38,6 +38,10 @@ public class Diary {
 
     }
 
+    public Diary() {
+
+    }
+
 
     public long getId() {
         return id;
