@@ -26,7 +26,8 @@
 
                     slot="dateCell"
                     slot-scope="{date, data}">
-                <div @click="getSelectedDiary(data.day)" class="el-calendar-day">
+                <div @click="getSelectedDiary(data.day)" class="el-calendar-day"
+                     style="background-color: transparent !important; ">
                     <p :class="data.isSelected ? 'is-selected' : '' ">
                         {{ data.day.split('-').slice(1).join('-') }} {{ data.isSelected ? '✔️' : ''}}
                     </p>

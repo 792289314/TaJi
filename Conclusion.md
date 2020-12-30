@@ -14,4 +14,5 @@
             int -> Int.parseInt()
         ps: 所以 一开始建的时候 为什么不用Long、Int呢？ 思考...
      
-            
+500
+    1. 报错Handler dispatch failed; nested exception is java.lang.NoSuchMethodError: jar有重复的版本   
