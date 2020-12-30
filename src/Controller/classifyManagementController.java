@@ -79,6 +79,7 @@ public class classifyManagementController {
             // 导入的 Bean.jar 终于派上用场了 :)
             Classify classify = (Classify) JSONObject.toBean(json, Classify.class);
             long id = Long.parseLong(userId.toString());
+            System.out.println(classify.getFlag());
             if (classifyManagementManage.modifyClassify(id, classify)) {
                 out.write("ok");
             } else {
@@ -96,7 +97,7 @@ public class classifyManagementController {
         PrintWriter out = response.getWriter();
         if (id != null) {
             JSONObject json = JSONObject.fromObject(strJSON);
-            long classifyId = Long.parseLong( json.get("classifyId").toString());
+            long classifyId = Long.parseLong(json.get("classifyId").toString());
             long userId = Long.parseLong(id.toString());
             if (classifyManagementManage.deleteClassify(userId, classifyId)) {
                 out.write("ok");

@@ -19,14 +19,14 @@ var vm = new Vue({
             //--------------------------------------分割线
             addDialogVisible: false,
             editDialogVisible: false,
-            classify: [
+            classify:
                 {
                     id: '',
                     name: '',
                     color: '',
                     diaryNum: '',
                 }
-            ],
+            ,
 
             /*
                 现在 classifyTableData 改成这种格式了 ⬇
@@ -137,7 +137,7 @@ var vm = new Vue({
 
            */
             //  this.$message(index);
-            this.classify.id = index;
+            this.classify.id = this.classifyTableData[index].id;
             this.classify.name = this.classifyTableData[index].name;
             this.classify.color = this.classifyTableData[index].color;
             this.classify.diaryNum = this.classifyTableData[index].cnt;
@@ -149,6 +149,7 @@ var vm = new Vue({
         /*点击编辑中确定按钮*/
         editSureClick: function () {
             this.editDialogVisible = false;
+            const self = this;
             axios({
                 url: 'modifyClassify.do',
                 method: 'post',
@@ -162,18 +163,19 @@ var vm = new Vue({
                 data: {
                     id: self.classify.id,
                     name: self.classify.name,
-                    flag: self.classify.flag,
+                    flag: self.stateValue,
                     color: self.classify.color,
-                    cnt: 0//占位
+                    cnt: 0//占位 后台生成实例用
                 }
             }).then(function (response) {
                 if (response.data == "error") {
-                    this.$message("修改分类失败！");
+                    self.$message("修改分类失败！");
                 } else {
-                    this.$message("成功修改分类");
+                    self.$message("成功修改分类");
+                    self.getAllClassifies();
                 }
             }).catch(function (error) {
-                this.$message("修改分类出错！" + error);
+                self.$message("修改分类出错！" + error);
             })
 
         },
