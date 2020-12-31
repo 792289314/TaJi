@@ -33,7 +33,7 @@ var vm = new Vue({
                 data: {'date': date}
             }).then(function (response) {
                 if (response.data == "error") {
-                    self.$message("啊呀，数据库连接被拒绝了");
+                    self.$message.error("啊呀，数据库连接被拒绝了");
                 } else {
                    self.allDiaryList = response.data;
 
@@ -52,7 +52,7 @@ var vm = new Vue({
                     self.showElement();
                 }
             }).catch(function (error) {
-                self.$message("获取随机日记记录出错 " + error);
+                self.$message.error("获取随机日记记录出错 " + error);
             })
 
         },

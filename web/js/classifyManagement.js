@@ -125,14 +125,17 @@ var vm = new Vue({
                     // long id, String name, boolean flag, String color
                 }).then(function (response) {
                     if (response.data == "error") {
-                        self.$message("添加分类失败！");
+                        self.$message.error("添加分类失败！");
                     } else {
-                        self.$message("成功添加新的分类");
+                        self.$message({
+                            message:"成功添加新的分类",
+                            type: 'success'
+                        });
                         self.getAllClassifies();
 
                     }
                 }).catch(function (error) {
-                    self.$message("添加分类出错！" + error);
+                    self.$message.error("添加分类出错！" + error);
                 })
             }
 
@@ -188,13 +191,16 @@ var vm = new Vue({
                 }
             }).then(function (response) {
                 if (response.data == "error") {
-                    self.$message("修改分类失败！");
+                    self.$message.error("修改分类失败！");
                 } else {
-                    self.$message("成功修改分类");
+                    self.$message({
+                        message:"成功修改分类",
+                        type: 'success'
+                    });
                     self.getAllClassifies();
                 }
             }).catch(function (error) {
-                self.$message("修改分类出错！" + error);
+                self.$message.error("修改分类出错！" + error);
             })
 
         },
@@ -208,13 +214,16 @@ var vm = new Vue({
                 data: {classifyId: self.classifyTableData[index].id}
             }).then(function (response) {
                 if (response.data == "error") {
-                    self.$message("删除失败！");
+                    self.$message.error("删除失败！");
                 } else {
-                    self.$message("成功删除！");
+                    self.$message({
+                        message:"成功删除！",
+                        type: 'success'
+                    });
                     self.getAllClassifies();
                 }
             }).catch(function (error) {
-                self.$message("获取用户分类信息发生错误 " + error);
+                self.$message.error("获取用户分类信息发生错误 " + error);
             })
 
         },

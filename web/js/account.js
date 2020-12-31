@@ -82,7 +82,7 @@ var vm = new Vue({
         //注册校验 邮箱密码再次密码昵称
         checkRUserEmail: function () {
             if (!this.checkEmailFormat(this.RuserEmail)) {
-                this.$message('邮箱格式错误, 请重新输入');
+                this.$message.error('邮箱格式错误, 请重新输入');
                 // 检查邮箱 不符合时 checkEmailFormat 内部处理 提示报错
                 // * 输入框红框提示
                 return false;
@@ -108,7 +108,7 @@ var vm = new Vue({
             if (!this.checkNameFormat(this.RuserName)) {
                 // 检查注册用户名 不符合时 checkRUserName 内部处理 提示报错
                 // * 输入框红框提示
-                this.$message('昵称必须由数字或字母组成,请输入4-8位');
+                this.$message.error('昵称必须由数字或字母组成,请输入4-8位');
                 return false;
             } else {
                 return true;
@@ -120,7 +120,7 @@ var vm = new Vue({
         checkRUserpwd: function () {
             if (!this.checkPasswordFormat(this.RpassWord)) {
                 // 检查密码 不符合时 checkPasswordFormat 内部处理并提示报错
-                this.$message('密码必须由数字和字母组合,请输入6-10位');
+                this.$message.error('密码必须由数字和字母组合,请输入6-10位');
                 return false;
             } else {
                 // 密码符合条件
@@ -132,7 +132,7 @@ var vm = new Vue({
             if (this.RpassWord === this.RRpassWord) {
                 return true;
             } else {
-                this.$message('两次密码输入不一致,请重新输入');
+                this.$message.error('两次密码输入不一致,请重新输入');
                 // alert("两次密码输入不一致,请重新输入");
                 return false;
             }
@@ -158,7 +158,7 @@ var vm = new Vue({
                 if (response.data === "error") {
                     // 登陆失败
                     // *  弹出提示框：邮箱or密码错误
-                    self.$message('请检查输入');
+                    self.$message.error('请检查输入');
                     //错误并清空
                     self.userEmail = "";
                     self.passWord = "";
@@ -166,7 +166,10 @@ var vm = new Vue({
                     // 登陆成功 切换页面
                     // alert("登陆成功");
                     //登录成功，1s后调入主页面
-                    self.$message('登录成功！正在跳转页面ing...');
+                    self.$message({
+                        message:'登录成功！正在跳转页面ing...',
+                        type: 'success'
+                    });
                     // 把用户名放到sessionStorage里
                     sessionStorage.setItem("name", response.data);
 
@@ -214,7 +217,10 @@ var vm = new Vue({
                 } else {
                     // * 提示 注册成功
                     // 登陆成功 切换页面
-                    self.$message("欢迎用户" + self.RuserName + "的到来");
+                    self.$message({
+                        message:"欢迎用户" + self.RuserName + "的到来",
+                        type: 'success'
+                    });
                     // self.show_registerbox = false;
                     // self.show_loginbox = true;
 
