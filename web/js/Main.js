@@ -83,7 +83,6 @@ var vm = new Vue({
         // 先拿所有分类信息 然后根据分类信息 拿到每个分类下的日记
         this.getClassify();
         this.getUserDiary();
-        //this.addElement();
 
 
     },
@@ -93,9 +92,9 @@ var vm = new Vue({
             var div = document.getElementById("move");
             div.innerHTML = "";
         },
-        ChooseDiary: function (val) {
-            this.getDiaryList(val);
-            this.addElement();
+        ChooseDiary: function () {
+            this.getDiaryList();
+
         },
         visitor: function () {
             /*点击个人中心折叠框中过客列表打开过客页面*/
@@ -141,9 +140,6 @@ var vm = new Vue({
 
         //版面中间 动态生成div 从后端拿到日记内容 并一左一右显示
         addElement: function () {
-            // 先清空
-            this.ClearMoveDiv();
-
             /*
              后端传来的所有日记数据保存在 diaryList （数组）中， 这个变量我这边建了 但是你那边没有
              {
@@ -162,61 +158,6 @@ var vm = new Vue({
                 "diaryWeather":1 // 当前天气 0-晴天 1-多云 2-雨天
                }
 */
-            let self = this;
-            for (let i = 0; i < this.diaryList.length; i++) {
-                /*
-                             2020年12月12日 星期x
-                             20:45:45 晴（
-                */
-                const t = new Date(this.diaryList[i].diaryTime.time);
-                var str1 = t.getFullYear() + " 年 " + (t.getUTCMonth() + 1) + " 月 " +
-                    t.getUTCDate() + " 日        " +
-                    this.getWeekToString(t.getDay());
-                var str2 = t.getHours() + " : " +
-                    t.getMinutes() + " : " + t.getSeconds() + "   " +
-                    this.getWeatherToString(this.diaryList[i].diaryWeather);
-
-                if (i % 2 === 0)//偶数 显示在左边
-                {
-                    let div = document.createElement('div');
-                    div.className = "move_div";
-                    // 放日记主体text
-                    div.innerHTML = this.diaryList[i].diaryText;
-                    div.id = 'Elem' + i;
-                    div.addEventListener("click", function () {
-                        self.diaryDivClick(i);
-                    });
-                    document.getElementById('move').appendChild(div);
-
-                    let div2 = document.createElement('div');
-                    div2.className = "move_div2";
-                    div2.innerHTML = str1 + '<br>' + str2;
-                    div2.id = 'Ele' + i;
-                    document.getElementById('move').appendChild(div2);
-
-                } else {
-                    let div1 = document.createElement('div');
-                    div1.className = "card move_div1";
-
-
-                    //div1.innerHTML = '{{右边}}';
-                    div1.innerHTML = this.diaryList[i].diaryText;
-                    div1.id = 'Elem' + i;
-                    div1.addEventListener("click", function () {
-                        // alert(this.id);
-                        self.diaryDivClick(i);
-                    });
-
-                    document.getElementById('move').appendChild(div1);
-
-
-                    let div3 = document.createElement('div');
-                    div3.className = "move_div3";
-                    div3.innerHTML = str1 + '<br>' + str2;
-                    div3.id = 'Ele' + i;
-                    document.getElementById('move').appendChild(div3);
-                }
-            }
         },
 
         //点击每一个div触发事件
@@ -226,9 +167,8 @@ var vm = new Vue({
             this.modifyDiary.name = this.diaryList[id].classifyName;
             this.modifyDiary.text1 = this.diaryList[id].diaryText;
 
-            // this.diaryMainFlag = false;
             this.modifyDiaryFlag = true;
-            // document.getElementById("diaryMainFlag").style.display="none";
+
         },
 
         // 提取 该用户 所有分类 并 统计 每一个分类 所拥有的日记数量
@@ -266,7 +206,7 @@ var vm = new Vue({
                     // 此时应该返回登陆界面重新登陆
                 } else {
                     self.diaryList = self.userDiary = response.data;
-                    //self.addElement();// 得到日记记录后 更新ui
+
                 }
 
             }).catch(function (error) {
@@ -276,9 +216,9 @@ var vm = new Vue({
         },
 
         // 从usrDiary中筛选出相关的列表 呈现在界面上
-        getDiaryList: function (classifyId) {
+        getDiaryList: function () {
             this.diaryList = [];
-            //alert(classifyId);
+            const classifyId = this.classifyList[this.classifyValue].id;
             if (classifyId != 0) { // 用户特色分类
                 for (var i = 0; i < this.userDiary.length; i++) {
                     if (this.userDiary[i].classifyId == classifyId) {
@@ -415,8 +355,6 @@ var vm = new Vue({
         // 返回按钮
         returnClick: function () {
             this.modifyDiaryFlag = false;
-            //this.diaryMainFlag = true;
-            //this.addElement();
         }
 
     },

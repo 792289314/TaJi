@@ -211,34 +211,40 @@
                     <!--<div id="move">
                     </div>-->
 
-                    <!--时间线-->
-                    <el-timeline>
-                        <el-timeline-item
-                                v-for="(item, index) in diaryList"
-                                :key="index"
+                    <!-- 如果有内容 显示时间线-->
+                    <div v-if=" diaryList.length>0">
+                        <el-timeline>
+                            <el-timeline-item
+                                    v-for="(item, index) in diaryList"
+                                    :key="index"
 
-                                :icon="'el-icon-more'"
-                                :type="'primary'"
-                                :color="item.classifyColor"
-                                :size="'large'"
-                        >
-                            <div class="diaryDiv">
-                                <!--日记内容-->
-                                <div :class=" index%2? 'leftDiv' : 'rightDiv' " @click="diaryDivClick(index)">
-                                    {{item.diaryText}}
+                                    :icon="'el-icon-more'"
+                                    :type="'primary'"
+                                    :color="item.classifyColor"
+                                    :size="'large'"
+                            >
+                                <div class="diaryDiv">
+                                    <!--日记内容-->
+                                    <div :class=" index%2? 'leftDiv' : 'rightDiv' " @click="diaryDivClick(index)">
+                                        {{item.diaryText}}
+                                    </div>
+
+                                    <!--日期信息-->
+                                    <div :class="index%2? 'leftDateDiv' : 'rightDateDiv' "
+                                         v-html="getTimeMessage(item)"
+                                    >
+
+
+                                    </div>
+
                                 </div>
-
-                                <!--日期信息-->
-                                <div :class="index%2? 'leftDateDiv' : 'rightDateDiv' "
-                                    v-html="getTimeMessage(item)"
-                                >
-
-
-                                </div>
-
-                            </div>
-                        </el-timeline-item>
-                    </el-timeline>
+                            </el-timeline-item>
+                        </el-timeline>
+                    </div>
+                    <!--否则显示 无内容提示-->
+                    <div v-else class="noneDiary">
+                        当天没有人写过日记诶 Σ（ﾟдﾟlll）
+                    </div>
 
                 </el-main>
 
@@ -292,17 +298,12 @@
                         width="30%">
                     <span>您确定要删除此条日记？</span>
                     <span slot="footer" class="dialog-footer">
-            <el-button @click="modifyDiary.deleteDialogVisible = false">取 消</el-button>
-            <el-button type="primary" @click="sureDeleteClick">确 定</el-button>
-        </span>
+                         <el-button @click="modifyDiary.deleteDialogVisible = false">取 消</el-button>
+                         <el-button type="primary" @click="sureDeleteClick">确 定</el-button>
+                    </span>
                 </el-dialog>
-
-
             </div>
-
         </el-container>
-
-
     </div>
 </div>
 <!--引入js 其实就是vue 必须放在这-->

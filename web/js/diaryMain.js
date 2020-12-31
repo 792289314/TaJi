@@ -93,8 +93,8 @@ var vm = new Vue({
             var div = document.getElementById("move");
             div.innerHTML = "";
         },
-        ChooseDiary: function (val) {
-            this.getDiaryList(val);
+        ChooseDiary: function () {
+            this.getDiaryList();
             this.addElement();
         },
         visitor: function () {
@@ -266,9 +266,9 @@ var vm = new Vue({
         },
 
         // 从usrDiary中筛选出相关的列表 呈现在界面上
-        getDiaryList: function (classifyId) {
+        getDiaryList: function () {
             this.diaryList = [];
-            //alert(classifyId);
+            const classifyId = this.classifyList[this.classifyValue].id;
             if (classifyId != 0) { // 用户特色分类
                 for (var i = 0; i < this.userDiary.length; i++) {
                     if (this.userDiary[i].classifyId == classifyId) {
