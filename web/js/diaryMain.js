@@ -240,7 +240,7 @@ var vm = new Vue({
 
                 }
             }).catch(function (error) {
-                self.$message("请求过程中发生错误：" + error);
+                self.$message.error("请求过程中发生错误：" + error);
             })
         },
 
@@ -260,7 +260,7 @@ var vm = new Vue({
                 }
 
             }).catch(function (error) {
-                self.$message("提交过程中发生错误： error");
+                self.$message.error("提交过程中发生错误： error");
 
             })
         },
@@ -309,14 +309,17 @@ var vm = new Vue({
                 }]*/
             }).then(function (response) {
                 if (response == "error") {
-                    self.$message("添加日记操作失败");
+                    self.$message.error("添加日记操作失败");
                 } else {
-                    self.$message("成功添加日记");
+                    self.$message({
+                        message:"成功添加日记",
+                        type: 'success'
+                    });
                     //重新获取一遍数据库里的日记信息
                     self.getUserDiary();
                 }
             }).catch(function (error) {
-                self.$message("请求过程中发生错误：" + error);
+                self.$message.error("请求过程中发生错误：" + error);
             })
         },
 
@@ -326,7 +329,10 @@ var vm = new Vue({
                 url: 'Exit.do',
                 method: 'post'
             }).then(function (response) {
-                self.$message("退出成功！正在返回登陆界面ing...");
+                self.$message({
+                    message:"退出成功！正在返回登陆界面ing...",
+                    type: 'success'
+                });
                 //不知道为什么 后台控制的跳转没成功 response.sendRedirect后 需要手动刷新才能打开
                 // 这里暂时先这么写着
                 //window.open("../account.html");  这是在新的窗口打开
@@ -335,7 +341,7 @@ var vm = new Vue({
                 }, 500);
 
             }).catch(function (error) {
-                self.$message("退出失败！" + error);
+                self.$message.error("退出失败！" + error);
             })
         },
 
@@ -359,15 +365,18 @@ var vm = new Vue({
                     diaryId: self.modifyDiary.id
                 }
             }).then(function (response) {
-                if (response.data == "error") self.$message("删除日记失败");
+                if (response.data == "error") self.$message.error("删除日记失败");
                 else {
-                    self.$message("成功删除日记！");
+                    self.$message({
+                        message:"成功删除日记！",
+                        type: 'success'
+                    });
                     self.classifyValue = 0;
                     self.getUserDiary();
                     self.modifyDiaryFlag = false;
                 }
             }).catch(function (error) {
-                self.$message("删除日记发生错误 " + error);
+                self.$message.error("删除日记发生错误 " + error);
             })
 
         },
@@ -390,15 +399,18 @@ var vm = new Vue({
                 }
             }).then(function (response) {
                 if (response.data == "error") {
-                    self.$message("修改日记失败");
+                    self.$message.error("修改日记失败");
                 } else {
-                    self.$message("修改成功！");
+                    self.$message({
+                        message:"修改成功！",
+                        type: 'success'
+                    });
                     self.classifyValue = 0;
                     self.getUserDiary();
                     self.modifyDiaryFlag = false;
                 }
             }).catch(function (error) {
-                self.$message("修改日记发生错误 " + error);
+                self.$message.error("修改日记发生错误 " + error);
             })
         },
 

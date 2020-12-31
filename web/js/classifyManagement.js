@@ -63,10 +63,10 @@ var vm = new Vue({
                 method: 'post'
             }).then(function (response) {
                 if (response.data != "error") {
-                    self.$message("刷新成功");
+                   // self.$message("刷新成功");
                     self.classifyTableData = response.data;
                 } else {
-                    self.$message("刷新失败");
+                    self.$message.error("页面刷新失败");
                 }
             }).catch(function (error) {
                 self.$message("获取用户分类信息发生错误 " + error);
