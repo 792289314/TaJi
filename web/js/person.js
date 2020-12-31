@@ -80,6 +80,9 @@ var vm = new Vue({
             },
             resetForm(formName) {
                 this.$refs[formName].resetFields();
-            }
+            },
+            returnClick:function () {
+                window.location.href = document.referrer;//跳转上一个页面并刷新
+            },
         },
 });

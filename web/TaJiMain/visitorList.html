@@ -20,7 +20,7 @@
 
 <div id="app">
     <div class="showCalendar">
-        <el-calendar>
+        <el-calendar >
             <!-- 这里使用的是 2.5 slot 语法，对于新项目请使用 2.6 slot 语法-->
             <template
                     slot="dateCell"
@@ -35,6 +35,12 @@
     </div>
     <div id="showDiary">
 
+    </div>
+
+    <div>
+        <el-button class="returnBtn"  type="text" @click="returnClick"
+                   icon="el-icon-refresh-left">
+        </el-button>
     </div>
 </div>
 

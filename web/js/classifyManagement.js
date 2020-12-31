@@ -52,9 +52,6 @@ var vm = new Vue({
     },
 
     methods: {
-        exitMainBtn: function () {
-            window.history.back()
-        },
         // 界面刚载入时，获取用户所有的分类信息
         getAllClassifies: function () {
             const self = this;
@@ -76,7 +73,10 @@ var vm = new Vue({
         // 与关闭相关的代码(...我也没看懂 =。= 另一个队友写的)
         $refs: undefined,
         handleClose(index) {
-            this.$refs[`popover-${index}`].doClose()
+            setTimeout(function () {
+                this.$refs[`popover-${index}`].doClose();
+            }, 500);
+
         },
         /*点击添加分类按钮 */
         addClassify: function () {
@@ -207,6 +207,9 @@ var vm = new Vue({
 
         // 删除中的确定按钮
         deleteClick: function (index) {
+            setTimeout(function () {
+                this.$refs[`popover-${index}`].doClose();
+            }, 500);
             const self = this;
             axios({
                 url: 'deleteClassify.do',
@@ -227,5 +230,8 @@ var vm = new Vue({
             })
 
         },
+        returnClick:function () {
+            window.location.href = document.referrer;//跳转上一个页面并刷新
+        },
     },
-})
+});

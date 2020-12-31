@@ -24,18 +24,19 @@ body {
 
 .classifyBox {
     position: absolute;
-    top: 0;
+    top: 80px;
     left: 0;
     right: 0;
-    bottom: 0;
+    bottom: 100px;
     margin: auto;
     width: 80%;
-    height: 500px;
-    /*background-color: #99cdaa;*/
+    /*margin-bottom: 100px;*/
 }
 
 .classifyMain {
     margin-top: 40px;
+    height: 500px;
+    margin-bottom: 100px;
     /*background-color: #B3C0D1;*/
 
 }
@@ -74,4 +75,13 @@ body {
 {
     right: 5px;
     left: unset;
+}
+
+.returnBtn
+{
+    position: fixed;
+    color: #4575a8  !important;
+    right: 20px;
+    bottom: 10px;
+    font-size: 40px !important;
 }

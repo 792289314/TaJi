@@ -20,18 +20,19 @@ body {
 .showCalendar {
     width: 60%;
     /*height: 500px;*/
-    margin: 100px auto;
+    margin: 50px auto;
 }
 #showDiary
 {
     width: 60%;
-    margin: -50px auto;
+    margin:  auto;
 }
-.show_div
+.showBogBox
 {
     width: 100%;
-    min-height: 100px;
+    min-height: 250px;
     margin-bottom: 20px;
+    background-color: yellow;
 }
 .noneDiary
 {
@@ -76,3 +77,11 @@ body {
     padding: 0!important;
 }
 
+.returnBtn
+{
+    position: fixed;
+    color: #4575a8  !important;
+    right: 20px;
+    bottom: 10px;
+    font-size: 40px !important;
+}

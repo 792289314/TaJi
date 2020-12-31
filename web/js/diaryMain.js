@@ -99,15 +99,15 @@ var vm = new Vue({
         },
         visitor: function () {
             /*点击个人中心折叠框中过客列表打开过客页面*/
-            window.open("visitorList.html");
+            window.open("visitorList.html","_self");
         },
         personClick: function () {
             /*点击个人中心折叠框中过客列表 打开person页面 修改密码*/
-            window.open("person.html");
+            window.open("person.html","_self");
         },
         classifyMan: function () {
             /*点击个人中心折叠框中过客列表 打开分类管理页面 */
-            window.open("classifyManagement.html");
+            window.open("classifyManagement.html","_self");
         },
 
         // 获得星期中文
@@ -153,11 +153,14 @@ var vm = new Vue({
                }
 */
             let self = this;
-            for (let i = 0; i < this.diaryList.length; i++) {
+            if(this.diaryList.length!=0)
+            {
+                for (let i = 0; i < this.diaryList.length; i++) {
                 /*
                              2020年12月12日 星期x
                              20:45:45 晴（
                 */
+
                 const t = new Date(this.diaryList[i].diaryTime.time);
                 var str1 = t.getFullYear() + " 年 " + (t.getUTCMonth() + 1) + " 月 " +
                     t.getUTCDate() + " 日        " +
@@ -206,6 +209,14 @@ var vm = new Vue({
                     div3.id = 'Ele' + i;
                     document.getElementById('move').appendChild(div3);
                 }
+            }
+            }
+            else
+            {
+                let divNone = document.createElement('div');
+                divNone.className="noneDiary";
+                divNone.innerHTML = "当天没有人写过日记诶 Σ（ﾟдﾟlll）";
+                document.getElementById('move').appendChild(divNone);
             }
         },
 

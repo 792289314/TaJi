@@ -63,11 +63,26 @@ var vm = new Vue({
             if(this.allDiaryList.length!=0)
             {
                 for (let i = 0; i < this.allDiaryList.length; i++) {
+                    //大盒子
                     let div = document.createElement('div');
-                    div.className = "show_div";
+                    div.className = "showBogBox";
                     div.innerHTML = this.allDiaryList[i].diary.text;
                     div.id = 'showD' + i;
                     document.getElementById('showDiary').appendChild(div);
+
+                    //显示姓名 分类等的盒子
+                    let divTitle = document.createElement('div');
+                    divTitle.style.width="100%";
+                    divTitle.style.height="60px";
+                    divTitle.style.backgroundColor=this.allDiaryList[i].diary.classify.color;
+                    divTitle.id = 'showTitle' + i;
+                    document.getElementById(div.id).appendChild(divTitle);
+
+                    // let div = document.createElement('div');
+                    // div.className = "showBogBox";
+                    // div.innerHTML = this.allDiaryList[i].diary.text;
+                    // div.id = 'showD' + i;
+                    // document.getElementById('showDiary').appendChild(div);
 
                 }
             }
@@ -79,7 +94,12 @@ var vm = new Vue({
                 document.getElementById('showDiary').appendChild(div1);
 
             }
-        }
+        },
 
+        returnClick:function () {
+            window.location.href = document.referrer;//跳转上一个页面并刷新
+        },
     },
+
+
 });

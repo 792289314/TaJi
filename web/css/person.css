@@ -45,3 +45,12 @@ body {
     bottom: 0;
     margin: auto;
 }
+
+.returnBtn
+{
+    position: fixed;
+    color: #4575a8  !important;
+    right: 20px;
+    bottom: 10px;
+    font-size: 40px !important;
+}
