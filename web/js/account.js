@@ -10,7 +10,10 @@ var vm = new Vue({
         show_loginbox: true, show_registerbox: false,
         //忘记密码
         forgetPwdDialogVisible:false,
-        forgetActive:0,
+        forgetActive:1,
+        forgetEmail:"",forgetPwd:"",forgetRPwd:"",
+
+
 
     },
 
@@ -174,7 +177,7 @@ var vm = new Vue({
                     sessionStorage.setItem("name", response.data);
 
                     setTimeout(function () {
-                        window.location.href = "TaJiMain/diaryMain.html";
+                        window.location.href = "TaJiMain/Main.html";
                     }, 500);
                     // window.location.href="diaryMain.html";
                 }
@@ -233,7 +236,7 @@ var vm = new Vue({
 
                     //登录成功，1s后调入主页面
                     setTimeout(function () {
-                        window.location.href = "TaJiMain/diaryMain.html";
+                        window.location.href = "TaJiMain/Main.html";
                     }, 500);
 
                 }
@@ -241,7 +244,7 @@ var vm = new Vue({
         },
 
         //忘记密码按钮
-        forgetPwd:function () {
+        forgetPwdClick:function () {
             this.forgetPwdDialogVisible=true;
         },
         //忘记密码弹出窗口 确定按钮
@@ -250,7 +253,20 @@ var vm = new Vue({
         },
         //忘记密码弹出窗口 下一步按钮
         pwdNextClick:function () {
-            if (this.forgetActive++ > 2) this.active = 0;
+            if (this.forgetActive++ > 3)
+            {
+                // var div3=document.getElementById("forgetPwdBox");
+                // div3.style.display="none";
+                this.forgetActive = 1;
+            }
+
+        },
+        pwdBeforeClick:function()
+        {
+            this.forgetActive = 1;
+        },
+        forgetLogin:function () {
+            window.location.href = document.referrer;//跳转上一个页面并刷新
         }
     },
 });

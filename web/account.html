@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>她记————登录注册页面</title>
     <link rel="stylesheet" href="fonts/loginFonts/iconfont.css">
+    <link rel="stylesheet" href="fonts/loginFonts/iconfont_go.css">
     <link rel="stylesheet" type="text/css" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
 
 
@@ -56,7 +57,7 @@
                 </form>
                 <div class="bottom">
                     <button class="registerNum" @click="register">注册账号</button>
-                    <button class="forgetPwd" @click="forgetPwd">忘记密码</button>
+                    <button class="forgetPwd" @click="forgetPwdClick">忘记密码</button>
                 </div>
             </div>
 
@@ -66,22 +67,41 @@
                     width="40%"
                     >
                 <div>
-                    <el-steps :active="forgetActive" finish-status="success">
+                    <el-steps :active="forgetActive" >
                         <el-step title="输入邮箱"></el-step>
                         <el-step title="设置新密码"></el-step>
                         <el-step title="设置成功"></el-step>
                     </el-steps>
-                    <el-input
-                            placeholder="请输入邮箱账号"
-                            v-model="input"
-                            clearable>
-                    </el-input>
-                    <el-button style="margin-top: 12px;" @click="pwdNextClick">下一步</el-button>
+                    <div id="fEmail" style="margin-top: 30px" v-show="forgetActive==1">
+                        <el-input
+
+                                placeholder="请输入邮箱账号"
+                                v-model="forgetEmail"
+                                clearable>
+                        </el-input>
+                        <el-button class="nextBtn" @click="pwdNextClick">下一步</el-button>
+                    </div>
+
+
+                    <div  id="forgetPwdBox" v-show="forgetActive==2" style="margin-top: 30px" >
+                        <el-input
+                                placeholder="请输入密码"
+                                v-model="forgetPwd"
+                                clearable>
+                        </el-input>
+                        <el-input
+                                placeholder="请再次输入密码"
+                                v-model="forgetRPwd"
+                                clearable>
+                        </el-input>
+                        <el-button  class="nextBtn" style="margin-top: 12px;" @click="pwdNextClick">保存</el-button>
+                        <el-button class="nextBtn" style="margin-top: 12px;" @click="pwdBeforeClick">上一步</el-button>
+                    </div>
+                    <div v-show="forgetActive==3" style="margin-top: 30px" >
+                        <span style="font-size: 20px">修改成功,快去登录吧！！下次别忘记了</span>
+                       <el-button @click="forgetLogin" type="text"><i class="iconfont icon-go"></i></el-button>
+                    </div>
                 </div>
-                <span slot="footer" class="dialog-footer">
-                <el-button @click="forgetPwdDialogVisible = false">取 消</el-button>
-                <el-button type="primary" @click="forgetSureClick">确 定</el-button>
-            </span>
             </el-dialog>
 
         </div>

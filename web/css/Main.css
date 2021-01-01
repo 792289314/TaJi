@@ -26,19 +26,25 @@
 .leftDiv {
     height: 200px;
     left: 70px;
+    text-indent: 1em;
     width: 400px !important;
-    border: 1px solid red;
-    background-color: red;
+    /*border: 1px solid red;*/
+    /*background-color: red;*/
+    border-radius: 20px;
+    box-shadow: 18px 18px 30px #d1d9e6, -18px -18px 30px #fff;
     position: absolute;
 }
 
 .rightDiv {
     height: 200px;
     left: 540px;
-    border: 1px solid green;
-    background-color: green;
+    text-indent: 1em;
+    /*border: 1px solid green;*/
+    /*background-color: green;*/
     width: 400px !important;
     position: absolute;
+    border-radius: 20px;
+    box-shadow: 18px 18px 30px #d1d9e6, -18px -18px 30px #fff;
 }
 
 .diaryDiv {
@@ -54,6 +60,7 @@
     left: 540px;
     position: absolute;
     text-align: left;
+    color: rgba(128, 128, 128, 0.8);
 }
 
 .rightDateDiv {
@@ -62,6 +69,7 @@
     left: 170px;
     position: absolute;
     text-align: right;
+    color: rgba(128, 128, 128, 0.8);
 }
 
 .el-timeline-item__tail {

@@ -98,15 +98,15 @@ var vm = new Vue({
         },
         visitor: function () {
             /*点击个人中心折叠框中过客列表打开过客页面*/
-            window.open("visitorList.html");
+            window.open("visitorList.html","_self");
         },
         personClick: function () {
             /*点击个人中心折叠框中过客列表 打开person页面 修改密码*/
-            window.open("person.html");
+            window.open("person.html","_self");
         },
         classifyMan: function () {
             /*点击个人中心折叠框中过客列表 打开分类管理页面 */
-            window.open("classifyManagement.html");
+            window.open("classifyManagement.html","_self");
         },
 
         // 获得星期中文
