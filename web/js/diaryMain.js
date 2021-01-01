@@ -6,6 +6,8 @@ var vm = new Vue({
             Font: '50px',
 
 
+            textDisabled:true,
+
             // diaryMainFlag: true,
             modifyDiaryFlag: false,
             modifyDiary: {
@@ -365,6 +367,10 @@ var vm = new Vue({
             this.modifyDiary.deleteDialogVisible = true;
 
         },
+        editBtnCli:function()
+        {
+            this.textDisabled=false;
+        },
         /* 确定删除日记*/
         sureDeleteClick: function () {
             this.modifyDiary.deleteDialogVisible = false
@@ -430,7 +436,8 @@ var vm = new Vue({
             this.modifyDiaryFlag = false;
             //this.diaryMainFlag = true;
             //this.addElement();
-        }
+        },
+
 
     },
     watch: {

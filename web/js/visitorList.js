@@ -21,12 +21,26 @@ var vm = new Vue({
             var div = document.getElementById("showDiary");
             div.innerHTML = "";
         },
-
+        //获得天气图标
+        getWeatherToString(x) {
+            if (x == 0) return "<i class=\"el-icon-sunny\" style='font-size: 30px;text-align: center;line-height: 60px'></i>";
+            if (x == 1) return "<i class=\"el-icon-heavy-rain\" style='font-size: 30px;text-align: center;line-height: 60px'></i>";
+            if (x == 2) return "<i class=\"el-icon-cloudy\n\" style='font-size: 30px;text-align: center;line-height: 60px'></i>";
+        },
+        // 获得星期中文
+        getWeekToString: function (x) {
+            if (x === 1) return "星期一";
+            if (x === 2) return "星期二";
+            if (x === 3) return "星期三";
+            if (x === 4) return "星期四";
+            if (x === 5) return "星期五";
+            if (x === 6) return "星期六";
+            return "星期日";
+        },
         // 根据日期获得当天全部公开日记记录
         getSelectedDiary: function (date) {
-           // this.$message(date);
+           this.$message(date);
             const self=this;
-
             axios({
                 url: 'getAllDiaryByDate.do',
                 method: 'post',
@@ -63,10 +77,20 @@ var vm = new Vue({
             if(this.allDiaryList.length!=0)
             {
                 for (let i = 0; i < this.allDiaryList.length; i++) {
+
+                    const t = new Date(this.allDiaryList[i].diary.time);
+                    var str1 = t.getFullYear() + " 年 " + (t.getUTCMonth() + 1) + " 月 " +
+                        t.getUTCDate() + " 日        " +
+                        this.getWeekToString(t.getDay());
+                    var str2 = t.getHours() + " : " +
+                        t.getMinutes() + " : " + t.getSeconds() + "   ";
+
+
+
                     //大盒子
                     let div = document.createElement('div');
                     div.className = "showBogBox";
-                    div.innerHTML = this.allDiaryList[i].diary.text;
+                    // div.innerHTML = this.allDiaryList[i].diary.text;
                     div.id = 'showD' + i;
                     document.getElementById('showDiary').appendChild(div);
 
@@ -78,12 +102,26 @@ var vm = new Vue({
                     divTitle.id = 'showTitle' + i;
                     document.getElementById(div.id).appendChild(divTitle);
 
-                    // let div = document.createElement('div');
-                    // div.className = "showBogBox";
-                    // div.innerHTML = this.allDiaryList[i].diary.text;
-                    // div.id = 'showD' + i;
-                    // document.getElementById('showDiary').appendChild(div);
+                    let divLeft = document.createElement('div');
+                    divLeft.className = "titleLeft";
+                    divLeft.innerHTML =this.allDiaryList[i].user.name+'<br>'+ str1 +'<br>'+ str2;
+                     // divLeft.innerHTML=str1 + str2;
+                    divLeft.id = 'showLeft' + i;
+                    document.getElementById( divTitle.id).appendChild(divLeft);
 
+
+                    let divRight = document.createElement('div');
+                    divRight.className = "titleRight";
+                    divRight.innerHTML = this.getWeatherToString(this.allDiaryList[i].diary.weather);
+                    divRight.id = 'showRight' + i;
+                    document.getElementById(divTitle.id).appendChild(divRight);
+
+                    //日记内容
+                    let divContain = document.createElement('div');
+                    divContain.className = "diaryContain";
+                    divContain.innerHTML = this.allDiaryList[i].diary.text;
+                    divContain.id = 'showContain' + i;
+                    document.getElementById(div.id).appendChild(divContain);
                 }
             }
             else
@@ -99,6 +137,7 @@ var vm = new Vue({
         returnClick:function () {
             window.location.href = document.referrer;//跳转上一个页面并刷新
         },
+
     },
 
 

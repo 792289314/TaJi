@@ -9,10 +9,15 @@ a {
 }
 .diaryMainBody {
    position: absolute;
-
     height: 100%;
     width: 100%;
-
+    /*min-width: 1250px;*/
+}
+.publishBox
+{
+    position: absolute;
+    width: 100%;
+    margin-top: 30px;
 }
 html, body, #app, .el-container {
     /*设置内部填充为0，几个布局元素之间没有间距*/
@@ -95,9 +100,25 @@ textarea {
     right: 0;
     top: 0;
     bottom: 0;
+    min-width: 1000px;
     /*border: 1px solid #99cdaa;*/
 }
-
+.diaryBox
+{
+    width: 40%;
+}
+.uploadBox
+{
+    position: absolute;
+    display: inline-block;
+    margin-top: 12px;
+    margin-left: 100px;
+}
+.el-upload-dragger
+{
+    width: 450px!important;
+    height: 222px!important;
+}
 .addBox /*添加日记*/
 {
     position: absolute;
@@ -212,15 +233,17 @@ textarea {
 }
 
 #publishBtn {
-    margin-top: 2px;
+    position: absolute;
     background-color: #99cdaa;
     width: 200px;
     height: 43px;
-    margin-left: 80px;
     border-radius: 5px;
     border: none;
     font-size: 16px;
     color: white;
+    margin: 0 auto;
+    left: 0;
+    right: 0;
 }
 
 

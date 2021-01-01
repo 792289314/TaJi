@@ -25,44 +25,35 @@
     <!--    :direction="direction"控制显示方向 rtl / ltr / ttb / btt-->
 
     <div class="diaryMainBody">
-
         <!--    添加日记折叠框-->
         <el-drawer
                 title="添加日记"
                 :size="'600px'"
                 :visible.sync="addDrawer"
                 direction="btt">
+
             <div class="posBox">
-                <div class="addBox">
-                    <div class="classifyBox">
-                        <span>分<i class="controlBigBox"></i>类:</span>
-                        <el-select v-model="kindValue" clearable placeholder="请选择分类">
-                            <el-option
-                                    v-for="(item,index) in classifyList"
-                                    :key="item.value"
-                                    :label="item.name"
-                                    :value="index"
-                                    v-if="index>=1"
-                            >
-                            </el-option>
-                        </el-select>
-                        <a href="classifyManagement.html"><i class="el-icon-circle-plus-outline"></i></a>
-                    </div>
-                    <span>谁可以看:</span>
-                    <el-select v-model="checkPeoValue" clearable placeholder="请选择可查看的人">
+                <div>
+                    <!-- 分类-->
+                    <span>分<i class="controlBigBox"></i>类:</span>
+                    <el-select v-model="kindValue"  placeholder="请选择分类">
                         <el-option
-                                v-for="item in checkPeoOptions"
+                                v-for="(item,index) in classifyList"
                                 :key="item.value"
-                                :label="item.label"
-                                :value="item.value">
+                                :label="item.name"
+                                :value="index"
+                                v-if="index>=1"
+                        >
                         </el-option>
                     </el-select>
+                    <a href="classifyManagement.html"><i class="el-icon-circle-plus-outline"></i></a>
 
-                    <div>
-                        <span>天<i class="controlBigBox"></i>气:</span>
-                        <el-select v-model="weatherValue" clearable placeholder="请选择天气">
+                    <div style="display: inline-block;margin:0 25px">
+                        <!--//权限-->
+                        <span>谁可以看:</span>
+                        <el-select v-model="checkPeoValue"  placeholder="请选择可查看的人">
                             <el-option
-                                    v-for="item in weatherOptions"
+                                    v-for="item in checkPeoOptions"
                                     :key="item.value"
                                     :label="item.label"
                                     :value="item.value">
@@ -70,6 +61,21 @@
                         </el-select>
                     </div>
 
+                    <!-- //天气-->
+                    <span>天<i class="controlBigBox"></i>气:</span>
+                    <el-select v-model="weatherValue" placeholder="请选择天气">
+                        <el-option
+                                v-for="item in weatherOptions"
+                                :key="item.value"
+                                :label="item.label"
+                                :value="item.value">
+                        </el-option>
+                    </el-select>
+                </div>
+
+
+                <div style="margin-top: 12px">
+                    <!--//日期-->
                     <span>日<i class="controlBigBox"></i>期:</span>
                     <el-date-picker
                             v-model="dataValue"
@@ -78,17 +84,37 @@
                             placeholder="选择日期">
                     </el-date-picker>
 
-                    <div class="colorBox">
+                    <div style="display: inline-block;margin-left: 50px;margin-right: 190px">
+                        <!--//颜色-->
                         <span>颜<i class="controlBigBox"></i>色:</span>
                         <input type="color" id="selectedColor">
                     </div>
 
-                    <div class="fontBox">
-                        <span>字<i class="controlBigBox"></i>体:</span>
-                        <input type="range" id="selectedFont" v-model="Font">
-                    </div>
+                            <!--//字体-->
+                            <span>字<i class="controlBigBox"></i>体:</span>
+                            <input type="range" id="selectedFont" v-model="Font">
 
 
+
+                </div>
+
+
+                <div class="diaryBox" style="margin-top: 12px;display: inline-block">
+                    <!--//日记-->
+                    <el-input
+                            id="addTextArea"
+                            class="addTextArea"
+                            type="textarea"
+                            placeholder="请输入日记内容"
+                            maxlength="500"
+                            :rows="10"
+                            show-word-limit
+                            v-model="textarea1">
+                    </el-input>
+                </div>
+
+                <div class="uploadBox" >
+                    <!--//上传-->
                     <el-upload
                             class="upload-demo"
                             drag
@@ -100,26 +126,111 @@
                         </div>
 
                     </el-upload>
-
-
                 </div>
-                <div class="rightAddBox">
-                    <!--添加日记文本内容-->
-                    <el-input
-                            id="addTextArea"
-                            class="addTextArea"
-                            type="textarea"
-                            placeholder="请输入日记内容"
-                            maxlength="500"
-                            :rows="15"
-                            show-word-limit
-                            v-model="textarea1">
-                    </el-input>
+
+                <div class="publishBox">
+                    <!--//发布-->
                     <button id="publishBtn" @click="Publish">发布</button>
                 </div>
+
             </div>
 
+
         </el-drawer>
+
+<!--        <el-drawer-->
+<!--                title="添加日记"-->
+<!--                :size="'600px'"-->
+<!--                :visible.sync="addDrawer"-->
+<!--                direction="btt">-->
+<!--            <div class="posBox">-->
+<!--                <div class="addBox">-->
+<!--                    <div class="classifyBox">-->
+<!--                        <span>分<i class="controlBigBox"></i>类:</span>-->
+<!--                        <el-select v-model="kindValue"  placeholder="请选择分类">-->
+<!--                            <el-option-->
+<!--                                    v-for="(item,index) in classifyList"-->
+<!--                                    :key="item.value"-->
+<!--                                    :label="item.name"-->
+<!--                                    :value="index"-->
+<!--                                    v-if="index>=1"-->
+<!--                            >-->
+<!--                            </el-option>-->
+<!--                        </el-select>-->
+<!--                        <a href="classifyManagement.html"><i class="el-icon-circle-plus-outline"></i></a>-->
+<!--                    </div>-->
+<!--                    <span>谁可以看:</span>-->
+<!--                    <el-select v-model="checkPeoValue"  placeholder="请选择可查看的人">-->
+<!--                        <el-option-->
+<!--                                v-for="item in checkPeoOptions"-->
+<!--                                :key="item.value"-->
+<!--                                :label="item.label"-->
+<!--                                :value="item.value">-->
+<!--                        </el-option>-->
+<!--                    </el-select>-->
+
+<!--                    <div>-->
+<!--                        <span>天<i class="controlBigBox"></i>气:</span>-->
+<!--                        <el-select v-model="weatherValue" placeholder="请选择天气">-->
+<!--                            <el-option-->
+<!--                                    v-for="item in weatherOptions"-->
+<!--                                    :key="item.value"-->
+<!--                                    :label="item.label"-->
+<!--                                    :value="item.value">-->
+<!--                            </el-option>-->
+<!--                        </el-select>-->
+<!--                    </div>-->
+
+<!--                    <span>日<i class="controlBigBox"></i>期:</span>-->
+<!--                    <el-date-picker-->
+<!--                            v-model="dataValue"-->
+<!--                            align="right"-->
+<!--                            type="date"-->
+<!--                            placeholder="选择日期">-->
+<!--                    </el-date-picker>-->
+
+<!--&lt;!&ndash;                    <div class="colorBox">&ndash;&gt;-->
+<!--&lt;!&ndash;                        <span>颜<i class="controlBigBox"></i>色:</span>&ndash;&gt;-->
+<!--&lt;!&ndash;                        <input type="color" id="selectedColor">&ndash;&gt;-->
+<!--&lt;!&ndash;                    </div>&ndash;&gt;-->
+
+<!--&lt;!&ndash;                    <div class="fontBox">&ndash;&gt;-->
+<!--&lt;!&ndash;                        <span>字<i class="controlBigBox"></i>体:</span>&ndash;&gt;-->
+<!--&lt;!&ndash;                        <input type="range" id="selectedFont" v-model="Font">&ndash;&gt;-->
+<!--&lt;!&ndash;                    </div>&ndash;&gt;-->
+
+
+<!--                    <el-upload-->
+<!--                            class="upload-demo"-->
+<!--                            drag-->
+<!--                            action="https://jsonplaceholder.typicode.com/posts/"-->
+<!--                            multiple>-->
+<!--                        <i class="el-icon-upload"></i>-->
+<!--                        <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em>-->
+<!--                            <div class="el-upload__tip" slot="tip">只能上传jpg/png文件，且不超过500kb</div>-->
+<!--                        </div>-->
+
+<!--                    </el-upload>-->
+
+
+<!--                </div>-->
+<!--                <div class="rightAddBox">-->
+<!--                    &lt;!&ndash;添加日记文本内容&ndash;&gt;-->
+<!--                    <el-input-->
+<!--                            id="addTextArea"-->
+<!--                            class="addTextArea"-->
+<!--                            type="textarea"-->
+<!--                            placeholder="请输入日记内容"-->
+<!--                            maxlength="500"-->
+<!--                            :rows="15"-->
+<!--                            show-word-limit-->
+<!--                            v-model="textarea1">-->
+<!--                    </el-input>-->
+<!--                    <button id="publishBtn" @click="Publish">发布</button>-->
+<!--                </div>-->
+<!--            </div>-->
+
+<!--        </el-drawer>-->
 
         <!--个人中心折叠框-->
         <el-drawer
@@ -233,7 +344,7 @@
                 <div class="bigBox">
                     <div class="head">
                         <div class="editBox">
-                            <el-button type="text" icon="el-icon-edit"></el-button>
+                            <el-button type="text" icon="el-icon-edit" @click="editBtnCli"></el-button>
                             <el-button type="text" icon="el-icon-delete" @click="deleteBtn"></el-button>
                         </div>
                         {{modifyDiary.name}}
@@ -241,6 +352,7 @@
                     <div class="contain">
                         <div class="modifyText">
                             <el-input
+                                    :disabled="textDisabled"
                                     class="textBox"
                                     type="textarea"
                                     :rows="15"

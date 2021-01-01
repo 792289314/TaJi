@@ -190,15 +190,15 @@ input::-webkit-credentials-auto-fill-button {
     color: #319464;
     border-color:#319464;
 }
+::v-deep.el-input.el-input--suffix
+{
+    width: 80%;
+}
+::v-deep.el-input__inner
+{
+    border-right-color: transparent;
+}
 
-#fEmail::v-deep.el-input__inner
-{
-    border-right-color: transparent!important;
-}
-#fEmail::v-deep.el-input.el-input--suffix::v-deep
-{
-    width: 80%!important;
-}
 
 .nextBtn
 {
@@ -208,8 +208,6 @@ input::-webkit-credentials-auto-fill-button {
 }
 .nextBtn:hover
 {
-
-    margin-left: -8px;
     background-color: #319464;
     border-color:#319464;
     color: white
