@@ -1,6 +1,6 @@
 var vm = new Vue({
     el: '#app',
-    component:['el-calendar'],
+    component: ['el-calendar'],
     data() {
         return {
             allDiaryList: [],
@@ -9,9 +9,9 @@ var vm = new Vue({
         }
     },
     created() {
-        const tim=new Date();
+        const tim = new Date();
 
-        this.getSelectedDiary(tim.getUTCFullYear()+"-"+tim.getUTCMonth()+"-"+tim.getUTCDay());
+        this.getSelectedDiary(tim.getUTCFullYear() + "-" + (tim.getUTCMonth() + 1) + "-" + tim.getUTCDate());
 
         this.showElement();
     },
@@ -39,8 +39,8 @@ var vm = new Vue({
         },
         // 根据日期获得当天全部公开日记记录
         getSelectedDiary: function (date) {
-           this.$message(date);
-            const self=this;
+           // this.$message(date);
+            const self = this;
             axios({
                 url: 'getAllDiaryByDate.do',
                 method: 'post',
@@ -49,7 +49,7 @@ var vm = new Vue({
                 if (response.data == "error") {
                     self.$message.error("啊呀，数据库连接被拒绝了");
                 } else {
-                   self.allDiaryList = response.data;
+                    self.allDiaryList = response.data;
 
                     /*  { 后台拿来的数据
                             "diary":{
@@ -74,17 +74,15 @@ var vm = new Vue({
 
         showElement: function () {
             this.ClearShowDiaryDiv();
-            if(this.allDiaryList.length!=0)
-            {
+            if (this.allDiaryList.length != 0) {
                 for (let i = 0; i < this.allDiaryList.length; i++) {
 
-                    const t = new Date(this.allDiaryList[i].diary.time);
+                    const t = new Date(this.allDiaryList[i].diary.time.time);
                     var str1 = t.getFullYear() + " 年 " + (t.getUTCMonth() + 1) + " 月 " +
                         t.getUTCDate() + " 日        " +
                         this.getWeekToString(t.getDay());
                     var str2 = t.getHours() + " : " +
                         t.getMinutes() + " : " + t.getSeconds() + "   ";
-
 
 
                     //大盒子
@@ -96,18 +94,19 @@ var vm = new Vue({
 
                     //显示姓名 分类等的盒子
                     let divTitle = document.createElement('div');
-                    divTitle.style.width="100%";
-                    divTitle.style.height="60px";
-                    divTitle.style.backgroundColor=this.allDiaryList[i].diary.classify.color;
+                    divTitle.style.width = "100%";
+                    divTitle.style.height = "60px";
+                    divTitle.style.padding = "10px 0";
+                    divTitle.style.backgroundColor = this.allDiaryList[i].diary.classify.color;
                     divTitle.id = 'showTitle' + i;
                     document.getElementById(div.id).appendChild(divTitle);
 
                     let divLeft = document.createElement('div');
                     divLeft.className = "titleLeft";
-                    divLeft.innerHTML =this.allDiaryList[i].user.name+'<br>'+ str1 +'<br>'+ str2;
-                     // divLeft.innerHTML=str1 + str2;
+                    divLeft.innerHTML = this.allDiaryList[i].user.name + '<br>' + str1 + '<br>' + str2;
+                    // divLeft.innerHTML=str1 + str2;
                     divLeft.id = 'showLeft' + i;
-                    document.getElementById( divTitle.id).appendChild(divLeft);
+                    document.getElementById(divTitle.id).appendChild(divLeft);
 
 
                     let divRight = document.createElement('div');
@@ -123,18 +122,16 @@ var vm = new Vue({
                     divContain.id = 'showContain' + i;
                     document.getElementById(div.id).appendChild(divContain);
                 }
-            }
-            else
-            {
+            } else {
                 let div1 = document.createElement('div');
-                div1.className="noneDiary";
+                div1.className = "noneDiary";
                 div1.innerHTML = "当天没有人写过日记诶 Σ（ﾟдﾟlll）";
                 document.getElementById('showDiary').appendChild(div1);
 
             }
         },
 
-        returnClick:function () {
+        returnClick: function () {
             window.location.href = document.referrer;//跳转上一个页面并刷新
         },
 

@@ -1,12 +1,15 @@
+
+
 var vm = new Vue({
     el: '#app',
     data() {
         return {
             //添加日记里的字体大小
             Font: '50px',
+            Color:'#000000',
 
 
-            textDisabled:true,
+            textDisabled: true,
 
             // diaryMainFlag: true,
             modifyDiaryFlag: false,
@@ -63,7 +66,7 @@ var vm = new Vue({
                 label: '下雨'
             },],
             weatherValue: 0,
-            dataValue: '',
+            dataValue: new Date(),
 
             checkPeoOptions: [
                 {//添加日记中 查看权限的下拉列表框 需要给这样的数组
@@ -83,13 +86,17 @@ var vm = new Vue({
         this.welcomeUser = sessionStorage.getItem("name");
         // 刚开始 从后台获取该用户的所有日记信息
         // 先拿所有分类信息 然后根据分类信息 拿到每个分类下的日记
-        this.getClassify();
-        this.getUserDiary();
-        //this.addElement();
+        this.getUserMessage();
 
 
     },
     methods: {
+        // 获取用户 分类+日记信息 更新用的
+        getUserMessage: function () {
+            this.getClassify();
+            this.getUserDiary();
+        },
+
         // 清空 <div id="move"> 内部的组件
         ClearMoveDiv: function () {
             var div = document.getElementById("move");
@@ -101,15 +108,15 @@ var vm = new Vue({
         },
         visitor: function () {
             /*点击个人中心折叠框中过客列表打开过客页面*/
-            window.open("visitorList.html","_self");
+            window.open("visitorList.html", "_self");
         },
         personClick: function () {
             /*点击个人中心折叠框中过客列表 打开person页面 修改密码*/
-            window.open("person.html","_self");
+            window.open("person.html", "_self");
         },
         classifyMan: function () {
             /*点击个人中心折叠框中过客列表 打开分类管理页面 */
-            window.open("classifyManagement.html","_self");
+            window.open("classifyManagement.html", "_self");
         },
 
         // 获得星期中文
@@ -131,6 +138,9 @@ var vm = new Vue({
         },
 
 
+        setFill: function (val) {
+            return val < 10 ? "0" + val : val;
+        },
         //版面中间 动态生成div 从后端拿到日记内容 并一左一右显示
         addElement: function () {
             // 先清空
@@ -155,68 +165,66 @@ var vm = new Vue({
                }
 */
             let self = this;
-            if(this.diaryList.length!=0)
-            {
+            if (this.diaryList.length != 0) {
                 for (let i = 0; i < this.diaryList.length; i++) {
-                /*
-                             2020年12月12日 星期x
-                             20:45:45 晴（
-                */
+                    /*
+                                 2020年12月12日 星期x
+                                 20:45:45 晴（
+                    */
 
-                const t = new Date(this.diaryList[i].diaryTime.time);
-                var str1 = t.getFullYear() + " 年 " + (t.getUTCMonth() + 1) + " 月 " +
-                    t.getUTCDate() + " 日        " +
-                    this.getWeekToString(t.getDay());
-                var str2 = t.getHours() + " : " +
-                    t.getMinutes() + " : " + t.getSeconds() + "   " +
-                    this.getWeatherToString(this.diaryList[i].diaryWeather);
+                    const t = new Date(this.diaryList[i].diaryTime.time);
+                    var str1 = t.getFullYear() + " 年 " + (t.getUTCMonth() + 1) + " 月 " +
+                        t.getUTCDate() + " 日        " +
+                        this.getWeekToString(t.getDay());
+                    var str2 = t.getHours() + " : " +
+                        this.setFill(t.getMinutes()) + " : " +
+                        this.setFill(t.getSeconds()) + "     " +
+                        this.getWeatherToString(this.diaryList[i].diaryWeather);
 
-                if (i % 2 === 0)//偶数 显示在左边
-                {
-                    let div = document.createElement('div');
-                    div.className = "move_div";
-                    // 放日记主体text
-                    div.innerHTML = this.diaryList[i].diaryText;
-                    div.id = 'Elem' + i;
-                    div.addEventListener("click", function () {
-                        self.diaryDivClick(i);
-                    });
-                    document.getElementById('move').appendChild(div);
+                    if (i % 2 === 0)//偶数 显示在左边
+                    {
+                        let div = document.createElement('div');
+                        div.className = "move_div";
+                        // 放日记主体text
+                        div.innerHTML = this.diaryList[i].diaryText;
+                        div.id = 'Elem' + i;
+                        div.addEventListener("click", function () {
+                            self.diaryDivClick(i);
+                        });
+                        document.getElementById('move').appendChild(div);
 
-                    let div2 = document.createElement('div');
-                    div2.className = "move_div2";
-                    div2.innerHTML = str1 + '<br>' + str2;
-                    div2.id = 'Ele' + i;
-                    document.getElementById('move').appendChild(div2);
+                        let div2 = document.createElement('div');
+                        div2.className = "move_div2";
+                        div2.innerHTML = str1 + '<br>' + str2;
+                        div2.id = 'Ele' + i;
+                        document.getElementById('move').appendChild(div2);
 
-                } else {
-                    let div1 = document.createElement('div');
-                    div1.className = "card move_div1";
-
-
-                    //div1.innerHTML = '{{右边}}';
-                    div1.innerHTML = this.diaryList[i].diaryText;
-                    div1.id = 'Elem' + i;
-                    div1.addEventListener("click", function () {
-                        // alert(this.id);
-                        self.diaryDivClick(i);
-                    });
-
-                    document.getElementById('move').appendChild(div1);
+                    } else {
+                        let div1 = document.createElement('div');
+                        div1.className = "card move_div1";
 
 
-                    let div3 = document.createElement('div');
-                    div3.className = "move_div3";
-                    div3.innerHTML = str1 + '<br>' + str2;
-                    div3.id = 'Ele' + i;
-                    document.getElementById('move').appendChild(div3);
+                        //div1.innerHTML = '{{右边}}';
+                        div1.innerHTML = this.diaryList[i].diaryText;
+                        div1.id = 'Elem' + i;
+                        div1.addEventListener("click", function () {
+                            // alert(this.id);
+                            self.diaryDivClick(i);
+                        });
+
+                        document.getElementById('move').appendChild(div1);
+
+
+                        let div3 = document.createElement('div');
+                        div3.className = "move_div3";
+                        div3.innerHTML = str1 + '<br>' + str2;
+                        div3.id = 'Ele' + i;
+                        document.getElementById('move').appendChild(div3);
+                    }
                 }
-            }
-            }
-            else
-            {
+            } else {
                 let divNone = document.createElement('div');
-                divNone.className="noneDiary";
+                divNone.className = "noneDiary";
                 divNone.innerHTML = "当天没有人写过日记诶 Σ（ﾟдﾟlll）";
                 document.getElementById('move').appendChild(divNone);
             }
@@ -325,11 +333,11 @@ var vm = new Vue({
                     self.$message.error("添加日记操作失败");
                 } else {
                     self.$message({
-                        message:"成功添加日记",
+                        message: "成功添加日记",
                         type: 'success'
                     });
                     //重新获取一遍数据库里的日记信息
-                    self.getUserDiary();
+                    self.getUserMessage();
                 }
             }).catch(function (error) {
                 self.$message.error("请求过程中发生错误：" + error);
@@ -343,7 +351,7 @@ var vm = new Vue({
                 method: 'post'
             }).then(function (response) {
                 self.$message({
-                    message:"退出成功！正在返回登陆界面ing...",
+                    message: "退出成功！正在返回登陆界面ing...",
                     type: 'success'
                 });
                 //不知道为什么 后台控制的跳转没成功 response.sendRedirect后 需要手动刷新才能打开
@@ -367,9 +375,8 @@ var vm = new Vue({
             this.modifyDiary.deleteDialogVisible = true;
 
         },
-        editBtnCli:function()
-        {
-            this.textDisabled=false;
+        editBtnCli: function () {
+            this.textDisabled = false;
         },
         /* 确定删除日记*/
         sureDeleteClick: function () {
@@ -385,11 +392,11 @@ var vm = new Vue({
                 if (response.data == "error") self.$message.error("删除日记失败");
                 else {
                     self.$message({
-                        message:"成功删除日记！",
+                        message: "成功删除日记！",
                         type: 'success'
                     });
                     self.classifyValue = 0;
-                    self.getUserDiary();
+                    self.getUserMessage();
                     self.modifyDiaryFlag = false;
                 }
             }).catch(function (error) {
@@ -419,11 +426,11 @@ var vm = new Vue({
                     self.$message.error("修改日记失败");
                 } else {
                     self.$message({
-                        message:"修改成功！",
+                        message: "修改成功！",
                         type: 'success'
                     });
                     self.classifyValue = 0;
-                    self.getUserDiary();
+                    self.getUserMessage();
                     self.modifyDiaryFlag = false;
                 }
             }).catch(function (error) {
@@ -442,8 +449,11 @@ var vm = new Vue({
     },
     watch: {
         Font: function (val) {
-            this.$message(val);
-            document.getElementById("addTextArea").style.fontSize = val;
+            //    this.$message(val);
+            document.getElementById("addTextArea").style.fontSize = "" + val + "px";
+        },
+        Color: function (val) {
+            document.getElementById("addTextArea").style.color = val;
         }
     }
 

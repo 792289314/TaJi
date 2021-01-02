@@ -59,6 +59,9 @@ input {
 textarea {
     resize: none;
     outline: none; /*去除轮廓线*/
+    width: 471px;
+    max-height: 222px !important;
+    min-height: 222px !important;
 }
 
 .icon-hengdengyu {
@@ -235,14 +238,16 @@ textarea {
 #publishBtn {
     position: absolute;
     background-color: #99cdaa;
-    width: 200px;
+    /*width: 200px;*/
+    width: 94%;
     height: 43px;
     border-radius: 5px;
     border: none;
     font-size: 16px;
     color: white;
     margin: 0 auto;
-    left: 0;
+    /*left: 0;*/
+    left: -65px;
     right: 0;
 }
 

@@ -132,8 +132,10 @@ public class diaryMainController extends HttpServlet {
     }
 
     @RequestMapping("/TaJiMain/Exit.do")
-    public void exit(HttpSession session) {
+    public void exit(HttpSession session,
+                     HttpServletResponse response) throws IOException {
         session.invalidate();
+        response.getWriter().write("ok");
     }
 
     // 剩下的Servlet在 modifyDiaryController.java 里

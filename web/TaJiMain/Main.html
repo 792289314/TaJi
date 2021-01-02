@@ -81,7 +81,7 @@
 
                     <div class="colorBox">
                         <span>颜<i class="controlBigBox"></i>色:</span>
-                        <input type="color" id="selectedColor">
+                        <input type="color" id="selectedColor" v-model="Color">
                     </div>
 
                     <div class="fontBox">
@@ -225,12 +225,12 @@
                             >
                                 <div class="diaryDiv">
                                     <!--日记内容-->
-                                    <div :class=" index%2? 'leftDiv' : 'rightDiv' " @click="diaryDivClick(index)">
+                                    <div :class=" index%2==0? 'leftDiv' : 'rightDiv' " @click="diaryDivClick(index)">
                                         {{item.diaryText}}
                                     </div>
 
                                     <!--日期信息-->
-                                    <div :class="index%2? 'leftDateDiv' : 'rightDateDiv' "
+                                    <div :class="index%2==0? 'leftDateDiv' : 'rightDateDiv' "
                                          v-html="getTimeMessage(item)"
                                     >
 
@@ -242,8 +242,8 @@
                         </el-timeline>
                     </div>
                     <!--否则显示 无内容提示-->
-                    <div v-else class="noneDiary">
-                        当天没有人写过日记诶 Σ（ﾟдﾟlll）
+                    <div v-else class="none_Diary">
+                        该分类下没有写过日记诶 Σ（ﾟдﾟlll）
                     </div>
 
                 </el-main>
@@ -302,11 +302,11 @@
                     </span>
                 </el-dialog>
             </div>
-            <div>
+            <!--<div>
                 <el-button class="returnBtn"  type="text" @click="returnClick"
                            icon="el-icon-refresh-left">
                 </el-button>
-            </div>
+            </div>-->
         </el-container>
     </div>
 </div>

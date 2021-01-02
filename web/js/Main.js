@@ -4,7 +4,7 @@ var vm = new Vue({
         return {
             //添加日记里的字体大小
             Font: '50px',
-
+            Color: '#000000',
 
             // diaryMainFlag: true,
             modifyDiaryFlag: false,
@@ -61,7 +61,7 @@ var vm = new Vue({
                 label: '下雨'
             },],
             weatherValue: 0,
-            dataValue: '',
+            dataValue: new Date(),
 
             checkPeoOptions: [
                 {//添加日记中 查看权限的下拉列表框 需要给这样的数组
@@ -72,7 +72,7 @@ var vm = new Vue({
                     value: true,
                     label: '仅自己可见'
                 }],
-            checkPeoValue: true,
+            checkPeoValue: false,
             brandFold: true,
         }
     },
@@ -81,12 +81,15 @@ var vm = new Vue({
         this.welcomeUser = sessionStorage.getItem("name");
         // 刚开始 从后台获取该用户的所有日记信息
         // 先拿所有分类信息 然后根据分类信息 拿到每个分类下的日记
-        this.getClassify();
-        this.getUserDiary();
-
+        this.getUserMessage();
 
     },
     methods: {
+        // 获取用户 分类+日记信息 更新用的
+        getUserMessage: function () {
+            this.getClassify();
+            this.getUserDiary();
+        },
         // 清空 <div id="move"> 内部的组件
         ClearMoveDiv: function () {
             var div = document.getElementById("move");
@@ -98,15 +101,15 @@ var vm = new Vue({
         },
         visitor: function () {
             /*点击个人中心折叠框中过客列表打开过客页面*/
-            window.open("visitorList.html","_self");
+            window.open("visitorList.html", "_self");
         },
         personClick: function () {
             /*点击个人中心折叠框中过客列表 打开person页面 修改密码*/
-            window.open("person.html","_self");
+            window.open("person.html", "_self");
         },
         classifyMan: function () {
             /*点击个人中心折叠框中过客列表 打开分类管理页面 */
-            window.open("classifyManagement.html","_self");
+            window.open("classifyManagement.html", "_self");
         },
 
         // 获得星期中文
@@ -127,13 +130,18 @@ var vm = new Vue({
             if (x == 2) return "<i class=\"el-icon-cloudy\n\" style='font-size: 30px'></i>";
         },
 
+
+        setFill: function (val) {
+            return val < 10 ? "0" + val : val;
+        },
         getTimeMessage: function (item) {
             const t = new Date(item.diaryTime.time);
             var str1 = t.getFullYear() + " 年 " + (t.getUTCMonth() + 1) + " 月 " +
                 t.getUTCDate() + " 日        " +
                 this.getWeekToString(t.getDay());
             var str2 = t.getHours() + " : " +
-                t.getMinutes() + " : " + t.getSeconds() + "   " +
+                this.setFill(t.getMinutes()) + " : " +
+                this.setFill(t.getSeconds()) + "     " +
                 this.getWeatherToString(item.diaryWeather);
             return str1 + '<br>' + str2;
         },
@@ -265,7 +273,7 @@ var vm = new Vue({
                         type: 'success'
                     });
                     //重新获取一遍数据库里的日记信息
-                    self.getUserDiary();
+                    self.getUserMessage();
                 }
             }).catch(function (error) {
                 self.$message.error("请求过程中发生错误：" + error);
@@ -317,11 +325,11 @@ var vm = new Vue({
                 if (response.data == "error") self.$message("删除日记失败");
                 else {
                     self.$message({
-                        message:"成功删除日记！",
+                        message: "成功删除日记！",
                         type: 'success'
                     });
                     self.classifyValue = 0;
-                    self.getUserDiary();
+                    self.getUserMessage();
                     self.modifyDiaryFlag = false;
                 }
             }).catch(function (error) {
@@ -351,11 +359,11 @@ var vm = new Vue({
                     self.$message.error("修改日记失败");
                 } else {
                     self.$message({
-                        message:"修改成功！",
+                        message: "修改成功！",
                         type: 'success'
                     });
                     self.classifyValue = 0;
-                    self.getUserDiary();
+                    self.getUserMessage();
                     self.modifyDiaryFlag = false;
                 }
             }).catch(function (error) {
@@ -371,8 +379,11 @@ var vm = new Vue({
     },
     watch: {
         Font: function (val) {
-            this.$message(val);
-            document.getElementById("addTextArea").style.fontSize = val;
+            //    this.$message(val);
+            document.getElementById("addTextArea").style.fontSize = "" + val + "px";
+        },
+        Color: function (val) {
+            document.getElementById("addTextArea").style.color = val;
         }
     }
 

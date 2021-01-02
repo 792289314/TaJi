@@ -107,5 +107,6 @@ body {
     height: 100%;
     min-height: 190px;
     text-indent: 1em;
+    padding: 10px;
     /*background-color: #1989FA;*/
 }

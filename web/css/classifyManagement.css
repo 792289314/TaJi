@@ -34,9 +34,9 @@ body {
 }
 
 .classifyMain {
-    margin-top: 40px;
+   /* margin-top: 40px;*/
     height: 500px;
-    margin-bottom: 100px;
+   /* margin-bottom: 100px;*/
     /*background-color: #B3C0D1;*/
 
 }
@@ -84,4 +84,12 @@ body {
     right: 20px;
     bottom: 10px;
     font-size: 40px !important;
+}
+
+.el-table__body-wrapper is-scrolling-none{
+    margin-bottom: 200px;
+    height: 100%;
+}
+.classifyMain{
+    height: 100%;
 }
