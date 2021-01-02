@@ -160,51 +160,48 @@ input::-webkit-credentials-auto-fill-button {
     font-size: 21px;
     margin: 0 10px !important;
 }
-.el-step__title.is-finish
-{
-    color: #319464;
-    font-weight:bold;
-}
-.el-step__title.is-process
-{
-    color: #319464;
-    font-weight:bold;
-}
-.el-step__title.is-wait
-{
-    color: #319464;
-    font-weight:bold;
-}
-.el-step__icon.is-text
-{
-    background-color:#319464;
-    /*border-color: unset;*/
-    border: unset;
-}
-.el-step__icon-inner
-{
-    color: white;
-}
 .el-step__head.is-finish
 {
     color: #319464;
-    border-color:#319464;
+    border-color: #319464;
 }
-::v-deep.el-input.el-input--suffix
+.el-step__title.is-finish
+{
+    color: #319464;
+}
+.el-step__head.is-process
+{
+    color: rgba(49, 148, 100, 0.4);
+    border-color:rgba(49, 148, 100, 0.4);
+}
+.el-step__title.is-process
+{
+    color: rgba(49, 148, 100, 0.4);
+}
+.fEmail/deep/.el-input.el-input--suffix
 {
     width: 80%;
 }
-::v-deep.el-input__inner
+.fEmail/deep/.el-input__inner
 {
     border-right-color: transparent;
 }
 
-
-.nextBtn
+.nextBtn1
 {
-    margin-left: -8px;
     background-color: #319464;
     color: white;
+}
+.nextBtn1:hover {
+     background-color: #319464;
+     border-color: #319464;
+     color: white
+ }
+.nextBtn
+{
+    background-color: #319464;
+    color: white;
+    width: 48%;
 }
 .nextBtn:hover
 {
@@ -217,4 +214,19 @@ input::-webkit-credentials-auto-fill-button {
 {
     font-size: 40px;
     color: #319464;
+}
+
+.el-dialog
+{
+    display: flex;
+    flex-direction: column;
+    margin:0 !important;
+    position:absolute;
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%);
+    /*height:600px;*/
+    max-height:calc(100% - 200px);
+    max-width:calc(100% - 30px);
+    min-width: 500px;
 }

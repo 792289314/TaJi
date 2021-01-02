@@ -54,8 +54,13 @@ body {
     margin-top: 20px;
     box-shadow: var(--main-bg-shadow);
 }
-
-.textBox>>>.el-textarea__inner
+.modifyText/deep/.el-textarea__inner
+{
+    background-color: transparent;
+    resize: unset;
+    border: unset;
+}
+.modifyText/deep/.el-textarea.is-disabled .el-textarea__inner
 {
     background-color: transparent;
     resize: unset;
@@ -72,13 +77,6 @@ body {
     font-size: 17px;
     color: rgba(0, 0, 0, .7);
 }
-.btnBox {
-    position: relative;
-    bottom: 10px;
-    width: 200px;
-    margin: 20px auto;
-    display: inline;
-}
 .exitBtn {
     width: 100px;
     height: 50px;
@@ -89,8 +87,15 @@ body {
     background: #ecf0f3;
     border-radius: 10px;
 }
+.saveBtnBox
+{
+    margin-top: 20px;
+}
 .saveBtn {
-    width: 100px;
+    position: absolute;
+    left: 0;
+    right: 0;
+    width: 100%;
     height: 50px;
     border: none;
     color: rgba(0,0,0,0.7);

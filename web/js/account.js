@@ -176,7 +176,7 @@ var vm = new Vue({
                     sessionStorage.setItem("name", response.data);
 
                     setTimeout(function () {
-                        window.location.href = "TaJiMain/Main.html";
+                        window.location.href = "TaJiMain/diaryMain.html";
                     }, 500);
                     // window.location.href="diaryMain.html";
                 }
@@ -235,7 +235,7 @@ var vm = new Vue({
 
                     //登录成功，1s后调入主页面
                     setTimeout(function () {
-                        window.location.href = "TaJiMain/Main.html";
+                        window.location.href = "TaJiMain/diaryMain.html";
                     }, 500);
 
                 }

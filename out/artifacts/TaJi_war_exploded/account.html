@@ -64,22 +64,21 @@
             <el-dialog
                     title="忘记密码"
                     :visible.sync="forgetPwdDialogVisible"
-                    width="40%"
-                    >
+                    width="40%">
                 <div>
                     <el-steps :active="forgetActive" >
                         <el-step title="输入邮箱"></el-step>
                         <el-step title="设置新密码"></el-step>
                         <el-step title="设置成功"></el-step>
                     </el-steps>
-                    <div id="fEmail" style="margin-top: 30px" v-show="forgetActive==1">
+                    <div class="fEmail" style="margin-top: 30px" v-show="forgetActive==1">
                         <el-input
 
                                 placeholder="请输入邮箱账号"
                                 v-model="forgetEmail"
                                 clearable>
                         </el-input>
-                        <el-button class="nextBtn" @click="pwdNextClick">下一步</el-button>
+                        <el-button class="nextBtn1" @click="pwdNextClick">下一步</el-button>
                     </div>
 
 
@@ -94,8 +93,14 @@
                                 v-model="forgetRPwd"
                                 clearable>
                         </el-input>
-                        <el-button  class="nextBtn" style="margin-top: 12px;" @click="pwdNextClick">保存</el-button>
-                        <el-button class="nextBtn" style="margin-top: 12px;" @click="pwdBeforeClick">上一步</el-button>
+                        <div class="pwdBox">
+                            <div class="posPwdBox">
+                                <el-button  class="nextBtn" style="margin-top: 12px;" @click="pwdNextClick">保存</el-button>
+                                <el-button class="nextBtn" style="margin-top: 12px;" @click="pwdBeforeClick">上一步</el-button>
+                            </div>
+
+                        </div>
+
                     </div>
                     <div v-show="forgetActive==3" style="margin-top: 30px" >
                         <span style="font-size: 20px">修改成功,快去登录吧！！下次别忘记了</span>

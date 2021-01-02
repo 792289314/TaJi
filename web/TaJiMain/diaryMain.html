@@ -318,8 +318,44 @@
 
                 <el-main>
                     <!-- 目前暂时通过按钮来实现动态增加div 后期会放入watch还是computer里面-->
-                    <div id="move">
+                    <!--<div id="move">
+                    </div>-->
+
+                    <!-- 如果有内容 显示时间线-->
+                    <div v-if=" diaryList.length>0">
+                        <el-timeline>
+                            <el-timeline-item
+                                    v-for="(item, index) in diaryList"
+                                    :key="index"
+
+                                    :icon="'el-icon-more'"
+                                    :type="'primary'"
+                                    :color="item.classifyColor"
+                                    :size="'large'"
+                            >
+                                <div class="diaryDiv">
+                                    <!--日记内容-->
+                                    <div :class=" index%2==0? 'leftDiv' : 'rightDiv' " @click="diaryDivClick(index)">
+                                        {{item.diaryText}}
+                                    </div>
+
+                                    <!--日期信息-->
+                                    <div :class="index%2==0? 'leftDateDiv' : 'rightDateDiv' "
+                                         v-html="getTimeMessage(item)"
+                                    >
+
+
+                                    </div>
+
+                                </div>
+                            </el-timeline-item>
+                        </el-timeline>
                     </div>
+                    <!--否则显示 无内容提示-->
+                    <div v-else class="none_Diary">
+                        该分类下没有写过日记诶 Σ（ﾟдﾟlll）
+                    </div>
+
                 </el-main>
 
 
@@ -330,14 +366,6 @@
                     </el-button>
                 </el-aside>
             </el-container>
-
-
-
-
-
-
-
-
 
             <!--原先modifyDiary.html里的内容-->
             <div v-show="modifyDiaryFlag" class="modifyDiaryBody">
@@ -353,7 +381,6 @@
                         <div class="modifyText">
                             <el-input
                                     :disabled="textDisabled"
-                                    class="textBox"
                                     type="textarea"
                                     :rows="15"
                                     show-word-limit
@@ -367,12 +394,9 @@
                     <!--<div class="saveBox" >
                         <button class="saveBtn" @click="saveClick">保存</button>
                     </div>-->
-                    <div class="btnBox">
-                        <div class="posBox">
+                        <div class="saveBtnBox">
                             <button class="saveBtn" @click="saveClick">保存</button>
                         </div>
-
-                    </div>
                 </div>
 
                 <el-dialog

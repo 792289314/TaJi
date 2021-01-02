@@ -104,7 +104,7 @@ var vm = new Vue({
         },
         ChooseDiary: function () {
             this.getDiaryList();
-            this.addElement();
+
         },
         visitor: function () {
             /*点击个人中心折叠框中过客列表打开过客页面*/
@@ -141,11 +141,20 @@ var vm = new Vue({
         setFill: function (val) {
             return val < 10 ? "0" + val : val;
         },
+        getTimeMessage: function (item) {
+            const t = new Date(item.diaryTime.time);
+            var str1 = t.getFullYear() + " 年 " + (t.getUTCMonth() + 1) + " 月 " +
+                t.getUTCDate() + " 日        " +
+                this.getWeekToString(t.getDay());
+            var str2 = t.getHours() + " : " +
+                this.setFill(t.getMinutes()) + " : " +
+                this.setFill(t.getSeconds()) + "     " +
+                this.getWeatherToString(item.diaryWeather);
+            return str1 + '<br>' + str2;
+        },
+
         //版面中间 动态生成div 从后端拿到日记内容 并一左一右显示
         addElement: function () {
-            // 先清空
-            this.ClearMoveDiv();
-
             /*
              后端传来的所有日记数据保存在 diaryList （数组）中， 这个变量我这边建了 但是你那边没有
              {
@@ -164,75 +173,10 @@ var vm = new Vue({
                 "diaryWeather":1 // 当前天气 0-晴天 1-多云 2-雨天
                }
 */
-            let self = this;
-            if (this.diaryList.length != 0) {
-                for (let i = 0; i < this.diaryList.length; i++) {
-                    /*
-                                 2020年12月12日 星期x
-                                 20:45:45 晴（
-                    */
-
-                    const t = new Date(this.diaryList[i].diaryTime.time);
-                    var str1 = t.getFullYear() + " 年 " + (t.getUTCMonth() + 1) + " 月 " +
-                        t.getUTCDate() + " 日        " +
-                        this.getWeekToString(t.getDay());
-                    var str2 = t.getHours() + " : " +
-                        this.setFill(t.getMinutes()) + " : " +
-                        this.setFill(t.getSeconds()) + "     " +
-                        this.getWeatherToString(this.diaryList[i].diaryWeather);
-
-                    if (i % 2 === 0)//偶数 显示在左边
-                    {
-                        let div = document.createElement('div');
-                        div.className = "move_div";
-                        // 放日记主体text
-                        div.innerHTML = this.diaryList[i].diaryText;
-                        div.id = 'Elem' + i;
-                        div.addEventListener("click", function () {
-                            self.diaryDivClick(i);
-                        });
-                        document.getElementById('move').appendChild(div);
-
-                        let div2 = document.createElement('div');
-                        div2.className = "move_div2";
-                        div2.innerHTML = str1 + '<br>' + str2;
-                        div2.id = 'Ele' + i;
-                        document.getElementById('move').appendChild(div2);
-
-                    } else {
-                        let div1 = document.createElement('div');
-                        div1.className = "card move_div1";
-
-
-                        //div1.innerHTML = '{{右边}}';
-                        div1.innerHTML = this.diaryList[i].diaryText;
-                        div1.id = 'Elem' + i;
-                        div1.addEventListener("click", function () {
-                            // alert(this.id);
-                            self.diaryDivClick(i);
-                        });
-
-                        document.getElementById('move').appendChild(div1);
-
-
-                        let div3 = document.createElement('div');
-                        div3.className = "move_div3";
-                        div3.innerHTML = str1 + '<br>' + str2;
-                        div3.id = 'Ele' + i;
-                        document.getElementById('move').appendChild(div3);
-                    }
-                }
-            } else {
-                let divNone = document.createElement('div');
-                divNone.className = "noneDiary";
-                divNone.innerHTML = "当天没有人写过日记诶 Σ（ﾟдﾟlll）";
-                document.getElementById('move').appendChild(divNone);
-            }
         },
 
         //点击每一个div触发事件
         diaryDivClick: function (id) {
-            //   this.$message(id);
             this.modifyDiary.id = this.diaryList[id].diaryId;
             this.modifyDiary.name = this.diaryList[id].classifyName;
             this.modifyDiary.text1 = this.diaryList[id].diaryText;
@@ -277,7 +221,7 @@ var vm = new Vue({
                     // 此时应该返回登陆界面重新登陆
                 } else {
                     self.diaryList = self.userDiary = response.data;
-                    self.addElement();// 得到日记记录后 更新ui
+
                 }
 
             }).catch(function (error) {
@@ -333,7 +277,7 @@ var vm = new Vue({
                     self.$message.error("添加日记操作失败");
                 } else {
                     self.$message({
-                        message: "成功添加日记",
+                        message: '成功添加日记',
                         type: 'success'
                     });
                     //重新获取一遍数据库里的日记信息
@@ -389,7 +333,7 @@ var vm = new Vue({
                     diaryId: self.modifyDiary.id
                 }
             }).then(function (response) {
-                if (response.data == "error") self.$message.error("删除日记失败");
+                if (response.data == "error") self.$message("删除日记失败");
                 else {
                     self.$message({
                         message: "成功删除日记！",

@@ -35,7 +35,7 @@ body {
 
 .classifyMain {
    /* margin-top: 40px;*/
-    height: 500px;
+    max-height: 600px;
    /* margin-bottom: 100px;*/
     /*background-color: #B3C0D1;*/
 
