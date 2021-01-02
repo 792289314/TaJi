@@ -13,6 +13,7 @@
             long -> Long.parseLong()
             int -> Int.parseInt()
         ps: 所以 一开始建的时候 为什么不用Long、Int呢？ 思考...
-     
+     2.Required request body is missing
+        axios里没有写 method:'post'
 500
     1. 报错Handler dispatch failed; nested exception is java.lang.NoSuchMethodError: jar有重复的版本   

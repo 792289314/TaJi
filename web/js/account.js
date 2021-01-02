@@ -9,10 +9,9 @@ var vm = new Vue({
         RuserEmail: "", RuserName: "", RpassWord: "", RRpassWord: "",
         show_loginbox: true, show_registerbox: false,
         //忘记密码
-        forgetPwdDialogVisible:false,
-        forgetActive:1,
-        forgetEmail:"",forgetPwd:"",forgetRPwd:"",
-
+        forgetPwdDialogVisible: false,
+        forgetActive: 1,
+        forgetEmail: "", forgetPwd: "", forgetRPwd: "",
 
 
     },
@@ -170,7 +169,7 @@ var vm = new Vue({
                     // alert("登陆成功");
                     //登录成功，1s后调入主页面
                     self.$message({
-                        message:'登录成功！正在跳转页面ing...',
+                        message: '登录成功！正在跳转页面ing...',
                         type: 'success'
                     });
                     // 把用户名放到sessionStorage里
@@ -221,7 +220,7 @@ var vm = new Vue({
                     // * 提示 注册成功
                     // 登陆成功 切换页面
                     self.$message({
-                        message:"欢迎用户" + self.RuserName + "的到来",
+                        message: "欢迎用户" + self.RuserName + "的到来",
                         type: 'success'
                     });
                     // self.show_registerbox = false;
@@ -232,7 +231,7 @@ var vm = new Vue({
                     // document.getElementById("registerBtn1").style.borderBottom = "none";
 
 
-                    sessionStorage.setItem("name", self.RuserName );
+                    sessionStorage.setItem("name", self.RuserName);
 
                     //登录成功，1s后调入主页面
                     setTimeout(function () {
@@ -244,29 +243,94 @@ var vm = new Vue({
         },
 
         //忘记密码按钮
-        forgetPwdClick:function () {
-            this.forgetPwdDialogVisible=true;
+        forgetPwdClick: function () {
+            this.forgetPwdDialogVisible = true;
         },
         //忘记密码弹出窗口 确定按钮
-        forgetSureClick:function () {
-            this.forgetPwdDialogVisible=false;
+        forgetSureClick: function () {
+            this.forgetPwdDialogVisible = false;
+        },
+
+        // 忘记密码第一步 输入邮箱 判断邮箱是否存在
+        //  由于 axios是异步进行的 如果不加 async/await 就会导致 axios进行的同时 flag未赋值为true就被返回
+        // 所以 要么直接在axios里处理  不使用flag 直接在then里写 self.forgetActive++
+        //  要么 如下
+        forgetStep1: async function () {
+            const self = this;
+            var flag = false;
+            await axios({
+                url: 'forgetEmail.do',
+                method: 'post',
+                data: {email: self.forgetEmail}
+            }).then(function (response) {
+                if (response.data == "error") {
+                    self.$message.error("该邮箱未被注册过哦！");
+                } else {// ok
+                    flag = true;
+                }
+
+            }).catch(function (error) {
+                self.$message.error("忘记密码第一步出问题了 " + error);
+            })
+            return flag;
+        },
+
+        // 忘记密码第2步 修改密码
+        forgetStep2: async function () {
+            const self = this;
+            var flag = false;
+            await axios({
+                url: 'forgetPassword.do',
+                method: 'post',
+                data: {
+                    email: self.forgetEmail,
+                    password: self.forgetPwd
+                }
+            }).then(function (response) {
+                if (response.data == "error") {
+                    self.$message.error("数据库连接出问题");
+                } else {// ok
+                    flag = true;
+                }
+
+            }).catch(function (error) {
+                self.$message.error("忘记密码第二步出问题了 " + error);
+            })
+            return flag;
         },
         //忘记密码弹出窗口 下一步按钮
-        pwdNextClick:function () {
-            if (this.forgetActive++ > 3)
-            {
-                // var div3=document.getElementById("forgetPwdBox");
-                // div3.style.display="none";
+        pwdNextClick: function () {
+            if (this.forgetActive == 1) {
+                if (this.forgetStep1()) {
+                    this.forgetActive++;
+                }
+            } else if (this.forgetActive == 2) {
+                if (this.forgetPwd != this.forgetRPwd) {
+                    this.$message.error("两次输入的密码不一致");
+                } else if (this.forgetStep2()) {
+                    this.forgetActive++;
+                }
+            } else if (this.forgetActive == 3) {
                 this.forgetActive = 1;
             }
 
+            /*
+
+                        if (this.forgetActive++ > 3) {
+                            // var div3=document.getElementById("forgetPwdBox");
+                            // div3.style.display="none";
+                            this.forgetActive = 1;
+                        }
+            */
+
         },
-        pwdBeforeClick:function()
-        {
+        pwdBeforeClick: function () {
             this.forgetActive = 1;
         },
-        forgetLogin:function () {
+        forgetLogin: function () {
             window.location.href = document.referrer;//跳转上一个页面并刷新
         }
+
+
     },
 });

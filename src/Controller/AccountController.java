@@ -20,7 +20,7 @@ public class AccountController {
     public void onLoginSubmit(@RequestBody String strJSON,
                               HttpSession session,
                               HttpServletResponse response) throws IOException {
-        System.out.println("当前登陆的用户："+strJSON);
+        System.out.println("当前登陆的用户：" + strJSON);
 
         response.setContentType("text/html;  charset=utf-8");
         JSONObject userObj = JSONObject.fromObject(strJSON);
@@ -64,10 +64,38 @@ public class AccountController {
                 session.setAttribute("email", user.getEmail());
                 out.write(user.getName());
             }
-
         }
+    }
 
+    // 查询用户邮箱是否存在
+    @RequestMapping("/forgetEmail.do")
+    public static void forgetEmail(@RequestBody String strSON,
+                                   HttpServletResponse response) throws IOException {
+        System.out.println(strSON);
+        JSONObject json = JSONObject.fromObject(strSON);
+        System.out.println(json);
+        String email = json.getString("email");
+        PrintWriter out = response.getWriter();
+        if (accountManage.isExistenceByEmail(email)) {
+            out.write("ok");
+        } else {
+            out.write("error");
+        }
+    }
 
+    // 修改密码
+    @RequestMapping("/forgetPassword.do")
+    public static void forgetPassword(@RequestBody String strSON,
+                                      HttpServletResponse response) throws IOException {
+        JSONObject json = JSONObject.fromObject(strSON);
+        String email = json.getString("email");
+        String password = json.getString("password");
+        PrintWriter out = response.getWriter();
+        if (accountManage.modifyPassword(email, password)) {
+            out.write("ok");
+        } else {
+            out.write("error");
+        }
     }
 
 }

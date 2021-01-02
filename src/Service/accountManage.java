@@ -3,7 +3,9 @@ package Service;
 import Dao.userTable;
 import Entity.User;
 
-// 登陆界面 相关的 操作
+import javax.sql.rowset.spi.SyncResolver;
+
+// account.html 登陆界面 相关的 操作
 public class accountManage {
 
 
@@ -23,5 +25,9 @@ public class accountManage {
         if (user == null) return null;
         // 为新的用户创建 '全部' '未分类' 两个标签;
         return user;
+    }
+
+    public static boolean modifyPassword(String email, String password) {
+        return new userTable().modifyPassword(email, password);
     }
 }

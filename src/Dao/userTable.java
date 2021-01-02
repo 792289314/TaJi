@@ -119,4 +119,25 @@ public class userTable {
         if (addUser(name, email, password)) user = searchUserByEmail(email);
         return user;
     }
+
+    // 修改密码
+    public boolean modifyPassword(String email, String password) {
+        boolean flag = false;
+        DBUtil db = new DB();
+        try {
+            conn = db.getConnection();
+            String sql = "update user set upassword =? where uemail = ?";
+            pst = conn.prepareStatement(sql);
+            pst.setString(1,password);
+            pst.setString(2, email);
+            pst.executeUpdate();
+            flag = true;
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        } finally {
+            db.close(conn, pst, rs);
+        }
+        return flag;
+    }
 }
