@@ -2,6 +2,7 @@ package Entity;
 
 import java.sql.Time;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 
 // 由于在 实体包含实体 的情况下 转换为json会报错
 // 因此 额外增加这个类 (太菜了 不会解决。。。)
@@ -18,6 +19,10 @@ public class DiaryAndClassify {
     String diaryText;
     Timestamp diaryTime;
     //String diaryTime;
+
+
+    // 图片文件
+    ArrayList<String> files = new ArrayList<>();
 
 
     public DiaryAndClassify(long classifyId, String classifyName,
@@ -38,7 +43,6 @@ public class DiaryAndClassify {
         //提取前10位 获得星期
 
     }
-
 
 
     public DiaryAndClassify(long classifyId, String classifyName,
@@ -142,5 +146,13 @@ public class DiaryAndClassify {
 
     public void setDiaryTime(Timestamp diaryTime) {
         this.diaryTime = diaryTime;
+    }
+
+    public ArrayList<String> getFiles() {
+        return files;
+    }
+
+    public void setFiles(ArrayList<String> files) {
+        this.files = files;
     }
 }

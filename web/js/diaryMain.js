@@ -1,12 +1,11 @@
-
-
 var vm = new Vue({
     el: '#app',
+
     data() {
         return {
             //添加日记里的字体大小
             Font: '50px',
-            Color:'#000000',
+            Color: '#000000',
 
 
             textDisabled: true,
@@ -18,6 +17,7 @@ var vm = new Vue({
                 name: '111',
                 text1: 'hjkhjkhjkkj',
                 deleteDialogVisible: false,
+                files: {}
             },// 原先 modifyDiary.html里的内容
 
             // 该用户所有的分类，默认第一个为 未分类
@@ -66,7 +66,7 @@ var vm = new Vue({
                 label: '下雨'
             },],
             weatherValue: 0,
-            dataValue: new Date(),
+            dataValue: '',
 
             checkPeoOptions: [
                 {//添加日记中 查看权限的下拉列表框 需要给这样的数组
@@ -79,7 +79,19 @@ var vm = new Vue({
                 }],
             checkPeoValue: true,
             brandFold: true,
+
+            // 上传的文件列表
+            fileList: [],
+            fileData: new FormData,
+            uploadData: {
+                fieldData: {
+                    id: '', // 机构id,
+                }
+            },
+
         }
+    },
+    mounted() {
     },
 
     created() {
@@ -92,6 +104,7 @@ var vm = new Vue({
     },
     methods: {
         // 获取用户 分类+日记信息 更新用的
+
         getUserMessage: function () {
             this.getClassify();
             this.getUserDiary();
@@ -177,9 +190,11 @@ var vm = new Vue({
 
         //点击每一个div触发事件
         diaryDivClick: function (id) {
+            this.textDisabled = true;
             this.modifyDiary.id = this.diaryList[id].diaryId;
             this.modifyDiary.name = this.diaryList[id].classifyName;
             this.modifyDiary.text1 = this.diaryList[id].diaryText;
+            this.modifyDiary.files = this.diaryList[id].files;
 
             // this.diaryMainFlag = false;
             this.modifyDiaryFlag = true;
@@ -245,8 +260,77 @@ var vm = new Vue({
             }
         },
 
+        //------------------------------ 图片上传 -------------------------//
+        // 上传到服务器
+        submitUpload: function (diaryId) {
+            this.fileData = new FormData();
+            this.$refs.upload.submit();// el-upload  上绑定 ref='upload'
+            const self = this;
+            let config = {
+                headers: {
+                    //application/x-www-form-urlencoded 无法进行文件上传。
+                    'Content-Type': 'multipart/form-data'
+                }
+            }
+            this.fileData.append("diaryId", diaryId);
+            axios({
+                url: 'File.do',
+                //dataType: 'data',
+                //contentType: 'multipart/form-data',
+                data: self.fileData,
+                method: 'post',
+                config: config
+
+
+            }).then(function (response) {
+                if (response.data == 'error') {
+                    self.$message.error("文件上传失败！");
+                } else {
+                    /*self.$message({
+                        message: "上传成功",
+                        type: 'success'
+                    });*/
+                    self.fileList = []; // 清空文件列表
+
+
+                    //--- 衔接Publish()里的内容 ---
+                    self.$message({
+                        message: '成功添加日记',
+                        type: 'success'
+                    });
+                    //重新获取一遍数据库里的日记信息
+                    self.getUserMessage();
+
+                }
+            }).catch(function (error) {
+                self.$message(error);
+            });
+        },
+        // 文件上传失败 报错
+        handleError: function (error, file, fileList) {
+            this.$message.error(error);
+        },
+        // 上传文件
+        uploadFile: function (file) {
+            this.fileData.append('files', file.file);  // append增加数据
+        },
+
+        //监控上传文件列表
+        handleChange(file, fileList) {
+            let existFile = fileList.slice(0, fileList.length - 1).find(f => f.name === file.name);
+            if (existFile) {
+                this.$message.error('当前文件已经存在!');
+                fileList.pop();
+            }
+            this.fileList = fileList;
+        },
+        // 学习博客 https://blog.csdn.net/weixin_43915587/article/details/91953230
+
+        // 上传的图片太大 导致 Failed to load resource: 网络连接已中断。
+        //----------------------------------------------------------//
+
         // 右下角添加日记的发布按钮
-        Publish: function () {
+        Publish: async function () {
             const self = this;
             this.addDrawer = false;
             const time = new Date().getTime(); // 获取当前时间
@@ -258,7 +342,7 @@ var vm = new Vue({
                 "diaryWeather": this.weatherValue
             };
 
-            axios({
+            await axios({
                 url: 'addDiary.do',
                 method: 'post',
                 data: data,/*
@@ -273,7 +357,16 @@ var vm = new Vue({
                     return data;
                 }]*/
             }).then(function (response) {
-                if (response == "error") {
+                if (response.data != "error") {
+                    //QAQ不好意思 这了写臭了 ...至于为啥写臭呢...因为图片上传这部分学的晚..
+                    //获得diaryId后 连接图片和日记的关系
+                    self.submitUpload(response.data);
+
+                } else {
+                    self.$message.error("添加日记操作失败");
+                }
+
+                /*if (response == "error") {
                     self.$message.error("添加日记操作失败");
                 } else {
                     self.$message({
@@ -282,10 +375,12 @@ var vm = new Vue({
                     });
                     //重新获取一遍数据库里的日记信息
                     self.getUserMessage();
-                }
+                }*/
             }).catch(function (error) {
                 self.$message.error("请求过程中发生错误：" + error);
             })
+
+
         },
 
         Exit: function () {

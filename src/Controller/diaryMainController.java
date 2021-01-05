@@ -3,21 +3,31 @@ package Controller;
 import Entity.Classify;
 import Entity.Diary;
 import Entity.DiaryAndClassify;
+import Entity.DiaryAndUserAndClassify;
 import Service.diaryMainManage;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
+import org.apache.commons.lang.ClassUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.xml.crypto.Data;
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
+
+
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Date;
 
 
 @Controller
@@ -77,9 +87,15 @@ public class diaryMainController extends HttpServlet {
             ArrayList<DiaryAndClassify> diaries = diaryMainManage.getUserDiaryAndClassify(userId);
             //ArrayList<Diary> diaries = diaryMainManage.getUserDiary(userId);
             // json识别不了java的Time类型 给我整吐了 改成TimeStamp就可以了
+            DiaryAndClassify now;
             for (int i = 0; i < diaries.size(); i++) {
+                now = diaries.get(i);
+                // 根据每个记录 获得 对应的 文件列表
+                now.setFiles(diaryMainManage.findImgById(
+                        now.getDiaryId()
+                ));
                 JSONObject json = JSONObject.fromObject(diaries.get(i));
-                //System.out.println(json);
+                System.out.println(json);
                 jsonArray.add(json);
             }
 
@@ -124,7 +140,9 @@ public class diaryMainController extends HttpServlet {
 
             Diary diary = new Diary(cid, dflag, dtext, dtime, dweather);
             if (diaryMainManage.AddDiary(diary, id)) {
-                out.write("ok");
+                // 获得刚插入数据库的id
+                Long diaryId = diaryMainManage.getDiaryId();
+                out.write(diaryId.toString());// 返回diaryId ..就是为数字啥只能int类型
             } else {
                 out.write("error");
             }
@@ -136,6 +154,46 @@ public class diaryMainController extends HttpServlet {
                      HttpServletResponse response) throws IOException {
         session.invalidate();
         response.getWriter().write("ok");
+    }
+
+
+    // 添加文件 (不过前端设置了 只能上传图片)
+    @RequestMapping("/TaJiMain/File.do")
+    public void File(
+            @RequestParam(value = "diaryId", required = false) Long diaryId,
+            @RequestParam(value = "files", required = false) MultipartFile[] files,
+            //@RequestBody String strJSON, @RequestBody和@RequestParam 不能共存
+            HttpServletResponse response) throws IOException {
+        response.setContentType("text/html;charset=utf-8");
+        PrintWriter out = response.getWriter();
+
+        long id = Long.parseLong(diaryId.toString());
+
+        // 分两步
+        // 第一步 把拿到的图片保存到本地
+        // 然后将 日记id 和 图片地址 插入到 数据库中
+
+        Date date = new Date();//用时间戳来重命名，防止文件重名
+        String tmp = date.toString().replaceAll("[^a-z^A-Z^0-9]", "");//去掉时间中的空格与冒号
+        //由于是多文件 用cpu执行的太快了 仍然有可能重名
+
+        boolean isok = true;
+        for (int i = 0; i < files.length; i++) {
+            String orName = files[i].getOriginalFilename();
+            assert orName != null;
+            String extName = orName.substring(orName.lastIndexOf('.'));//提取文件的后缀名
+            String saveFileDir = "/Users/mac/Desktop/TaJi/web/Img/" + (tmp + "_" + i) + extName;
+            File file = new File(saveFileDir);
+            files[i].transferTo(file);// 保存到工程目录下的web/Img/里
+
+            // 保存虽然保存在web/Img/里 但 后期从数据库提取的时候 可不是这个路径
+            //saveFileDir = "../Img/" + (tmp + "_" + i) + extName;
+            if (!diaryMainManage.addImg(id, saveFileDir)) {
+                out.write("error: " + orName + ";");
+                isok = false;
+            }
+        }
+        if (isok) out.write("ok");
     }
 
     // 剩下的Servlet在 modifyDiaryController.java 里

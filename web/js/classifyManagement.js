@@ -1,5 +1,6 @@
 var vm = new Vue({
     el: '#app',
+    component:['el'],
     data() {
         return {
             //添加分类需要的分类名 颜色 状态

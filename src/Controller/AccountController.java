@@ -59,6 +59,9 @@ public class AccountController {
             if (user == null) {
                 out.write("error");// 添加用户失败
             } else {
+                // 给 新添加的用户 创建 第一个分类 未分类
+                accountManage.createFirstClassify(user.getId());
+
                 session.setAttribute("id", user.getId());
                 session.setAttribute("name", user.getName());
                 session.setAttribute("email", user.getEmail());

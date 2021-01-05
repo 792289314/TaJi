@@ -1,9 +1,9 @@
 package Service;
 
+import Dao.classifyTable;
 import Dao.userTable;
+import Entity.Classify;
 import Entity.User;
-
-import javax.sql.rowset.spi.SyncResolver;
 
 // account.html 登陆界面 相关的 操作
 public class accountManage {
@@ -29,5 +29,11 @@ public class accountManage {
 
     public static boolean modifyPassword(String email, String password) {
         return new userTable().modifyPassword(email, password);
+    }
+
+    // 给新用户创建 未分类
+    public static void createFirstClassify(long userId) {
+        Classify classify = new Classify("未分类", "#239469");
+        new classifyTable().addClassify(userId, classify);
     }
 }

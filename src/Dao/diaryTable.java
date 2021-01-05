@@ -45,8 +45,8 @@ public class diaryTable {
         return diaries;
     }
 
-
     // 得到用户所有的日记记录 每个记录都带有分类信息
+    // 后来 又加上了图片...
     public ArrayList<DiaryAndClassify> getUserDiaryAndClassify(long id) {
         DBUtil db = new DB();
         ArrayList<DiaryAndClassify> diaries = new ArrayList<>();
@@ -214,5 +214,28 @@ public class diaryTable {
             db.close(conn, pst, rs);
         }
         return list;
+    }
+
+    // 获得 刚刚插入数据库的 日记的id
+    // 由于数据库里设置的是自增的 所以 直接找最大就行了
+    public Long getMaxDiaryId() {
+        DBUtil db = new DB();
+        Long id = null;
+        try {
+            conn = db.getConnection();
+            if (conn != null) {
+                String sql = "select Max(did) from diary";
+                pst = conn.prepareStatement(sql);
+                rs = pst.executeQuery();
+                if (rs.next()) {
+                    id = rs.getLong("Max(did)");
+                }
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        } finally {
+            db.close(conn, pst, rs);
+        }
+        return id;
     }
 }

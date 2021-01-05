@@ -1,6 +1,6 @@
 
 运行前的准备：
-
+idea
 Tomcat + mysql 数据池
 数据库名 TaJi
 Tomcat 版本 7.0.106
@@ -19,11 +19,8 @@ Tomcat 版本 7.0.106
     url="jdbc:mysql://localhost/TaJi"
 />
 ```
-
-2020/12/9
-检查密码格式 正则表达式改一下  密码最大长度改成20
-@blur 事件会一直触发 更改为@change
-登陆界面可以考虑做个按钮 当忘记密码时进行小提示
+在idea界面Edit Configurations 的Deployment里添加External Source 
+选择上传图片所存的位置 Application context 写该文件夹的真实路径 以\开头 但绝对不能以\结尾
 
 2020/12/15
 classify
