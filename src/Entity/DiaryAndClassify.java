@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 // 由于在 实体包含实体 的情况下 转换为json会报错
 // 因此 额外增加这个类 (太菜了 不会解决。。。)
-// ps: 这个问题解决了 是因为时间类的问题 Time不能用只能用TimeStamp 但是我懒得改了( ´ ▽ ` )ﾉ
+// ps: 这个问题解决了 是因为时间类的问题 Time不能用 只能用TimeStamp 但是我懒得改了( ´ ▽ ` )ﾉ
 public class DiaryAndClassify {
     private long classifyId;
     private String classifyName;
@@ -18,8 +18,6 @@ public class DiaryAndClassify {
     int diaryWeather;
     String diaryText;
     Timestamp diaryTime;
-    //String diaryTime;
-
 
     // 图片文件
     ArrayList<String> files = new ArrayList<>();
@@ -39,8 +37,6 @@ public class DiaryAndClassify {
         this.diaryText = diaryText;
 
         this.diaryTime = diaryTime;
-        //this.diaryTime = diaryTime.toString();
-        //提取前10位 获得星期
 
     }
 
@@ -123,22 +119,6 @@ public class DiaryAndClassify {
     public void setDiaryText(String diaryText) {
         this.diaryText = diaryText;
     }
-
-    /*public Timestamp getDiaryTime() {
-        return Timestamp.valueOf(diaryTime);
-    }
-
-    public void setDiaryTime(Timestamp diaryTime) {
-        this.diaryTime = diaryTime.toString();
-    }*/
-
-   /* public String getDiaryTime() {
-        return diaryTime;
-    }
-
-    public void setDiaryTime(Timestamp diaryTime) {
-        this.diaryTime = diaryTime.toString();
-    }*/
 
     public Timestamp getDiaryTime() {
         return diaryTime;

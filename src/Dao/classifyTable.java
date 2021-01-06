@@ -5,6 +5,8 @@ import Entity.Classify;
 import java.sql.*;
 import java.util.ArrayList;
 
+
+//对应数据库里的classify表
 public class classifyTable {
     private Connection conn = null;
     private PreparedStatement pst = null;
@@ -29,13 +31,11 @@ public class classifyTable {
                         rs.getString("ccolor")
                 ));
             }
-
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         } finally {
             db.close(conn, pst, rs);
         }
-
         return classifyList;
     }
 
@@ -54,14 +54,11 @@ public class classifyTable {
             pst.setString(4, classify.getColor());
             pst.executeUpdate();
             flag = true;
-
-
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         } finally {
             db.close(conn, pst, rs);
         }
-
         return flag;
     }
 
@@ -72,10 +69,11 @@ public class classifyTable {
         try {
             conn = db.getConnection();
             if (conn == null) return null;
-            String sql = "select A.cid 'cid', cname, cflag, ccolor, ifnull(B.count, 0) 'cnt'\n" +
-                    "from classify A left join (select B.cid, count(B.cid) as count\n" +
-                    "from diary B group by B.cid) as B on A.cid = B.cid\n" +
-                    "where not (A.cname = '未分类') and A.uid = ?\n";
+            // 查找所有分类的同时 还需要统计在diary表中的日记个数
+            String sql = "select A.cid 'cid', cname, cflag, ccolor, ifnull(B.count, 0) 'cnt' \n" +
+                    "from classify A left join (select B.cid, count(B.cid) as count \n" +
+                    "from diary B group by B.cid) as B on A.cid = B.cid \n" +
+                    "where not (A.cname = '未分类') and A.uid = ? \n";
             pst = conn.prepareStatement(sql);
             pst.setLong(1, id);
             rs = pst.executeQuery();
@@ -88,13 +86,11 @@ public class classifyTable {
                         rs.getLong("cnt")
                 ));
             }
-
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         } finally {
             db.close(conn, pst, rs);
         }
-
         return classifyList;
     }
 
@@ -109,17 +105,13 @@ public class classifyTable {
             pst = conn.prepareStatement(sql);
             pst.setLong(1, classifyId);
             pst.setLong(2, userId);
-
             pst.executeUpdate();
             flag = true;
-
-
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         } finally {
             db.close(conn, pst, rs);
         }
-
         return flag;
     }
 
@@ -137,19 +129,13 @@ public class classifyTable {
             pst.setBoolean(3, classify.getFlag());
             pst.setLong(4, classify.getId());
             pst.setLong(5, userId);
-
             pst.executeUpdate();
             flag = true;
-
-
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         } finally {
             db.close(conn, pst, rs);
         }
-
         return flag;
     }
-
-
 }

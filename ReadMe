@@ -1,10 +1,14 @@
+**JavaWeb大作业**
+vue + springMVC + mysql
 
 运行前的准备：
-idea
-Tomcat + mysql 数据池
-数据库名 TaJi
+JDK 11.0.9 (版本有要求 14及以上都不行)
 Tomcat 版本 7.0.106
-在 Tomcat/conf/context.xml 里的```<Context>```贴入以下内容
+mysql 采用的是数据池 相关的jar包都在项目里 数据库名 TaJi
+
+
+**连接数据池的准备：**
+在 Tomcat / conf / context.xml 里的```<Context>```贴入以下内容
 ```
 <Resource
     name="jdbc/TaJiDB"
@@ -19,18 +23,29 @@ Tomcat 版本 7.0.106
     url="jdbc:mysql://localhost/TaJi"
 />
 ```
-在idea界面Edit Configurations 的Deployment里添加External Source 
-选择上传图片所存的位置 Application context 写该文件夹的真实路径 以\开头 但绝对不能以\结尾
 
-2020/12/15
-classify
+
+
+**配置虚拟路径**
+---- 解决Tomcat启动中，文件上传保存到指定路径后，浏览器内打开无法显示(回显)的问题
+    在 idea 界面的 Edit Configurations 的 Deployment 里找到 + 图标点击添加 External Source 选择想要让文件存放的位置
+    注意的是 Application context 写该文件夹的真实路径，可以以 \ 开头，但绝对不能以 \ 结尾 (mac里是这样)
+
+
+
+**数据库中的内容**：
+user
     uid 用户id
+    uname 用户名
+    upassword 密码
+    uemail 注册邮箱 后期登陆都是输入邮箱
+classify
+    uid 
     cid 分类id
     cname 分类标签
     cflag 公开 0/私密 1
     ccolor 分类图标颜色
     （后台数据拿到前端时 还会统计该用户在该分类下的日记数目 cnt）
-
 diary
     uid,cid
     did 日记id
@@ -38,59 +53,74 @@ diary
     dtext 日记内容
     dtime 日期
     dweather 天气 0-晴天 1-多云 2-雨天
-        
-        
-2020/12/21
-To 廖：
- diaryMain 
-
-                
-
+image 
+    did 日记id
+    idir 文件保存的地址 
     
-    添加日记
-            4.界面布局 （优先搞）
+    
+工程目录    
+TaJi
+    .idea (idea自己生成的不用还)
+    out (idea自己生成的不用还)
+    src
+        Controller (也就是Servlet服务层)
+            AccountController
+            diaryMainController
+            classifyManagementController
+            modifyDiaryController
+            visitorListController
+        Dao (数据层)
+            DB 数据池
+            DBUtil 数据池接口
+            userTable
+            classifyTable
+            diaryTable 对应数据库diary表中的一些类操作
+            imageTable
+        Entity (实体类)
+            Classify
+            Diary
+            User
+            // 还有两个是工程中出现bug,折中解决方案的两个实体...
+        Filter (过滤器)
+            TaJiFilter 
+            (除了account.html界面,其他都在过滤器的监视下,就检查是不是没有登陆帐号就输入地址非法闯进来)
+        Service (业务层,和服务层一一对应)
+            accountManage
+            classifyManagementManage
+            diaryMainManage
+            modifyDiaryManage
+            visitorListManage
+    web
+        js 每个页面用到的js(new Vue)
+        css 每个页面的css
+        fonts 大部分都是element-ui的图标
+        images 工程用到的背景图
+        Img 用户上传的文件 ...别学我保存到工程里...
+        TaJiMain
+            diaryMain.html 主页面
+            classifyManagement.html 分类管理界面
+            person.html 个人信息界面(时间不够 不搞了)
+            visitorList.html 过客列表界面
+        WEB-INF
+            classes (自动生成的 不用管)
+            lib 整个工程会用到的jar包
+            springmvc-servlet.xml springMVC的配置文件
+            web.xml JavaWeb的配置文件
+        account.html 登陆界面
+        
+        
+项目还存在的bug:
+    1.登陆界面忘记密码点Go后 应该返回登陆界面 
+    2.前端的 Date()日期有点问题 有时差
+
+还可以改进的地方：
+    1.点击图片出现预览
+    2.看到喜欢的图片可以下载
+    3.过客列表里(公共区域)可以试着添加图片、点击后出现详情div、给喜欢的日记点赞、配更好看的背景图
+    4.添加好友，本来是打算搞到个人界面person.html里的，后来时间不足就放弃了
+    5.增加隐私分组，类似QQ发说说谁谁谁可以看的那种
+    6.添加转场特效，啊这就纯粹是为了好看
+    7.登陆界面的气泡效果，这个还是没思路，没找到什么差不多的js或者css
             
-
-
-
- classifyManagement
-   管理分类 1. 添加返回主界面的返回按钮
-           2. 颜色部分不要用字符串 尽量显示字符串对应的颜色 (搞个div 小矩形 界面里直接显示，编辑里用input color 修改)
-           3. 缺少 分类状态 的修改 （包括 展示表单 、 添加我的分类）
-           4. 添加分类 里 的 颜色 input=color
-           
-   
-  补个好友列表 （最后再搞）                           //later
-   
-
-   
-   
-   
-   
-   
-To Me：
-    管理分类   1. 载入classifyManagement时 需要先获取个人的分类信息
-                1. 编辑     成功后需要刷新界面
-              2. 删除 删除成功后 需要刷新界面 重新获取分类信息 
-              3. 添加我的分类
-                  
-    过客列表 1. 日历上的 div 还有点问题
-              
-    修改日记 1. 返回、保存、修改、删除
-    
-    
-    
-   
-    
-    
-    
-    
-  ps：这么看你要干的东西好多啊。。。。            
-  
-  
-  
-  一台电脑只能登陆一个帐号 设计上的问题 咳咳
-                
-                
- 
+        
 

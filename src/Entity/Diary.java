@@ -9,7 +9,7 @@ public class Diary {
 
     boolean flag;
     int weather;
-    //Text text;
+
     String text;
     Timestamp time;
 
@@ -86,9 +86,6 @@ public class Diary {
     public Timestamp getTime() {
         return time;
     }
-    /*public Time getTime(){
-        return time.toLocalDateTime();
-    }*/
 
     public void setTime(Timestamp time) {
         this.time = time;

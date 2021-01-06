@@ -225,7 +225,6 @@ input::-webkit-credentials-auto-fill-button {
     top:50%;
     left:50%;
     transform:translate(-50%,-50%);
-    /*height:600px;*/
     max-height:calc(100% - 200px);
     max-width:calc(100% - 30px);
     min-width: 500px;

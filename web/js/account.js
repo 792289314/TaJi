@@ -12,14 +12,11 @@ var vm = new Vue({
         forgetPwdDialogVisible: false,
         forgetActive: 1,
         forgetEmail: "", forgetPwd: "", forgetRPwd: "",
-
-
     },
 
     methods: {
 
         login: function () {
-            //alert("login access");
             this.show_loginbox = true;
             this.show_registerbox = false;
             var obj = document.getElementById("loginBtn1");
@@ -38,46 +35,20 @@ var vm = new Vue({
         // 检查邮箱是否符合
         checkEmailFormat: function (email) {
             if (/^[A-Za-z\d]+([-_.][A-Za-z\d]+)*@([A-Za-z\d]+[-.])+[A-Za-z\d]{2,5}$/.test(email)) {
-                // alert("格式正确");
                 return true;
             } else {
-                // alert("邮箱格式错误, 请重新输入");
-                // this.$message('邮箱格式错误, 请重新输入');
-
-                //email.value = "";
                 return false;
             }
         },
 
-        // 登陆界面为什么要有提示？？？？
-        checkUserEmail: function () {
-
-            /* if (!this.checkEmailFormat(this.userEmail)) {
-                 // 检查邮箱 不符合时 checkEmailFormat 内部处理 提示报错
-                 // * 输入框红框提示
-             } else {
-                 // 邮箱符合条件
-             }*/
-        },
 
         // 检查密码
         checkPasswordFormat: function (pwd) {
             if (/^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,10}$/.test(pwd)) {
-                // alert("格式正确");
                 return true;
             } else {
-                // alert("密码必须由数字、字母组合,请输入6-10位");
-                //pwd.value = "";
                 return false;
             }
-        },
-        // 登陆界面的密码检验
-        checkUserpwd: function () {
-            /*if (!this.checkPasswordFormat(this.passWord)) {
-                // 检查密码 不符合时 checkPasswordFormat 内部处理并提示报错
-            } else {
-                // 密码符合条件
-            }*/
         },
 
 
@@ -85,8 +56,6 @@ var vm = new Vue({
         checkRUserEmail: function () {
             if (!this.checkEmailFormat(this.RuserEmail)) {
                 this.$message.error('邮箱格式错误, 请重新输入');
-                // 检查邮箱 不符合时 checkEmailFormat 内部处理 提示报错
-                // * 输入框红框提示
                 return false;
             } else {
                 // 邮箱符合条件
@@ -100,8 +69,6 @@ var vm = new Vue({
             if (/^[a-zA-Z0-9]{4,8}$/.test(name)) {
                 return true;
             } else {
-                // alert("昵称必须由数字、字母组合,请输入4-8位");
-                //name.value = "";
                 return false;
             }
         },
@@ -159,15 +126,12 @@ var vm = new Vue({
             }).then(function (response) {
                 if (response.data === "error") {
                     // 登陆失败
-                    // *  弹出提示框：邮箱or密码错误
                     self.$message.error('请检查输入');
                     //错误并清空
                     self.userEmail = "";
                     self.passWord = "";
                 } else {
-                    // 登陆成功 切换页面
-                    // alert("登陆成功");
-                    //登录成功，1s后调入主页面
+                    //登录成功，0.5s后调入主页面
                     self.$message({
                         message: '登录成功！正在跳转页面ing...',
                         type: 'success'
@@ -178,12 +142,10 @@ var vm = new Vue({
                     setTimeout(function () {
                         window.location.href = "TaJiMain/diaryMain.html";
                     }, 500);
-                    // window.location.href="diaryMain.html";
                 }
             }).catch(function (error) {
                 console.log(error)
             })
-
         },
 
 
@@ -217,23 +179,13 @@ var vm = new Vue({
                     self.RpassWord = "";
                     self.RRpassWord = "";
                 } else {
-                    // * 提示 注册成功
-                    // 登陆成功 切换页面
                     self.$message({
                         message: "欢迎用户" + self.RuserName + "的到来",
                         type: 'success'
                     });
-                    // self.show_registerbox = false;
-                    // self.show_loginbox = true;
-
-                    // var obj = document.getElementById("loginBtn1");
-                    // obj.style.borderBottom = "2px solid #99cdaa";
-                    // document.getElementById("registerBtn1").style.borderBottom = "none";
-
-
                     sessionStorage.setItem("name", self.RuserName);
 
-                    //登录成功，1s后调入主页面
+                    //登录成功，0.5s后调入主页面
                     setTimeout(function () {
                         window.location.href = "TaJiMain/diaryMain.html";
                     }, 500);
@@ -298,6 +250,7 @@ var vm = new Vue({
             })
             return flag;
         },
+
         //忘记密码弹出窗口 下一步按钮
         pwdNextClick: function () {
             if (this.forgetActive == 1) {
@@ -313,16 +266,6 @@ var vm = new Vue({
             } else if (this.forgetActive == 3) {
                 this.forgetActive = 1;
             }
-
-            /*
-
-                        if (this.forgetActive++ > 3) {
-                            // var div3=document.getElementById("forgetPwdBox");
-                            // div3.style.display="none";
-                            this.forgetActive = 1;
-                        }
-            */
-
         },
         pwdBeforeClick: function () {
             this.forgetActive = 1;
@@ -330,7 +273,5 @@ var vm = new Vue({
         forgetLogin: function () {
             window.location.href = document.referrer;//跳转上一个页面并刷新
         }
-
-
     },
 });

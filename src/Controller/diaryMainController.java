@@ -3,29 +3,22 @@ package Controller;
 import Entity.Classify;
 import Entity.Diary;
 import Entity.DiaryAndClassify;
-import Entity.DiaryAndUserAndClassify;
 import Service.diaryMainManage;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
-import org.apache.commons.lang.ClassUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
-
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import javax.xml.crypto.Data;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
-
-
 import java.sql.Timestamp;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -68,7 +61,6 @@ public class diaryMainController extends HttpServlet {
             }
             out.write(String.valueOf(jsonArray));
         }
-
     }
 
     // 获取用户全部的日记记录

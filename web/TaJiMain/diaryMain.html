@@ -20,10 +20,7 @@
 </head>
 <body>
 <div id="app">
-
-
     <!--    :direction="direction"控制显示方向 rtl / ltr / ttb / btt-->
-
     <div class="diaryMainBody">
         <!--    添加日记折叠框-->
         <el-drawer
@@ -60,8 +57,7 @@
                             </el-option>
                         </el-select>
                     </div>
-
-                    <!-- //天气-->
+                    <!-- 天气-->
                     <span>天<i class="controlBigBox"></i>气:</span>
                     <el-select v-model="weatherValue" placeholder="请选择天气">
                         <el-option
@@ -72,10 +68,8 @@
                         </el-option>
                     </el-select>
                 </div>
-
-
                 <div style="margin-top: 12px">
-                    <!--//日期-->
+                    <!--日期-->
                     <span>日<i class="controlBigBox"></i>期:</span>
                     <el-date-picker
                             v-model="dataValue"
@@ -85,22 +79,15 @@
                     </el-date-picker>
 
                     <div style="display: inline-block;margin-left: 50px;margin-right: 190px">
-                        <!--//颜色-->
                         <span>颜<i class="controlBigBox"></i>色:</span>
                         <input type="color" id="selectedColor" v-model="Color">
                     </div>
-
-                    <!--//字体-->
                     <span>字<i class="controlBigBox"></i>体:</span>
                     <input type="range" id="selectedFont" v-model="Font">
-
-
                 </div>
-
-
                 <div>
                     <div class="diaryBox" style="margin-top: 12px;display: inline-block">
-                        <!--//日记-->
+                        <!--日记-->
                         <el-input
                                 id="addTextArea"
                                 class="addTextArea"
@@ -149,108 +136,9 @@
                 <div class="publishBox">
                     <!--//发布-->
                     <button id="publishBtn" @click="Publish">发布</button>
-                    <!--<button id="publishBtn" @click="submitUpload">发布</button>-->
                 </div>
-
             </div>
-
-
         </el-drawer>
-
-        <!--        <el-drawer-->
-        <!--                title="添加日记"-->
-        <!--                :size="'600px'"-->
-        <!--                :visible.sync="addDrawer"-->
-        <!--                direction="btt">-->
-        <!--            <div class="posBox">-->
-        <!--                <div class="addBox">-->
-        <!--                    <div class="classifyBox">-->
-        <!--                        <span>分<i class="controlBigBox"></i>类:</span>-->
-        <!--                        <el-select v-model="kindValue"  placeholder="请选择分类">-->
-        <!--                            <el-option-->
-        <!--                                    v-for="(item,index) in classifyList"-->
-        <!--                                    :key="item.value"-->
-        <!--                                    :label="item.name"-->
-        <!--                                    :value="index"-->
-        <!--                                    v-if="index>=1"-->
-        <!--                            >-->
-        <!--                            </el-option>-->
-        <!--                        </el-select>-->
-        <!--                        <a href="classifyManagement.html"><i class="el-icon-circle-plus-outline"></i></a>-->
-        <!--                    </div>-->
-        <!--                    <span>谁可以看:</span>-->
-        <!--                    <el-select v-model="checkPeoValue"  placeholder="请选择可查看的人">-->
-        <!--                        <el-option-->
-        <!--                                v-for="item in checkPeoOptions"-->
-        <!--                                :key="item.value"-->
-        <!--                                :label="item.label"-->
-        <!--                                :value="item.value">-->
-        <!--                        </el-option>-->
-        <!--                    </el-select>-->
-
-        <!--                    <div>-->
-        <!--                        <span>天<i class="controlBigBox"></i>气:</span>-->
-        <!--                        <el-select v-model="weatherValue" placeholder="请选择天气">-->
-        <!--                            <el-option-->
-        <!--                                    v-for="item in weatherOptions"-->
-        <!--                                    :key="item.value"-->
-        <!--                                    :label="item.label"-->
-        <!--                                    :value="item.value">-->
-        <!--                            </el-option>-->
-        <!--                        </el-select>-->
-        <!--                    </div>-->
-
-        <!--                    <span>日<i class="controlBigBox"></i>期:</span>-->
-        <!--                    <el-date-picker-->
-        <!--                            v-model="dataValue"-->
-        <!--                            align="right"-->
-        <!--                            type="date"-->
-        <!--                            placeholder="选择日期">-->
-        <!--                    </el-date-picker>-->
-
-        <!--&lt;!&ndash;                    <div class="colorBox">&ndash;&gt;-->
-        <!--&lt;!&ndash;                        <span>颜<i class="controlBigBox"></i>色:</span>&ndash;&gt;-->
-        <!--&lt;!&ndash;                        <input type="color" id="selectedColor">&ndash;&gt;-->
-        <!--&lt;!&ndash;                    </div>&ndash;&gt;-->
-
-        <!--&lt;!&ndash;                    <div class="fontBox">&ndash;&gt;-->
-        <!--&lt;!&ndash;                        <span>字<i class="controlBigBox"></i>体:</span>&ndash;&gt;-->
-        <!--&lt;!&ndash;                        <input type="range" id="selectedFont" v-model="Font">&ndash;&gt;-->
-        <!--&lt;!&ndash;                    </div>&ndash;&gt;-->
-
-
-        <!--                    <el-upload-->
-        <!--                            class="upload-demo"-->
-        <!--                            drag-->
-        <!--                            action="https://jsonplaceholder.typicode.com/posts/"-->
-        <!--                            multiple>-->
-        <!--                        <i class="el-icon-upload"></i>-->
-        <!--                        <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em>-->
-        <!--                            <div class="el-upload__tip" slot="tip">只能上传jpg/png文件，且不超过500kb</div>-->
-        <!--                        </div>-->
-
-        <!--                    </el-upload>-->
-
-
-        <!--                </div>-->
-        <!--                <div class="rightAddBox">-->
-        <!--                    &lt;!&ndash;添加日记文本内容&ndash;&gt;-->
-        <!--                    <el-input-->
-        <!--                            id="addTextArea"-->
-        <!--                            class="addTextArea"-->
-        <!--                            type="textarea"-->
-        <!--                            placeholder="请输入日记内容"-->
-        <!--                            maxlength="500"-->
-        <!--                            :rows="15"-->
-        <!--                            show-word-limit-->
-        <!--                            v-model="textarea1">-->
-        <!--                    </el-input>-->
-        <!--                    <button id="publishBtn" @click="Publish">发布</button>-->
-        <!--                </div>-->
-        <!--            </div>-->
-
-        <!--        </el-drawer>-->
-
         <!--个人中心折叠框-->
         <el-drawer
                 title="个人中心"
@@ -336,10 +224,6 @@
             <el-container>
 
                 <el-main>
-                    <!-- 目前暂时通过按钮来实现动态增加div 后期会放入watch还是computer里面-->
-                    <!--<div id="move">
-                    </div>-->
-
                     <!-- 如果有内容 显示时间线-->
                     <div v-if=" diaryList.length>0">
                         <el-timeline>
@@ -356,19 +240,15 @@
                                     <!--日记内容-->
                                     <div :class=" index%2==0? 'leftDiv' : 'rightDiv' " @click="diaryDivClick(index)">
                                         {{item.diaryText}}
-                                        <div v-for="(imgDir) in item.files"  class="diaryImage">
+                                        <div v-for="(imgDir) in item.files" class="diaryImage">
                                             <img :src="imgDir" :class=" index%2==0? 'leftImage' : 'rightImage'"/>
                                         </div>
                                     </div>
-
                                     <!--日期信息-->
                                     <div :class="index%2==0? 'leftDateDiv' : 'rightDateDiv' "
                                          v-html="getTimeMessage(item)"
                                     >
-
-
                                     </div>
-
                                 </div>
                             </el-timeline-item>
                         </el-timeline>
@@ -377,10 +257,7 @@
                     <div v-else class="none_Diary">
                         该分类下没有写过日记诶 Σ（ﾟдﾟlll）
                     </div>
-
                 </el-main>
-
-
                 <!--右边那个添加日记+按钮 占浏览器右边50px宽-->
                 <el-aside width="50px">
                     <el-button class="addDiaryBtn" @click="addDrawer = true" type="text"
@@ -388,7 +265,6 @@
                     </el-button>
                 </el-aside>
             </el-container>
-
             <!--原先modifyDiary.html里的内容-->
             <div v-show="modifyDiaryFlag" class="modifyDiaryBody">
                 <div class="bigBox">
@@ -410,20 +286,15 @@
                                     ref="modifyDiary.text1">
                             </el-input>
                         </div>
-
-                        <div v-for="(imgDir) in modifyDiary.files" >
-                            <div class="showImg" >
-                                <el-button type="text" icon= 'el-icon-paperclip' class="showImgIcon"></el-button>
+                        <div v-for="(imgDir,index) in modifyDiary.files">
+                            <div class="showImg">
+                                <el-button type="text" icon='el-icon-paperclip' class="showImgIcon"
+                                           v-bind:style='{"right":(20+index*260)+"px" }'
+                                ></el-button>
                                 <img :src="imgDir" class="showDiaryImage">
                             </div>
-
                         </div>
-
-
                     </div>
-                    <!--<div class="saveBox" >
-                        <button class="saveBtn" @click="saveClick">保存</button>
-                    </div>-->
                     <div class="saveBtnBox">
                         <button class="saveBtn" @click="saveClick">保存</button>
                     </div>
@@ -439,17 +310,13 @@
             <el-button type="primary" @click="sureDeleteClick">确 定</el-button>
         </span>
                 </el-dialog>
-
                 <div>
                     <el-button class="returnBtn" type="text" @click="returnClick"
                                icon="el-icon-refresh-left">
                     </el-button>
                 </div>
             </div>
-
         </el-container>
-
-
     </div>
 </div>
 <!--引入js 其实就是vue 必须放在这-->

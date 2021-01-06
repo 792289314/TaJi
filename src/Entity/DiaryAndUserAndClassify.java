@@ -7,7 +7,7 @@ public class DiaryAndUserAndClassify {
     Diary diary;// 里面自带classify
     User user;
 
-    //uname, dtime, dtext, dweather, cname, ccolor
+
 
     public DiaryAndUserAndClassify(String userName,
                                    String dtext, Timestamp dtime, int dweather,

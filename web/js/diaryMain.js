@@ -37,20 +37,10 @@ var vm = new Vue({
             textarea1: '',//添加日记加的日记内容
             allDiaryMsg: '1',//全部日记数量
             nonDiaryMsg: '1',//未分类日记数量
-            /*
-                {"color":"#3f3f3f3f","flag":false,"id":1,"name":"未命名",cnt:9}
-                {"color":"#4a4a4a4a","flag":false,"id":2,"name":"学习",cnt:10}
-            */
+
             classifyList: [],
             classifyValue: 0,//0代表选中全部按钮
 
-            /*{
-                                数组id
-                                分类id
-                                分类名
-                                分类状态：公开/私密
-                                分类显示的颜色
-                            },*/
             kindOptions: [],
             kindValue: 1,//添加日记选中的分类的value
             kindState: '',
@@ -91,17 +81,14 @@ var vm = new Vue({
 
         }
     },
-    mounted() {
-    },
 
     created() {
         this.welcomeUser = sessionStorage.getItem("name");
         // 刚开始 从后台获取该用户的所有日记信息
         // 先拿所有分类信息 然后根据分类信息 拿到每个分类下的日记
         this.getUserMessage();
-
-
     },
+
     methods: {
         // 获取用户 分类+日记信息 更新用的
 
@@ -110,15 +97,10 @@ var vm = new Vue({
             this.getUserDiary();
         },
 
-        // 清空 <div id="move"> 内部的组件
-        ClearMoveDiv: function () {
-            var div = document.getElementById("move");
-            div.innerHTML = "";
-        },
         ChooseDiary: function () {
             this.getDiaryList();
-
         },
+
         visitor: function () {
             /*点击个人中心折叠框中过客列表打开过客页面*/
             window.open("visitorList.html", "_self");
@@ -142,7 +124,7 @@ var vm = new Vue({
             if (x === 6) return "星期六";
             return "星期日";
         },
-        // 获得天气中文
+        // 获得天气中文 - 后来改成图标了
         // ps：后悔 为啥不数据库里写好
         getWeatherToString(x) {
             if (x == 0) return "<i class=\"el-icon-sunny\" style='font-size: 30px'></i>";
@@ -150,10 +132,12 @@ var vm = new Vue({
             if (x == 2) return "<i class=\"el-icon-cloudy\n\" style='font-size: 30px'></i>";
         },
 
-
+        // 补充前导0
         setFill: function (val) {
             return val < 10 ? "0" + val : val;
         },
+
+        // 提取时间信息
         getTimeMessage: function (item) {
             const t = new Date(item.diaryTime.time);
             var str1 = t.getFullYear() + " 年 " + (t.getUTCMonth() + 1) + " 月 " +

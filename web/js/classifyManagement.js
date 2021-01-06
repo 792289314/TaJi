@@ -30,11 +30,9 @@ var vm = new Vue({
             ,
 
             /*
-                现在 classifyTableData 改成这种格式了 ⬇
+                后端传来的给classifyTableData的数据格式 ⬇
                {"color":"#3f3f3f3f","flag":false,"id":1,"name":"未命名",cnt:9}
-               {"color":"#4a4a4a4a","flag":false,"id":2,"name":"学习",cnt:10}
            */
-
             classifyTableData: [{
                 classifyName: '',
                 classifyColor: '#89cd91',
@@ -61,7 +59,6 @@ var vm = new Vue({
                 method: 'post'
             }).then(function (response) {
                 if (response.data != "error") {
-                   // self.$message("刷新成功");
                     self.classifyTableData = response.data;
                 } else {
                     self.$message.error("页面刷新失败");
@@ -71,19 +68,12 @@ var vm = new Vue({
             })
         },
 
-        // 与关闭相关的代码(...我也没看懂 =。= 另一个队友写的)
-        // $refs: undefined,
-        // handleClose(index) {
-        //     setTimeout(function () {
-        //         this.$refs[`popover-${index}`].doClose();
-        //     }, 500);
-        //
-        // },
         /*点击添加分类按钮 */
         addClassify: function () {
             this.stateValue = false;
             this.addDialogVisible = true;
         },
+
         judgeClassifyName: function () {
             const name = this.nameIn;
             if (name == '全部' || name == '未分类') {
@@ -98,6 +88,7 @@ var vm = new Vue({
             }
             return true;
         },
+
         /*点击添加分类 确定按钮 把数据更新到后台*/
         addBtn: function () {
             this.addDialogVisible = false;
@@ -105,17 +96,11 @@ var vm = new Vue({
             const self = this;
 
             if (!this.judgeClassifyName()) {
-                //self.$message("分类名一样，请重新编辑");
+
             } else {
                 axios({
                     url: 'addClassify.do',
                     method: 'post',
-                    /*data: {
-                        'id': 0,//占位
-                        'Name': '测试分类',
-                        'Flag': false,
-                        'Color': '#0x3f3f3f3f'
-                    },*/
                     data: {
                         id: 0,//占位 和后台直接 json转实例 有关
                         name: self.nameIn,
@@ -133,7 +118,6 @@ var vm = new Vue({
                             type: 'success'
                         });
                         self.getAllClassifies();
-
                     }
                 }).catch(function (error) {
                     self.$message.error("添加分类出错！" + error);
@@ -145,30 +129,16 @@ var vm = new Vue({
 
         /*点击编辑按钮*/
         editClick: function (index) {
-            /*
-                现在 classifyTableData 改成这种格式了 ⬇
-               {"color":"#3f3f3f3f","flag":false,"id":1,"name":"未命名",cnt:9}
-               {"color":"#4a4a4a4a","flag":false,"id":2,"name":"学习",cnt:10}
-
-                classify: [
-                {
-                    name: '',
-                    color: '',
-                    diaryNum: '',
-                }
-            ],
-
-           */
-            //  this.$message(index);
             this.classify.id = this.classifyTableData[index].id;
             this.classify.name = this.classifyTableData[index].name;
             this.classify.color = this.classifyTableData[index].color;
             this.classify.diaryNum = this.classifyTableData[index].cnt;
             this.stateValue = this.classifyTableData[index].flag;
 
+            //东西都准备好后 显示界面
             this.editDialogVisible = true;
-
         },
+
         /*点击编辑中确定按钮*/
         editSureClick: function () {
             this.editDialogVisible = false;
@@ -176,13 +146,6 @@ var vm = new Vue({
             axios({
                 url: 'modifyClassify.do',
                 method: 'post',
-                /*data: {
-                    id: 0,
-                    name: '测试分类',
-                    flag: false,
-                    color: '#0x3f3f3f3f',
-                    cnt: ''
-                }*/
                 data: {
                     id: self.classify.id,
                     name: self.classify.name,
@@ -208,9 +171,6 @@ var vm = new Vue({
 
         // 删除中的确定按钮
         deleteClick: function (index) {
-            // setTimeout(function () {
-            //     this.$refs[`popover-${index}`].doClose();
-            // }, 500);
             const self = this;
             axios({
                 url: 'deleteClassify.do',

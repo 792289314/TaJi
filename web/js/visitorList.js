@@ -4,19 +4,18 @@ var vm = new Vue({
     data() {
         return {
             allDiaryList: [],
-            // 缺一个默认选择的日期
-            //data1:'',
         }
     },
     created() {
-        const tim = new Date();
-
+        const tim = new Date();// 获取本地时间
+        // 提取当天的所有公开日记记录
         this.getSelectedDiary(tim.getUTCFullYear() + "-" + (tim.getUTCMonth() + 1) + "-" + tim.getUTCDate());
-
+        // 显示到界面上
         this.showElement();
     },
     methods: {
 
+        // 清空界面
         ClearShowDiaryDiv: function () {
             var div = document.getElementById("showDiary");
             div.innerHTML = "";
@@ -50,8 +49,19 @@ var vm = new Vue({
                     self.$message.error("啊呀，数据库连接被拒绝了");
                 } else {
                     self.allDiaryList = response.data;
+                    self.showElement();
+                }
+            }).catch(function (error) {
+                self.$message.error("获取随机日记记录出错 " + error);
+            })
 
-                    /*  { 后台拿来的数据
+        },
+
+
+        // 动态生成界面 原生方法 非v-for
+        showElement: function () {
+            /*  allDiaryList[i] 后端拿来的数据
+                          {
                             "diary":{
                                     "classify":{
                                         "color":"#3f3f3f3f",
@@ -62,17 +72,8 @@ var vm = new Vue({
                                         "time":1607827587000,"timezoneOffset":-480,"year":120},
                                     "weather":0},
                             "user":{"name":"zaller12"}
-                            }*/
-                    self.showElement();
-                }
-            }).catch(function (error) {
-                self.$message.error("获取随机日记记录出错 " + error);
-            })
-
-        },
-
-
-        showElement: function () {
+                           }
+                    */
             this.ClearShowDiaryDiv();
             if (this.allDiaryList.length != 0) {
                 for (let i = 0; i < this.allDiaryList.length; i++) {
@@ -88,7 +89,6 @@ var vm = new Vue({
                     //大盒子
                     let div = document.createElement('div');
                     div.className = "showBogBox";
-                    // div.innerHTML = this.allDiaryList[i].diary.text;
                     div.id = 'showD' + i;
                     document.getElementById('showDiary').appendChild(div);
 
@@ -104,7 +104,7 @@ var vm = new Vue({
                     let divLeft = document.createElement('div');
                     divLeft.className = "titleLeft";
                     divLeft.innerHTML = this.allDiaryList[i].user.name + '<br>' + str1 + '<br>' + str2;
-                    // divLeft.innerHTML=str1 + str2;
+
                     divLeft.id = 'showLeft' + i;
                     document.getElementById(divTitle.id).appendChild(divLeft);
 

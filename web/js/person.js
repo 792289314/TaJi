@@ -1,3 +1,4 @@
+// person界面 后来时间不够 没怎了做了
 var vm = new Vue({
     el: '#app',
     data() {
