@@ -4,7 +4,7 @@ vue + springMVC + mysql
 运行前的准备：
 JDK 11.0.9 (版本有要求 14及以上都不行)
 Tomcat 版本 7.0.106
-mysql 采用的是数据池 相关的jar包都在项目里 数据库名 TaJi
+mysql 8.0.22 采用的是数据池 相关的jar包都在项目里 数据库名 TaJi 
 
 
 **连接数据池的准备：**
