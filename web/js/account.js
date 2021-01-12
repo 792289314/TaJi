@@ -41,6 +41,16 @@ var vm = new Vue({
             }
         },
 
+        // 登陆界面为什么要有提示？？？？
+        checkUserEmail: function () {
+
+            /* if (!this.checkEmailFormat(this.userEmail)) {
+                 // 检查邮箱 不符合时 checkEmailFormat 内部处理 提示报错
+                 // * 输入框红框提示
+             } else {
+                 // 邮箱符合条件
+             }*/
+        },
 
         // 检查密码
         checkPasswordFormat: function (pwd) {
@@ -49,6 +59,14 @@ var vm = new Vue({
             } else {
                 return false;
             }
+        },
+        // 登陆界面的密码检验
+        checkUserpwd: function () {
+            /*if (!this.checkPasswordFormat(this.passWord)) {
+                // 检查密码 不符合时 checkPasswordFormat 内部处理并提示报错
+            } else {
+                // 密码符合条件
+            }*/
         },
 
 
